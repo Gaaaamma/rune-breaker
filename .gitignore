@@ -2,4 +2,5 @@
 *.report
 __pycache__
 *.txt
+!requirements.txt
 .env

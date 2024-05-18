@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    name: str = "ffgg"
+    name: str = "for test"
     
 SETTINGS: Settings = Settings()
