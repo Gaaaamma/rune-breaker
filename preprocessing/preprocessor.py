@@ -80,15 +80,19 @@ def cut(file: str) -> bool:
     file = file.split("_")[-1]
     file = f"{SETTINGS.raw_data_dir}{file}"
     img = cv.imread(file)
-    img = img[img_top:img_btm + 1]
+    img = img[img_top:img_btm + 1, 180:620]
+    print(f"img.shape: {img.shape}")
     
     cv.imshow(file, img)
     
     _, img = cv.threshold(img, 200, 255, cv.THRESH_BINARY)
-    # img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    # _, img = cv.threshold(img, 50, 255, cv.THRESH_BINARY_INV)
-
     cv.imshow("thrshold", img)
+    
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    # _, img = cv.threshold(img, 50, 255, cv.THRESH_BINARY_INV)
+    img = cv.Canny(img, 100, 200)
+    cv.imshow("after", img)
+
     cv.waitKey(0)
     cv.destroyAllWindows()
     return True
