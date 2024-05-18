@@ -2,3 +2,4 @@
 *.report
 __pycache__
 *.txt
+.env
