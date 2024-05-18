@@ -3,6 +3,7 @@ Preprocessor is responsible for get the position of arrows
 and cut it into 4 small pictures for training
 """
 
+from os import listdir
 from typing import List
 
 import cv2 as cv
@@ -18,17 +19,21 @@ def blue_calculator(file: str) -> List[int]:
     for row in range(img.shape[0]):
         counter: int = 0
         for col in range(img.shape[1]):
-            if is_blue(img, row, col):
+            if is_blue_purple(img, row, col):
                 counter += 1
         result.append(counter)
     
     return result
 
-def is_blue(img, row: int, col: int) -> bool:
+def is_blue_purple(img, row: int, col: int) -> bool:
     """Check if a certain point in img is blue"""
 
-    if img[row][col][0] == 255 and img[row][col][1] == 0 and img[row][col][2] == 0:
+    if (
+        img[row][col][0] == 255 and img[row][col][1] == 0 and img[row][col][2] == 0 or
+        img[row][col][0] == 255 and img[row][col][1] == 0 and img[row][col][2] == 255
+    ):
         return True
+
     return False
 
 def cut(file: str) -> bool:
@@ -71,17 +76,20 @@ def cut(file: str) -> bool:
     img = cv.imread(file)
     img = img[img_top:img_btm + 1]
 
-    cv.imshow("image_cut_hight", img)
+    cv.imshow(file, img)
 
     cv.waitKey(0)
     cv.destroyAllWindows()
     return True
     
-    
-if __name__ == "__main__": 
-    file: str = f"{SETTINGS.laplace_data_dir}lap_1716017463.png"
-    # file: str = f"{SETTINGS.laplace_data_dir}lap_1716018461.png"
-    # file: str = f"{SETTINGS.laplace_data_dir}lap_1716018475.png"
-    # file: str = f"{SETTINGS.laplace_data_dir}lap_1716018501.png"
 
-    result: bool = cut(file)
+if __name__ == "__main__":
+    files: List[str] = listdir(SETTINGS.laplace_data_dir)
+    files = [
+        f"{SETTINGS.laplace_data_dir}{file}"
+        for file in files if file.split(".")[-1] == "png"
+    ]
+    files = sorted(files)
+    for file in files:
+        print(f"\nFile: {file}")
+        result: bool = cut(file)
