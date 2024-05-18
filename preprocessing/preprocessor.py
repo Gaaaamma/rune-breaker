@@ -78,8 +78,6 @@ def cut(file: str) -> bool:
     return True
     
     
-
-
 if __name__ == "__main__": 
     file: str = f"{SETTINGS.laplace_data_dir}lap_1716017463.png"
     # file: str = f"{SETTINGS.laplace_data_dir}lap_1716018461.png"
