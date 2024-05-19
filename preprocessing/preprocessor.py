@@ -10,12 +10,12 @@ import cv2 as cv
 import numpy as np
 
 from setting import SETTINGS
+from logger import logger
 
 def blue_calculator(file: str) -> List[int]:
     """Read from a image file and calculate blue point of each row"""
     result: List[int] = []
     img = cv.imread(file)
-    print(img.shape)
     
     for row in range(img.shape[0]):
         counter: int = 0
@@ -58,9 +58,9 @@ def cut(file: str) -> bool:
                     img_top, img_btm = up , row
                     img_top += SETTINGS.laplace_blue_height_start
                     img_btm += SETTINGS.laplace_blue_height_start
-                    print(f"[Cut][Up] find img_top: {img_top}, img_btm: {img_btm}")
-                    print(f"[Cut][Up] blue points: ({statistic[up]}, {statistic[row]})")
-            
+                    logger.info(f"Find img_top: {img_top}, img_btm: {img_btm}")
+                    logger.info(f"blue points: (top, btm) = ({statistic[up]}, {statistic[row]})")
+
             down: int = row + SETTINGS.captcha_height
             if down < len(statistic) and statistic[down] >= threshold - toleration:
                 score: int = count + statistic[down]
@@ -69,11 +69,11 @@ def cut(file: str) -> bool:
                     img_top, img_btm = row , down
                     img_top += SETTINGS.laplace_blue_height_start
                     img_btm += SETTINGS.laplace_blue_height_start
-                    print(f"[Cut][Down] find img_top: {img_top}, img_btm: {img_btm}")
-                    print(f"[Cut][Down] blue points: ({statistic[row]}, {statistic[down]})")
+                    logger.info(f"Find img_top: {img_top}, img_btm: {img_btm}")
+                    logger.info(f"blue points: (top, btm) = ({statistic[row]}, {statistic[down]})")
     
     if img_top == 0 and img_btm == 0:
-        print(f"[Cut] Not found")
+        logger.info("Not found img_top & img_btm")
         return False
     
     # Cut original file
@@ -91,7 +91,7 @@ def cut(file: str) -> bool:
     # _, img = cv.threshold(img, 50, 255, cv.THRESH_BINARY)
     # img = cv.Canny(img, 100, 200)
     cv.imshow("gray", img)
-    print(f"img.shape: {img.shape}")
+    logger.info(f"img.shape = {img.shape}")
 
     cv.waitKey(0)
     cv.destroyAllWindows()
@@ -106,5 +106,5 @@ if __name__ == "__main__":
     ]
     files = sorted(files)
     for file in files:
-        print(f"\nFile: {file}")
+        logger.info(f"File: {file}")
         result: bool = cut(file)

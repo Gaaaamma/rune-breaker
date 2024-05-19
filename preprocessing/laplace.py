@@ -5,6 +5,7 @@ from typing import List
 
 import cv2 as cv
 
+from logger import logger
 from setting import SETTINGS
 
 def laplace_all():
@@ -18,8 +19,10 @@ def laplace_all():
     for file in files:
         file_type: str = file.split(".")[-1]
         if file_type == "png":
-            print(f"laplace processed: {file}")
+            logger.info(f"Processed: {file}")
             laplace(file)
+        else:
+            logger.warning(f"Not processed: {file}")
 
 def laplace(filename: str):
     """Do laplace to the image and save result"""

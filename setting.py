@@ -1,3 +1,5 @@
+"""Pydantic BaseSettings"""
+
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -15,6 +17,9 @@ class Settings(BaseSettings):
     laplace_blue_height_end: int = screenshot_height / 2
 
     captcha_height: int = 80
+
+    log_level: int = 20
+    formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s: %(message)s"
 
     class Config:
         env_file: str = ".env"
