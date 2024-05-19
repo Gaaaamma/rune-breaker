@@ -15,8 +15,14 @@ class Settings(BaseSettings):
     laplace_blue_tolerantion: int = 50
     laplace_blue_height_start: int = 150
     laplace_blue_height_end: int = screenshot_height / 2
+    laplace_blue_vt_threshold: int = 35
+    laplace_blue_width_start: int = 140
+    laplace_blue_width_end: int = 660
 
     captcha_height: int = 80
+    captcha_width: int = 395
+    magic_crop_vertical: int = 15
+    magic_crop_vertical_t2: int = 11
 
     log_level: int = 20
     formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
@@ -25,3 +31,6 @@ class Settings(BaseSettings):
         env_file: str = ".env"
     
 SETTINGS: Settings = Settings()
+
+# inner: 455 - 62 = 393
+# outer: 456 - 61 = 395
