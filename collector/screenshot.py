@@ -14,7 +14,7 @@ def grab_raw_data(x: int, y: int, filename: str):
     """
 
     screenshot = pyautogui.screenshot(region=(
-        x, y, SETTINGS.screenshot_widht, SETTINGS.screenshot_height
+        x, y, SETTINGS.screenshot_width, SETTINGS.screenshot_height
         ))
     
     store_path: str = f"{SETTINGS.raw_data_dir}{filename}.png"

@@ -32,7 +32,7 @@ def blue_calculator_vt(
         top: int = 0,
         down: int = SETTINGS.screenshot_height,
         left: int = 0,
-        right: int = SETTINGS.screenshot_widht
+        right: int = SETTINGS.screenshot_width
         ) -> List[int]:
     """
     Read from a image file and calculate blue point of each column
