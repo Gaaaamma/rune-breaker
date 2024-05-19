@@ -176,20 +176,21 @@ def cut(file: str) -> bool:
     cv.imshow("thrshold_binary", img)
     
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    # _, img = cv.threshold(img, 50, 255, cv.THRESH_BINARY)
-    gray = cv.Canny(gray, 100, 200)
-    kernel = np.ones([9, 9])
-    gray = cv.dilate(gray, kernel)
+    # _, gray = cv.threshold(gray, 50, 255, cv.THRESH_BINARY)
     cv.imshow("gray", gray)
     logger.info(f"img.shape = {gray.shape}")
 
-    contours, _ = cv.findContours(gray, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    kernel = np.ones([9, 9])
+    canny = cv.Canny(gray, 100, 200)
+    canny = cv.dilate(canny, kernel)
+    
+    contours, _ = cv.findContours(canny, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     logger.info(len(contours))
 
     # Draw
     for c in contours:
         x, y, w, h = cv.boundingRect(c)
-        cv.rectangle(draw, [x, y], [x+w, y+h], [0, 0, 255], 2)
+        cv.rectangle(draw, [x, y], [x+w, y+h], [255, 255, 255], 2)
 
     cv.imshow("draw", draw)
 
@@ -210,6 +211,7 @@ if __name__ == "__main__":
         # f"{SETTINGS.laplace_data_dir}lap_1716028230.png",
     # ]
     files = sorted(files)
+    files = files[50:]
     for file in files:
         logger.info(f"File: {file}")
         result: bool = cut(file)
