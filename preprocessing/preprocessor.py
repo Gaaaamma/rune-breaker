@@ -159,6 +159,10 @@ def cut(file: str) -> bool:
 
         return False
     
+    # We can go further small with horizontal width (Manual test)
+    img_left += SETTINGS.magic_crop_horizontal
+    img_right -= SETTINGS.magic_crop_horizontal
+
     # =============== Cut original file ===============
     file = file.split("_")[-1]
     file = f"{SETTINGS.raw_data_dir}{file}"
