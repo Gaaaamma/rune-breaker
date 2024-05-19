@@ -38,7 +38,7 @@ def is_blue_purple(img, row: int, col: int) -> bool:
     return False
 
 def cut(file: str) -> bool:
-    """Use blue calculator to determine the cut height"""
+    """Use blue calculator to determine how to cut"""
 
     img_top: int = 0
     img_btm: int = 0

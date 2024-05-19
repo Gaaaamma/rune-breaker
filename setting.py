@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     captcha_height: int = 80
 
     log_level: int = 20
-    formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s: %(message)s"
+    formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
 
     class Config:
         env_file: str = ".env"
