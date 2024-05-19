@@ -4,7 +4,7 @@ and cut it into 4 small pictures for training
 """
 
 from os import listdir
-from typing import List
+from typing import List, Tuple
 
 import cv2 as cv
 import numpy as np
@@ -167,15 +167,14 @@ def cut(file: str) -> bool:
     file = file.split("_")[-1]
     file = f"{SETTINGS.raw_data_dir}{file}"
     raw = cv.imread(file)
+    cv.imshow(file, raw)
     img = raw[img_top:img_btm, img_left:img_right]
     
-    draw = img
-    cv.imshow(file, raw)
+    # =============== Use opencv method to find arrows ===============    
+    _, threshold = cv.threshold(img, 200, 255, cv.THRESH_BINARY)
+    cv.imshow("thrshold_binary", threshold)
     
-    _, img = cv.threshold(img, 200, 255, cv.THRESH_BINARY)
-    cv.imshow("thrshold_binary", img)
-    
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    gray = cv.cvtColor(threshold, cv.COLOR_BGR2GRAY)
     # _, gray = cv.threshold(gray, 50, 255, cv.THRESH_BINARY)
     cv.imshow("gray", gray)
     logger.info(f"img.shape = {gray.shape}")
@@ -183,16 +182,25 @@ def cut(file: str) -> bool:
     kernel = np.ones([9, 9])
     canny = cv.Canny(gray, 100, 200)
     canny = cv.dilate(canny, kernel)
-    
+    cv.imshow("canny", canny)
+
+    # =============== Get contour areas maximum 4 ===============
+    areas = []
     contours, _ = cv.findContours(canny, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-    logger.info(len(contours))
+    for c in contours:
+        area: float = cv.contourArea(c)
+        areas.append((int(area), c))
+    
+    areas = sorted(areas, reverse=True, key=lambda x: x[0])
+    areas = areas[:4]
 
     # Draw
-    for c in contours:
-        x, y, w, h = cv.boundingRect(c)
-        cv.rectangle(draw, [x, y], [x+w, y+h], [255, 255, 255], 2)
+    for _, contour in areas:
+        x, y, w, h = cv.boundingRect(contour)
+        logger.info(f"Draw the rectangle: [{x}, {y}] w: {w}, h: {h}")
+        cv.rectangle(img, [x, y], [x+w, y+h], [255, 255, 255], 2)
 
-    cv.imshow("draw", draw)
+    cv.imshow("draw", img)
 
     cv.waitKey(0)
     cv.destroyAllWindows()
@@ -206,12 +214,11 @@ if __name__ == "__main__":
         for file in files if file.split(".")[-1] == "png"
     ]
     # files = [
-        # f"{SETTINGS.laplace_data_dir}lap_1716025137.png",
-        # f"{SETTINGS.laplace_data_dir}lap_1716027125.png",
-        # f"{SETTINGS.laplace_data_dir}lap_1716028230.png",
+        # f"{SETTINGS.laplace_data_dir}lap_1716025137-ssaw.png",
+        # f"{SETTINGS.laplace_data_dir}lap_1716027125-wada.png",
+        # f"{SETTINGS.laplace_data_dir}lap_1716028230-asws.png",
     # ]
     files = sorted(files)
-    files = files[50:]
     for file in files:
         logger.info(f"File: {file}")
         result: bool = cut(file)
