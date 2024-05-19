@@ -166,11 +166,11 @@ def cut(file: str) -> bool:
     # =============== Cut original file ===============
     file = file.split("_")[-1]
     file = f"{SETTINGS.raw_data_dir}{file}"
-    img = cv.imread(file)
-    img = img[img_top:img_btm, img_left:img_right]
+    raw = cv.imread(file)
+    img = raw[img_top:img_btm, img_left:img_right]
     
     draw = img
-    cv.imshow(file, img)
+    cv.imshow(file, raw)
     
     _, img = cv.threshold(img, 200, 255, cv.THRESH_BINARY)
     cv.imshow("thrshold_binary", img)
@@ -189,7 +189,7 @@ def cut(file: str) -> bool:
     # Draw
     for c in contours:
         x, y, w, h = cv.boundingRect(c)
-        cv.rectangle(draw, [x, y], [x+w, y+h], [0, 0, 255], 1)
+        cv.rectangle(draw, [x, y], [x+w, y+h], [0, 0, 255], 2)
 
     cv.imshow("draw", draw)
 
