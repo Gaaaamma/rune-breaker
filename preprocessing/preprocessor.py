@@ -9,8 +9,10 @@ from typing import List, Tuple
 import cv2 as cv
 import numpy as np
 
-from setting import SETTINGS
+from collector.label import label_raw_data
 from logger import logger
+from preprocessing.laplace import laplace_all
+from setting import SETTINGS
 
 def blue_calculator_hz(file: str) -> List[int]:
     """Read from a image file and calculate blue point of each row"""
@@ -67,7 +69,7 @@ def is_blue_purple(img, row: int, col: int) -> bool:
 
     return False
 
-def cut(file: str) -> bool:
+def cut_arrows(file: str) -> bool:
     """Use blue calculator to determine how to cut"""
 
     img_top: int = 0
@@ -208,6 +210,13 @@ def cut(file: str) -> bool:
     
 
 if __name__ == "__main__":
+    # Label raw data with (w/s/a/d)
+    label_raw_data(SETTINGS.raw_data_dir)
+    
+    # Transform all data into laplace
+    laplace_all()
+
+    # Get all filename
     files: List[str] = listdir(SETTINGS.laplace_data_dir)
     files = [
         f"{SETTINGS.laplace_data_dir}{file}"
@@ -218,6 +227,8 @@ if __name__ == "__main__":
     #     f"{SETTINGS.laplace_data_dir}lap_1716027125-wada.png",
     # ]
     files = sorted(files)
+
+    # Cut 4 arrows and store it as trained data
     for file in files:
         logger.info(f"File: {file}")
-        result: bool = cut(file)
+        result: bool = cut_arrows(file)
