@@ -214,9 +214,8 @@ if __name__ == "__main__":
         for file in files if file.split(".")[-1] == "png"
     ]
     # files = [
-        # f"{SETTINGS.laplace_data_dir}lap_1716025137-ssaw.png",
-        # f"{SETTINGS.laplace_data_dir}lap_1716027125-wada.png",
-        # f"{SETTINGS.laplace_data_dir}lap_1716028230-asws.png",
+    #     f"{SETTINGS.laplace_data_dir}lap_1716025137-ssaw.png",
+    #     f"{SETTINGS.laplace_data_dir}lap_1716027125-wada.png",
     # ]
     files = sorted(files)
     for file in files:
