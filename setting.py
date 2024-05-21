@@ -26,10 +26,11 @@ class Settings(BaseSettings):
     magic_crop_vertical_t2: int = 11
     magic_crop_horizontal: int = 20
 
-    counter_start: int = 1
+    start_img: str = "lap_1716290708-wwsd.png"
+    counter_start: int = 385
     counter_width: int = 5
 
-    debug: bool = False
+    debug: bool = True
     log_level: int = 20
     formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
 

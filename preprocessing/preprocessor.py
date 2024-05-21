@@ -72,7 +72,7 @@ def is_blue_purple(img, row: int, col: int) -> bool:
 
     return False
 
-def cut_arrows(file: str, show: bool):
+def cut_arrows(file: str, debug: bool):
     """Use blue calculator to determine how to cut"""
 
     img_top: int = 0
@@ -172,7 +172,7 @@ def cut_arrows(file: str, show: bool):
     file = file.split("_")[-1]
     file = f"{SETTINGS.raw_data_dir}{file}"
     raw = cv.imread(file)
-    if show:
+    if debug:
         cv.imshow(file, raw)
     img = raw[img_top:img_btm, img_left:img_right]
     need_cut = img
@@ -209,7 +209,7 @@ def cut_arrows(file: str, show: bool):
         cv.rectangle(img, [x, y], [x+w, y+h], [255, 255, 255], 2)
         arrows.append((x, y, w, h))
     
-    if show:
+    if debug:
         cv.imshow("draw", img)
 
     # Cut
@@ -221,13 +221,14 @@ def cut_arrows(file: str, show: bool):
         x, y, w, h = pos
         arrow = need_cut[y:y+h, x:x+w]
         filename: str = f"{str(counter).zfill(width)}-{label[index]}.png"
-        if show:
+        if debug:
             cv.imshow(filename, arrow)
-        cv.imwrite(f"{SETTINGS.cut_data_dir}{filename}", arrow)
+        else:
+            cv.imwrite(f"{SETTINGS.cut_data_dir}{filename}", arrow)
         index += 1
         counter += 1
 
-    if show:
+    if debug:
         cv.waitKey(0)
         cv.destroyAllWindows()
     
@@ -239,17 +240,23 @@ if __name__ == "__main__":
     # Transform all data into laplace
     laplace_all()
 
-    # Get all filename
+    # Get files to be handled
     files: List[str] = listdir(SETTINGS.laplace_data_dir)
     files = [
         f"{SETTINGS.laplace_data_dir}{file}"
         for file in files if file.split(".")[-1] == "png"
     ]
+    files = sorted(files)
+    if SETTINGS.start_img != "":
+        files = files[
+            files.index(f"{SETTINGS.laplace_data_dir}{SETTINGS.start_img}")+1:
+        ]
+    logger.info(f"New images: {len(files)}")
+
     # files = [
     #     f"{SETTINGS.laplace_data_dir}lap_1716025137-ssaw.png",
     #     f"{SETTINGS.laplace_data_dir}lap_1716027125-wada.png",
     # ]
-    files = sorted(files)
 
     # Cut 4 arrows and store it as trained data
     for file in files:
