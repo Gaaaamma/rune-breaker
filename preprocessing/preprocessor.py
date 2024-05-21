@@ -14,6 +14,9 @@ from logger import logger
 from preprocessing.laplace import laplace_all
 from setting import SETTINGS
 
+width: int = SETTINGS.counter_width
+counter: int = SETTINGS.counter_start
+
 def blue_calculator_hz(file: str) -> List[int]:
     """Read from a image file and calculate blue point of each row"""
 
@@ -69,7 +72,7 @@ def is_blue_purple(img, row: int, col: int) -> bool:
 
     return False
 
-def cut_arrows(file: str) -> bool:
+def cut_arrows(file: str, show: bool):
     """Use blue calculator to determine how to cut"""
 
     img_top: int = 0
@@ -107,7 +110,7 @@ def cut_arrows(file: str) -> bool:
     
     if img_top == 0 and img_btm == 0:
         logger.info("Not found img_top & img_btm")
-        return False
+        return
     
     # We can go further small with vertical height (Manual test)
     img_top += SETTINGS.magic_crop_vertical
@@ -159,7 +162,7 @@ def cut_arrows(file: str) -> bool:
                           statistic_vt[inner_left] + statistic_vt[inner_right])
             logger.info(f"blue points: (out_l, in_l, in_r, out_r) = ({statistic_vt[outer_left]}, {statistic_vt[inner_left]}, {statistic_vt[inner_right]}, {statistic_vt[outer_right]}) = {judge}")
 
-        return False
+        return
     
     # We can go further small with horizontal width (Manual test)
     img_left += SETTINGS.magic_crop_horizontal
@@ -169,22 +172,24 @@ def cut_arrows(file: str) -> bool:
     file = file.split("_")[-1]
     file = f"{SETTINGS.raw_data_dir}{file}"
     raw = cv.imread(file)
-    cv.imshow(file, raw)
+    if show:
+        cv.imshow(file, raw)
     img = raw[img_top:img_btm, img_left:img_right]
+    need_cut = img
     
     # =============== Use opencv method to find arrows ===============    
     _, threshold = cv.threshold(img, 200, 255, cv.THRESH_BINARY)
-    cv.imshow("thrshold_binary", threshold)
+    #cv.imshow("thrshold_binary", threshold)
     
     gray = cv.cvtColor(threshold, cv.COLOR_BGR2GRAY)
     # _, gray = cv.threshold(gray, 50, 255, cv.THRESH_BINARY)
-    cv.imshow("gray", gray)
+    #cv.imshow("gray", gray)
     logger.info(f"img.shape = {gray.shape}")
 
     kernel = np.ones([9, 9])
     canny = cv.Canny(gray, 100, 200)
     canny = cv.dilate(canny, kernel)
-    cv.imshow("canny", canny)
+    # cv.imshow("canny", canny)
 
     # =============== Get contour areas maximum 4 ===============
     areas = []
@@ -197,16 +202,34 @@ def cut_arrows(file: str) -> bool:
     areas = areas[:4]
 
     # Draw
+    arrows: List[Tuple[int, int, int, int]] = []
     for _, contour in areas:
         x, y, w, h = cv.boundingRect(contour)
         logger.info(f"Draw the rectangle: [{x}, {y}] w: {w}, h: {h}")
         cv.rectangle(img, [x, y], [x+w, y+h], [255, 255, 255], 2)
+        arrows.append((x, y, w, h))
+    
+    if show:
+        cv.imshow("draw", img)
 
-    cv.imshow("draw", img)
+    # Cut
+    arrows = sorted(arrows, key=lambda tp: tp[0])
+    global counter
+    label: str = file.split("-")[-1].split(".")[0]
+    index: int = 0
+    for pos in arrows:
+        x, y, w, h = pos
+        arrow = need_cut[y:y+h, x:x+w]
+        filename: str = f"{str(counter).zfill(width)}-{label[index]}.png"
+        if show:
+            cv.imshow(filename, arrow)
+        cv.imwrite(f"{SETTINGS.cut_data_dir}{filename}", arrow)
+        index += 1
+        counter += 1
 
-    cv.waitKey(0)
-    cv.destroyAllWindows()
-    return True
+    if show:
+        cv.waitKey(0)
+        cv.destroyAllWindows()
     
 
 if __name__ == "__main__":
@@ -231,4 +254,4 @@ if __name__ == "__main__":
     # Cut 4 arrows and store it as trained data
     for file in files:
         logger.info(f"File: {file}")
-        result: bool = cut_arrows(file)
+        cut_arrows(file, SETTINGS.debug)

@@ -7,7 +7,8 @@ class Settings(BaseSettings):
     screenshot_height: int = 600
     raw_data_dir: str = "./data/raw/"
     laplace_data_dir: str = "./data/laplace/"
-    
+    cut_data_dir: str = "./data/cut/"
+
     left_bound: int = 50
     right_bonud: int = 400
 
@@ -25,6 +26,10 @@ class Settings(BaseSettings):
     magic_crop_vertical_t2: int = 11
     magic_crop_horizontal: int = 20
 
+    counter_start: int = 1
+    counter_width: int = 5
+
+    debug: bool = False
     log_level: int = 20
     formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
 
