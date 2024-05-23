@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     raw_data_dir: str = "./data/raw/"
     laplace_data_dir: str = "./data/laplace/"
     standard_data_dir: str = "./data/standard/"
+    answer_data_dir: str = "./data/ans/"
     train_data_dir: str = "./data/train/"
 
     left_bound: int = 50
