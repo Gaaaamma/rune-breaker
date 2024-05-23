@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     screenshot_height: int = 600
     raw_data_dir: str = "./data/raw/"
     laplace_data_dir: str = "./data/laplace/"
-    cut_data_dir: str = "./data/cut/"
+    standard_data_dir: str = "./data/standard/"
     train_data_dir: str = "./data/train/"
 
     left_bound: int = 50
