@@ -17,6 +17,30 @@ from setting import SETTINGS
 width: int = SETTINGS.counter_width
 counter: int = SETTINGS.counter_start
 
+def stretch_image(output_size: int, filename: str):
+    """Resize image by stretching"""
+
+    # Get image from path
+    input_path = f"{SETTINGS.cut_data_dir}{filename}"
+    image = cv.imread(input_path, cv.IMREAD_GRAYSCALE)
+    
+    if image is None:
+        logger.error(f"Error: Unable to read image {input_path}")
+        return
+
+    # Stretch
+    resized_image = cv.resize(
+        image,
+        (output_size, output_size),
+        interpolation=cv.INTER_LINEAR
+    )
+    
+    # Save image
+    logger.info(f"trained image shape: {resized_image.shape}")
+
+    output_path = f"{SETTINGS.train_data_dir}{filename}"
+    cv.imwrite(output_path, resized_image)
+
 def blue_calculator_hz(file: str) -> List[int]:
     """Read from a image file and calculate blue point of each row"""
 
@@ -206,7 +230,8 @@ def cut_arrows(file: str, debug: bool):
     for _, contour in areas:
         x, y, w, h = cv.boundingRect(contour)
         logger.info(f"Draw the rectangle: [{x}, {y}] w: {w}, h: {h}")
-        cv.rectangle(img, [x, y], [x+w, y+h], [255, 255, 255], 2)
+        if debug:
+            cv.rectangle(img, [x, y], [x+w, y+h], [255, 255, 255], 2)
         arrows.append((x, y, w, h))
     
     if debug:
@@ -221,9 +246,7 @@ def cut_arrows(file: str, debug: bool):
         x, y, w, h = pos
         arrow = need_cut[y:y+h, x:x+w]
         filename: str = f"{str(counter).zfill(width)}-{label[index]}.png"
-        if debug:
-            cv.imshow(filename, arrow)
-        else:
+        if not debug:
             cv.imwrite(f"{SETTINGS.cut_data_dir}{filename}", arrow)
         index += 1
         counter += 1
@@ -262,3 +285,10 @@ if __name__ == "__main__":
     for file in files:
         logger.info(f"File: {file}")
         cut_arrows(file, SETTINGS.debug)
+
+    # Prepare trained data
+    files = listdir(SETTINGS.cut_data_dir)
+    files = sorted(files)
+    for file in files:
+        print(file)
+        stretch_image(SETTINGS.train_img_size, file)
