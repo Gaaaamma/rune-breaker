@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     counter_start: int = 1
     counter_width: int = 5
 
+    filter_start_img: str = ""
     train_img_size: int = 32
 
     debug: bool = False
