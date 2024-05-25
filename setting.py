@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     standard_data_dir: str = "./data/standard/"
     answer_data_dir: str = "./data/ans/"
     train_data_dir: str = "./data/train/"
+    testing_data_dir: str = "./data/test/"
 
     left_bound: int = 50
     right_bonud: int = 400
