@@ -2,3 +2,6 @@ opencv-python==4.9.0.80
 pydantic==2.7.1
 pydantic_settings==2.2.1
 pyautogui==0.9.54
+torch
+torchvision
+torchaudio
