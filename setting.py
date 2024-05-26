@@ -49,7 +49,7 @@ class Settings(BaseSettings):
     player_r: int = 255
     player_g: int = 221
     player_b: int = 68
-    player_speed: int = 5 # pixels/second
+    player_speed: int = 15 # pixels/second
 
     debug: bool = False
     log_level: int = 20

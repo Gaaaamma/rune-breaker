@@ -1,5 +1,8 @@
+import time
 import pyautogui
 from setting import SETTINGS
+from logger import logger
+
 
 class Map():
     def __init__(self, x1: int, y1: int, x2: int, y2: int) -> None:
@@ -55,3 +58,15 @@ class Map():
             g == SETTINGS.player_g and 
             b == SETTINGS.player_b
         )
+
+    def speed_test(self):
+        """Test player moving speed"""
+        
+        last_x: int = 0
+        while True:
+            self.screenshot()
+            logger.info(
+                f"Find player: {self.find_player()} - ({self.player_x}, {self.player_y}) = {self.player_x - last_x}"
+            )
+            last_x = self.player_x
+            time.sleep(1)
