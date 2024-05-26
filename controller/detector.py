@@ -1,4 +1,5 @@
 import pyautogui
+from setting import SETTINGS
 
 class Map():
     def __init__(self, x1: int, y1: int, x2: int, y2: int) -> None:
@@ -17,10 +18,40 @@ class Map():
     def screenshot(self):
         self.image = pyautogui.screenshot(region=(self.x1, self.y1, self.width, self.height))
     
-    def find_wheel(self):
+    def find_wheel(self) -> bool:
         for row in range(self.height):
             for col in range(self.width):
-                print(self.image.getpixel((col, row)))
+                if self.is_wheel(self.image.getpixel((col, row))):
+                    self.wheel_x = col
+                    self.wheel_y = row
+                    return True
+        self.wheel_x = -1
+        self.wheel_y = -1
+        return False
 
-    def find_player(self):
-        pass
+    def is_wheel(self, rgba) -> bool:
+        r, g, b, _ = rgba
+        return (
+            r == SETTINGS.wheel_r and
+            g == SETTINGS.wheel_g and 
+            b == SETTINGS.wheel_b
+        )
+
+    def find_player(self) -> bool:
+        for row in range(self.height):
+            for col in range(self.width):
+                if self.is_player(self.image.getpixel((col, row))):
+                    self.wheel_x = col
+                    self.wheel_y = row
+                    return True
+        self.wheel_x = -1
+        self.wheel_y = -1
+        return False
+
+    def is_player(self, rgba) -> bool:
+        r, g, b, _ = rgba
+        return (
+            r == SETTINGS.player_r and
+            g == SETTINGS.player_g and 
+            b == SETTINGS.player_b
+        )

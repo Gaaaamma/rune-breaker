@@ -43,6 +43,13 @@ class Settings(BaseSettings):
     board_port: str = "COM1"
     baudrate: int = 9600
 
+    wheel_r: int = 221
+    wheel_g: int = 102
+    wheel_b: int = 255
+    player_r: int = 255
+    player_g: int = 221
+    player_b: int = 68
+
     debug: bool = False
     log_level: int = 20
     formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
