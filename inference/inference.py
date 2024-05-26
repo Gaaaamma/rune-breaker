@@ -50,13 +50,3 @@ def predict(image_path):
     outputs = model(image)
     _, predicted = torch.max(outputs, 1)
     return predicted.item()
-
-# 使用示例
-images = listdir(SETTINGS.testing_data_dir)
-images = sorted(images)
-for img in images:
-    image_path = f"{SETTINGS.testing_data_dir}{img}"
-    print(image_path)
-    label_map = {0: 'w', 1: 's', 2: 'a', 3: 'd'}
-    predicted_label = predict(image_path)
-    print(f'The predicted label is: {label_map[predicted_label]}')

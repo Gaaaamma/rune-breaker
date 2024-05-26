@@ -11,7 +11,11 @@ class Settings(BaseSettings):
     answer_data_dir: str = "./data/ans/"
     train_data_dir: str = "./data/train/"
     testing_data_dir: str = "./data/test/"
-
+    
+    arrow_model: str = "./arrow_cnn.pth"
+    upload_path: str = "./data/upload/"
+    inference_tmp: str = "./data/inference/"
+    
     left_bound: int = 50
     right_bonud: int = 400
 
@@ -35,9 +39,6 @@ class Settings(BaseSettings):
 
     filter_start_img: str = ""
     train_img_size: int = 32
-
-    arrow_model: str = "./arrow_cnn.pth"
-    upload_path: str = "./data/upload/"
 
     debug: bool = False
     log_level: int = 20

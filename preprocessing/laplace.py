@@ -31,5 +31,16 @@ def laplace(filename: str):
     laplace = cv.Laplacian(img, 3, ksize=7)
     cv.imwrite(f"{SETTINGS.laplace_data_dir}lap_{filename}", laplace)
 
+def laplace_inference(filename: str, target_dir: str = SETTINGS.inference_tmp) -> str:
+    """Do laplace to the image and save result"""
+
+    img = cv.imread(f"{SETTINGS.upload_path}{filename}")
+    laplace = cv.Laplacian(img, 3, ksize=7)
+    
+    filepath: str = f"{target_dir}lap_{filename}"
+    cv.imwrite(filepath, laplace)
+
+    return filepath
+
 if __name__ == "__main__":
     laplace_all()
