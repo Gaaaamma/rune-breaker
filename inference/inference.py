@@ -29,7 +29,7 @@ class CNNModel(nn.Module):
 
 # 初始化模型並載入儲存的權重
 model = CNNModel()
-model.load_state_dict(torch.load('arrow_cnn.pth'))
+model.load_state_dict(torch.load(SETTINGS.arrow_model))
 model.eval()  # 設置模型為推論模式
 
 # 定義資料增強與轉換

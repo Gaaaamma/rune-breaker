@@ -36,6 +36,9 @@ class Settings(BaseSettings):
     filter_start_img: str = ""
     train_img_size: int = 32
 
+    arrow_model: str = "./arrow_cnn.pth"
+    upload_path: str = "./data/upload/"
+
     debug: bool = False
     log_level: int = 20
     formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
