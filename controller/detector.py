@@ -30,7 +30,7 @@ class Map():
         return False
 
     def is_wheel(self, rgba) -> bool:
-        r, g, b, _ = rgba
+        r, g, b = rgba
         return (
             r == SETTINGS.wheel_r and
             g == SETTINGS.wheel_g and 
@@ -49,7 +49,7 @@ class Map():
         return False
 
     def is_player(self, rgba) -> bool:
-        r, g, b, _ = rgba
+        r, g, b = rgba
         return (
             r == SETTINGS.player_r and
             g == SETTINGS.player_g and 
