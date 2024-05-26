@@ -41,11 +41,11 @@ class Map():
         for row in range(self.height):
             for col in range(self.width):
                 if self.is_player(self.image.getpixel((col, row))):
-                    self.wheel_x = col
-                    self.wheel_y = row
+                    self.player_x = col
+                    self.player_y = row
                     return True
-        self.wheel_x = -1
-        self.wheel_y = -1
+        self.player_x = -1
+        self.player_y = -1
         return False
 
     def is_player(self, rgba) -> bool:

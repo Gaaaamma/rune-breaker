@@ -25,7 +25,8 @@ p2 = pyautogui.position()
 
 maple_map = Map(p1.x, p1.y, p2.x, p2.y)
 maple_map.screenshot()
-maple_map.find_wheel()
+print(f"Find wheel: {maple_map.find_wheel()} - {(maple_map.wheel_x, maple_map.wheel_y)}")
+print(f"Find player: {maple_map.find_player()} - {(maple_map.player_x, maple_map.player_y)}")
 # Find location of wheel and player
 
 
