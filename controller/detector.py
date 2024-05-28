@@ -1,5 +1,6 @@
 import time
 import pyautogui
+from PIL import ImageGrab
 from typing import Dict
 from serial import Serial
 from setting import SETTINGS
@@ -74,7 +75,17 @@ class Map():
             )
             last_x = self.player_x
             time.sleep(1)
-    
+
+    def color_test(self):
+        """Test the color user point to"""
+        while True:
+            point = pyautogui.position()
+            x, y = point
+            screenshot = ImageGrab.grab(bbox=(x, y, x+1, y+1))
+            pixel = screenshot.getpixel((0, 0))
+            logger.info(f"({x}, {y}) = {pixel}")
+            time.sleep(1)
+
     def solve_rune(self, ser: Serial):
         """Solve rune"""
 
@@ -147,7 +158,7 @@ class Map():
 
         if response.status_code == HTTPStatus.OK:
             ans: Dict[str, str] = response.json()
-            logger.info(f"Rune-break Success: {ans["answer"]}")
+            logger.info(f"Rune-break Success: {ans['answer']}")
             return ans["answer"]
         
         logger.error(f"Rune-break Fail: {response.status_code} - {response.reason}")

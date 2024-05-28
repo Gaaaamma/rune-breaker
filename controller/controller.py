@@ -30,7 +30,7 @@ maple_map.screenshot()
 logger.info(f"Find wheel: {maple_map.find_wheel()} - ({maple_map.wheel_x}, {maple_map.wheel_y})")
 logger.info(f"Find player: {maple_map.find_player()} - ({maple_map.player_x}, {maple_map.player_y})")
 
-maple_map.speed_test()
+maple_map.color_test()
 # Send hunting command to Leonardo
 # while not ser.writable():
     # time.sleep(1)
