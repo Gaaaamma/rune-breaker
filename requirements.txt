@@ -8,3 +8,4 @@ torchaudio==2.3.0
 fastapi==0.111.0
 uvicorn==0.29.0
 pySerial==3.5
+requests==2.32.2

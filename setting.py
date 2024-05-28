@@ -50,6 +50,12 @@ class Settings(BaseSettings):
     player_g: int = 221
     player_b: int = 68
     player_speed: int = 15 # pixels/second
+    x_miss: int = 6
+    y_miss: int = 5
+    rune_host: str = "localhost"
+    rune_port: str = "32980"
+    rune_upload: str = "/v1/rune-break/image"
+    
 
     debug: bool = False
     log_level: int = 20

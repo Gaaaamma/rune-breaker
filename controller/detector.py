@@ -1,8 +1,12 @@
 import time
 import pyautogui
+from typing import Dict
+from serial import Serial
 from setting import SETTINGS
 from logger import logger
-
+from io import BytesIO
+import requests
+from http import HTTPStatus
 
 class Map():
     def __init__(self, x1: int, y1: int, x2: int, y2: int) -> None:
@@ -70,3 +74,85 @@ class Map():
             )
             last_x = self.player_x
             time.sleep(1)
+    
+    def solve_rune(self, ser: Serial):
+        """Solve rune"""
+
+        # Get rune and player position
+        self.screenshot()
+        self.find_player()
+        wheel_exist: bool = self.find_wheel()
+        if not wheel_exist:
+            return
+
+        # Moving x axis
+        player_to_wheel_x: int = self.wheel_x - self.player_x
+        while wheel_exist and abs(player_to_wheel_x) > SETTINGS.x_miss:
+            self.go_to_wheel_x(player_to_wheel_x, ser)
+            self.screenshot()
+            self.find_player()
+            player_to_wheel_x = self.wheel_x - self.player_x
+
+        # Moving y axis
+        self.screenshot()
+        self.find_player()
+        wheel_exist = self.find_wheel()
+        player_to_wheel_y: int = self.wheel_y - self.player_y
+        while wheel_exist and abs(player_to_wheel_y) > SETTINGS.y_miss:
+            self.go_to_wheel_y(player_to_wheel_y, ser)
+            self.screenshot()
+            self.find_player()
+            wheel_exist = self.find_wheel()
+            player_to_wheel_y = self.wheel_y - self.player_y
+
+        # Mine #TODO
+        
+        # Ask rune-break for answer
+        answer: str = self.ask_rune_breaker()
+
+        # Break rune
+        self.break_rune(answer)    
+
+    def go_to_wheel_x(self, player_to_wheel_x: int, serial: Serial): #TODO
+        """Control player to move to wheel in x axis"""
+
+        # Calculate press duration
+        duration: str = format(player_to_wheel_x / SETTINGS.player_speed, ".1f")
+
+        # Send x moving command to Leonardo
+        # ...
+        # Get ACK from Leonardo
+        # ...
+    
+    def go_to_wheel_y(self, player_to_wheel_y: int, serial: Serial): #TODO
+        """Control player to move to wheel in y axis"""
+
+        # Decide to jump up or jump down
+
+        # Send x moving command to Leonardo
+        # ...
+        # Get ACK from Leonardo
+        # ...
+
+    def ask_rune_breaker(self) -> str:
+        """Use HTTP requests to ask rune-breaker"""
+
+        image_byte = BytesIO()
+        self.image.save(image_byte, format='PNG')
+        image_byte.seek(0)
+
+        rune_upload: str = f"http://{SETTINGS.rune_host}:{SETTINGS.rune_port}{SETTINGS.rune_upload}"
+        files = {'file': ('screenshot.png', image_byte, 'image/png')}
+        response = requests.post(rune_upload, files=files)
+
+        if response.status_code == HTTPStatus.OK:
+            ans: Dict[str, str] = response.json()
+            logger.info(f"Rune-break Success: {ans["answer"]}")
+            return ans["answer"]
+        
+        logger.error(f"Rune-break Fail: {response.status_code} - {response.reason}")
+        return ""
+
+    def break_rune(self, answer): #TODO
+        """Send answer to Leonardo and break rune"""
+        pass
