@@ -7,11 +7,11 @@ from controller.detector import Map
 from setting import SETTINGS
 from logger import logger
 
-# ser = serial.Serial(
-    # port=SETTINGS.board_port,
-    # sbaudrate=SETTINGS.baudrate,
-    # timeout=3
-# )
+ser = serial.Serial(
+    port=SETTINGS.board_port,
+    baudrate=SETTINGS.baudrate,
+    timeout=3
+)
 logger.info(f"Connect to dev board success: {SETTINGS.board_port}")
 
 # ========= Get map information =========
@@ -24,13 +24,15 @@ input()
 p2 = pyautogui.position()
 
 maple_map = Map(p1.x, p1.y, p2.x, p2.y)
-maple_map.screenshot()
+# maple_map.screenshot()
 
 # ========= Find location of wheel and player =========
-logger.info(f"Find wheel: {maple_map.find_wheel()} - ({maple_map.wheel_x}, {maple_map.wheel_y})")
-logger.info(f"Find player: {maple_map.find_player()} - ({maple_map.player_x}, {maple_map.player_y})")
+# logger.info(f"Find wheel: {maple_map.find_wheel()} - ({maple_map.wheel_x}, {maple_map.wheel_y})")
+#logger.info(f"Find player: {maple_map.find_player()} - ({maple_map.player_x}, {maple_map.player_y})")
 
-maple_map.color_test()
+# ========== Testing communication between PC and Leonardo ============
+# TODO
+
 # Send hunting command to Leonardo
 # while not ser.writable():
     # time.sleep(1)
