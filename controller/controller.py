@@ -6,13 +6,22 @@ from controller.command import command
 from controller.detector import Map
 from setting import SETTINGS
 from logger import logger
+from controller.communicate import Communicator
 
-ser = serial.Serial(
+comm: Communicator = Communicator(
     port=SETTINGS.board_port,
     baudrate=SETTINGS.baudrate,
-    timeout=3
 )
-logger.info(f"Connect to dev board success: {SETTINGS.board_port}")
+
+comm.ask_ack("hunt")
+comm.ask_ack("15")
+
+comm.ask_ack("sleep")
+comm.ask_ack("10")
+
+comm.ask_ack("greet")
+comm.ask_ack("hunt")
+comm.ask_ack("15")
 
 # ========= Get map information =========
 logger.info("Move mouse to left-top corner of map and press 'Enter'")
@@ -25,6 +34,7 @@ p2 = pyautogui.position()
 
 maple_map = Map(p1.x, p1.y, p2.x, p2.y)
 # maple_map.screenshot()
+
 
 # ========= Find location of wheel and player =========
 # logger.info(f"Find wheel: {maple_map.find_wheel()} - ({maple_map.wheel_x}, {maple_map.wheel_y})")

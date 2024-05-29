@@ -5,6 +5,7 @@ from typing import Dict
 from serial import Serial
 from setting import SETTINGS
 from logger import logger
+from controller.communicate import Communicator
 from io import BytesIO
 import requests
 from http import HTTPStatus
@@ -86,7 +87,7 @@ class Map():
             logger.info(f"({x}, {y}) = {pixel}")
             time.sleep(1)
 
-    def solve_rune(self, ser: Serial):
+    def solve_rune(self, comm: Communicator):
         """Solve rune"""
 
         # Get rune and player position
@@ -99,7 +100,7 @@ class Map():
         # Moving x axis
         player_to_wheel_x: int = self.wheel_x - self.player_x
         while wheel_exist and abs(player_to_wheel_x) > SETTINGS.x_miss:
-            self.go_to_x(player_to_wheel_x, ser)
+            self.go_to_x(player_to_wheel_x, comm)
             self.screenshot()
             self.find_player()
             player_to_wheel_x = self.wheel_x - self.player_x
@@ -110,7 +111,7 @@ class Map():
         wheel_exist = self.find_wheel()
         player_to_wheel_y: int = self.wheel_y - self.player_y
         while wheel_exist and abs(player_to_wheel_y) > SETTINGS.y_miss:
-            self.go_to_y(player_to_wheel_y, ser)
+            self.go_to_y(player_to_wheel_y, comm)
             self.screenshot()
             self.find_player()
             wheel_exist = self.find_wheel()
@@ -124,7 +125,7 @@ class Map():
         # Break rune
         self.break_rune(answer)    
 
-    def go_to_x(self, player_to_x: int, serial: Serial): #TODO
+    def go_to_x(self, player_to_x: int, comm: Communicator): #TODO
         """Control player to move to wheel in x axis"""
 
         # Calculate press duration
@@ -135,7 +136,7 @@ class Map():
         # Get ACK from Leonardo
         # ...
     
-    def go_to_y(self, player_to_y: int, serial: Serial): #TODO
+    def go_to_y(self, player_to_y: int, comm: Communicator): #TODO
         """Control player to move to wheel in y axis"""
 
         # Decide to jump up or jump down
