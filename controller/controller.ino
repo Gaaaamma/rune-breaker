@@ -128,9 +128,38 @@ void loop() {
         }
         
     } else if (command == "mine") {
-      //SimpleSkill(true, )
-      //delay(500);
+      SimpleSkill(true, CONFIRM);
+      delay(500);
+      Serial.println("mine ack");
+
     } else if (command == "rune") {
+      // Get rune answer
+      Serial.println("next: answer");
+      WaitInput();
+      delay(2000);
+      String answer = Serial.readStringUntil('\n');
+      for (int i = 0; i < answer.length(); i++) {
+        char c = answer.charAt(i);
+        switch (c) {
+          case 'w':
+            Keyboard.write(KEY_UP_ARROW);
+            delay(200);
+            break;
+          case 'a':
+            Keyboard.write(KEY_LEFT_ARROW);
+            delay(200);
+            break;
+          case 's':
+            Keyboard.write(KEY_DOWN_ARROW);
+            delay(200);
+            break;
+          case 'd':
+            Keyboard.write(KEY_RIGHT_ARROW);
+            delay(200);
+            break;
+        }
+      }
+      Serial.println("rune ack");
 
     } else {
         // Unknown command
