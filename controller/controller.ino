@@ -75,6 +75,13 @@ void loop() {
       Serial.println("standby ack");
 
     } else if (command == "fountain") {
+      // Get standby seconds
+      Serial.println("next: seconds");
+      WaitInput();
+      int seconds = Serial.readStringUntil('\n').toInt();
+
+      Battle(seconds, 0, true, false);
+      Serial.println("fountain ack");
 
     } else if (command == "frenzy") {
       Serial.print("next: minutes");
