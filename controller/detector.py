@@ -111,13 +111,13 @@ class Map():
         self.screenshot()
         self.find_player()
         wheel_exist = self.find_wheel()
-        player_to_wheel_y: int = self.wheel_y - self.player_y
+        player_to_wheel_y: int = self.player_y - self.wheel_y
         while wheel_exist and abs(player_to_wheel_y) > SETTINGS.y_miss:
             comm.go_to_y(player_to_wheel_y)
             self.screenshot()
             self.find_player()
             wheel_exist = self.find_wheel()
-            player_to_wheel_y = self.wheel_y - self.player_y
+            player_to_wheel_y = self.player_y - self.wheel_y
             logger.info(f"Player and Wheel distance Y: {player_to_wheel_y}")
 
         # Mine
