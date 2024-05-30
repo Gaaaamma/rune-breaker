@@ -136,7 +136,6 @@ void loop() {
       // Get rune answer
       Serial.println("next: answer");
       WaitInput();
-      delay(2000);
       String answer = Serial.readStringUntil('\n');
       for (int i = 0; i < answer.length(); i++) {
         char c = answer.charAt(i);

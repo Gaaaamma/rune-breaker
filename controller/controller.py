@@ -2,7 +2,6 @@ import serial
 import time
 
 import pyautogui
-from controller.command import command
 from controller.detector import Map
 from setting import SETTINGS
 from logger import logger
@@ -13,17 +12,6 @@ comm: Communicator = Communicator(
     port=SETTINGS.board_port,
     baudrate=SETTINGS.baudrate,
 )
-
-time.sleep(3)
-comm.ask_ack("move")
-comm.ask_ack("-5.5")
-comm.ask_ack("move")
-comm.ask_ack("5.5")
-comm.ask_ack("updown")
-comm.ask_ack("up")
-comm.ask_ack("updown")
-comm.ask_ack("down")
-exit(0)
 
 # ========= Get map information =========
 logger.info("Move mouse to left-top corner of map and press 'Enter'")

@@ -100,7 +100,7 @@ class Map():
         # Moving x axis
         player_to_wheel_x: int = self.wheel_x - self.player_x
         while wheel_exist and abs(player_to_wheel_x) > SETTINGS.x_miss:
-            self.go_to_x(player_to_wheel_x, comm)
+            comm.go_to_x(player_to_wheel_x)
             self.screenshot()
             self.find_player()
             player_to_wheel_x = self.wheel_x - self.player_x
@@ -111,44 +111,25 @@ class Map():
         wheel_exist = self.find_wheel()
         player_to_wheel_y: int = self.wheel_y - self.player_y
         while wheel_exist and abs(player_to_wheel_y) > SETTINGS.y_miss:
-            self.go_to_y(player_to_wheel_y, comm)
+            comm.go_to_y(player_to_wheel_y)
             self.screenshot()
             self.find_player()
             wheel_exist = self.find_wheel()
             player_to_wheel_y = self.wheel_y - self.player_y
 
-        # Mine #TODO
+        # Mine
+        comm.mine()
         
         # Ask rune-break for answer
         answer: str = self.ask_rune_breaker()
 
         # Break rune
-        self.break_rune(answer)    
-
-    def go_to_x(self, player_to_x: int, comm: Communicator): #TODO
-        """Control player to move to wheel in x axis"""
-
-        # Calculate press duration
-        duration: str = format(player_to_x / SETTINGS.player_speed, ".1f")
-
-        # Send x moving command to Leonardo
-        # ...
-        # Get ACK from Leonardo
-        # ...
-    
-    def go_to_y(self, player_to_y: int, comm: Communicator): #TODO
-        """Control player to move to wheel in y axis"""
-
-        # Decide to jump up or jump down
-
-        # Send x moving command to Leonardo
-        # ...
-        # Get ACK from Leonardo
-        # ...
+        comm.break_rune(answer)
 
     def ask_rune_breaker(self) -> str:
         """Use HTTP requests to ask rune-breaker"""
 
+        self.screenshot()
         image_byte = BytesIO()
         self.image.save(image_byte, format='PNG')
         image_byte.seek(0)
@@ -164,7 +145,3 @@ class Map():
         
         logger.error(f"Rune-break Fail: {response.status_code} - {response.reason}")
         return ""
-
-    def break_rune(self, answer): #TODO
-        """Send answer to Leonardo and break rune"""
-        pass
