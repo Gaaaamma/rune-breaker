@@ -8,7 +8,6 @@ import time
 
 class Communicator():
     def __init__(self, port: str, baudrate: int, timeout: Optional[float] = None) -> None:
-        self.port = port
         self.serial = serial.Serial(
             port=port, 
             baudrate=baudrate, 

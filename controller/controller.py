@@ -8,20 +8,22 @@ from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
 
+print(SETTINGS.board_port)
 comm: Communicator = Communicator(
     port=SETTINGS.board_port,
     baudrate=SETTINGS.baudrate,
 )
 
-comm.ask_ack("hunt")
-comm.ask_ack("15")
-
-comm.ask_ack("sleep")
-comm.ask_ack("10")
-
-comm.ask_ack("greet")
-comm.ask_ack("hunt")
-comm.ask_ack("15")
+time.sleep(3)
+comm.ask_ack("move")
+comm.ask_ack("-5.5")
+comm.ask_ack("move")
+comm.ask_ack("5.5")
+comm.ask_ack("updown")
+comm.ask_ack("up")
+comm.ask_ack("updown")
+comm.ask_ack("down")
+exit(0)
 
 # ========= Get map information =========
 logger.info("Move mouse to left-top corner of map and press 'Enter'")
