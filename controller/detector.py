@@ -122,6 +122,7 @@ class Map():
 
         # Mine
         logger.info("At wheel position: Ready to mine")
+        time.sleep(1)
         comm.mine()
         
         # Ask rune-break for answer
