@@ -57,19 +57,39 @@ void loop() {
   if (Serial.available() > 0) {
     String command = Serial.readStringUntil('\n');
     if (command == "hunting") {
+      // Get hunting seconds
+      Serial.println("next: seconds");
+      WaitInput();
+      int seconds = Serial.readStringUntil('\n').toInt();
+
+      Battle(seconds, 0, true, true);
+      Serial.println("hunting ack");
 
     } else if (command == "standby") {
+      // Get standby seconds
+      Serial.println("next: seconds");
+      WaitInput();
+      int seconds = Serial.readStringUntil('\n').toInt();
+
+      Battle(seconds, 0, false, false);
+      Serial.println("standby ack");
 
     } else if (command == "fountain") {
 
     } else if (command == "frenzy") {
+      Serial.print("next: minutes");
+      WaitInput();
+      int minutes = Serial.readStringUntil('\n').toInt();
+
+      PlayFrenzy(minutes);
+      Serial.println("frenzy ack");
 
     } else if (command == "move") {
-        Serial.println("next");
-        WaitInput();
-
         // Get moving duration (sec)
+        Serial.println("next: duration");
+        WaitInput();
         float duration = Serial.readStringUntil('\n').toFloat();
+
         duration *= 1000;
         if (duration < 0) {
             duration *= -1;
@@ -80,27 +100,29 @@ void loop() {
 
         delay(duration);
         Keyboard.releaseAll();
-        Serial.println("ack");
+        Serial.println("move ack");
 
     } else if (command == "updown") {
-        Serial.println("next");
-        WaitInput();
-
         // Get up down directoin
+        Serial.println("next: direction");
+        WaitInput();
         String direction = Serial.readStringUntil('\n');
+
         if (direction == "up") {
           SimpleSkill(true, ROPE);
-          delay(5000);
-          Serial.println("ack");
+          delay(3500);
+          Serial.println("up ack");
         } else if (direction == "down"){
           DownJump();
-          delay(3000);
-          Serial.println("ack");
+          delay(2500);
+          Serial.println("down ack");
         } else {
           Serial.println("Unknown updown direction");
         }
+        
     } else if (command == "mine") {
-
+      //SimpleSkill(true, )
+      //delay(500);
     } else if (command == "rune") {
 
     } else {
@@ -127,14 +149,9 @@ void PlayFrenzy(int minutes) {
       FrenzyStart = millis();
       Move(notRobot, 2, minDelay, maxDelay);
       SimpleSkill(true, FRENZY);
-      Serial.print("Play frenzy at time: ");
-      Serial.print(second / 60);
-      Serial.print("min ");
-      Serial.print(second % 60);
-      Serial.println("sec");
+
       // frenzy delay
       delay(3000);
-      
     }
 
     // time set
@@ -226,9 +243,6 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
       SimpleSkill(direction, FRENZY);      
       FrenzyStart = millis();
       delay(random(700, 1000));
-      
-      Serial.print(second);
-      Serial.println("Frenzy");
     }
 
     // Fantasy
@@ -236,8 +250,6 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
       SimpleSkill(direction, FANTASY);
       FantasyStart = millis();
       delay(600);
-      Serial.print(second);
-      Serial.println("Fantasy");
     }
         
     // Tornado
@@ -247,9 +259,6 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
       Tornado(direction);
       TornadoStart = millis();
       delay(random(700, 1000));
-      
-      Serial.print(second);
-      Serial.println("Tornado");
       underAttack = true;
     }
 
@@ -257,16 +266,9 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     time = millis();
     second = (time-start)/1000;
     if (startUp || (time-SwirlStart)/1000 > SWIRL_CD) {
-      if (hunting_graph == 4) {
-        // spring1 only use swirl with direction true
-        direction = true;
-      }
       Swirl(direction);
       SwirlStart = millis();
       delay(random(800, 1000));
-      
-      Serial.print(second);
-      Serial.println("Swirl");
     }
 
     // Bird
@@ -276,9 +278,6 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
       SimpleSkill(direction, BIRD);
       BirdStart = millis();
       delay(random(800, 1000));
-        
-      Serial.print(second);
-      Serial.println("Bird");
     }
 
     // Monsoon
@@ -288,9 +287,6 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
       SimpleSkill(direction, MONSOON);
       MonsoonStart = millis();
       delay(random(1500, 1700));
-      
-      Serial.print(second);
-      Serial.println("Monsoon");
     }
 
     // Buffs
@@ -301,9 +297,6 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
         SimpleSkill(direction, BUFF[i]);
         buffStart[i] = millis();
         delay(random(800, 1000));
-      
-        Serial.print(second);
-        Serial.println(BUFF_NAME[i]);
       }
     }
 
@@ -312,38 +305,22 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     second = (time-start)/1000;
     if (useFountain && (startUp || (time-FountainStart)/1000 > FOUNTAIN_CD)) {
       // Move to the specific position
-      // MoveToFountain_2_6();
-      MoveToFountain_library4();
+      MoveToFountain();
       
       // Fountain
       Fountain(false);
       FountainStart = millis();
       delay(random(800, 1000));
-
-      Serial.print(second);
-      Serial.println("Fountain");
          
       // Move back to origin position
-      // BackFromFountain_2_6();
-      BackFromFountain_library4();
+      BackFromFountain();
     }
 
     // Money
     time = millis();
     second = (time-start)/1000;
     if (startUp || (underAttack && (time-MoneyStart)/1000 > MONEY_CD)) {
-      if (collectMoney) {
-        // Collect money
-        if (hunting_graph == 3) {
-          CollectMoney_alley2();
-        } else if (hunting_graph == 4) {
-          CollectMoney_spring1();
-        } else {
-          CollectMoney_alley2();
-        }
-      // CollectMoney_2_6();
-      // CollectMoney_library4();
-      }
+      CollectMoney(collectMoney, 3);
       MoneyStart = millis();
     }
     delay(random(50, 100));
@@ -617,21 +594,9 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
     delay(random(minDelay[i], maxDelay[i]));
   }
 }
+
 /************** Library 4 ***************/
 void MoveToFountain_library4() {
-  unsigned long rand = random(1);
-  if (rand == 0) {
-    MoveToFountainA_library4();
-  } else if (rand == 1) {
-
-  } else if (rand == 2) {
-
-  } else if (rand == 3) {
-
-  }
-}
-
-void MoveToFountainA_library4() {
   char commands[] = {'e', 'd'};
   unsigned long minDelay[] = {400, 750};
   unsigned long maxDelay[] = {410, 850};
@@ -646,21 +611,29 @@ void BackFromFountain_library4() {
 }
 
 void CollectMoney_alley2() {
-  MoveToFountainA_library4();
+  char premove[] = {'e', 'd'};
+  unsigned long minDelay[] = {400, 750};
+  unsigned long maxDelay[] = {410, 850};
+  Move(premove, 2, minDelay, maxDelay);
   delay(800);
+
   char commands[] = {'s', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'w', 'd', 'd', 'e', 'e'};
-  unsigned long minDelay[] = {900, 580, 580, 580, 580, 580, 580, 580, 700, 700, 1000, 650, 650};
-  unsigned long maxDelay[] = {1000, 600, 600, 600, 600, 600, 600, 600, 800, 800, 1100, 700, 700};
-  Move(commands, 13, minDelay, maxDelay);
+  unsigned long minDelay2[] = {900, 580, 580, 580, 580, 580, 580, 580, 700, 700, 1000, 650, 650};
+  unsigned long maxDelay2[] = {1000, 600, 600, 600, 600, 600, 600, 600, 800, 800, 1100, 700, 700};
+  Move(commands, 13, minDelay2, maxDelay2);
 }
 
 void CollectMoney_library4() {
-  MoveToFountainA_library4();
+  char premove[] = {'e', 'd'};
+  unsigned long minDelay[] = {400, 750};
+  unsigned long maxDelay[] = {410, 850};
+  Move(premove, 2, minDelay, maxDelay);
   delay(800);
+
   char commands[] = {'s', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'w', 'd', 'd', 'e', 'd'};
-  unsigned long minDelay[] = {900, 580, 580, 580, 580, 580, 580, 580, 700, 700, 1000, 400, 900};
-  unsigned long maxDelay[] = {1000, 600, 600, 600, 600, 600, 600, 600, 800, 800, 1100, 450, 1000};
-  Move(commands, 13, minDelay, maxDelay);
+  unsigned long minDelay2[] = {900, 580, 580, 580, 580, 580, 580, 580, 700, 700, 1000, 400, 900};
+  unsigned long maxDelay2[] = {1000, 600, 600, 600, 600, 600, 600, 600, 800, 800, 1100, 450, 1000};
+  Move(commands, 13, minDelay2, maxDelay2);
 }
 
 /************** 2-6 ***************/
@@ -745,7 +718,7 @@ void CollectMoneyA_2_6() {
 }
 
 void CollectMoney_spring1() {
-  MoveToFountainA_library4();
+  MoveToFountain_library4();
   delay(800);
   char commands[] = {'s', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'w', 'd', 'd', 'e', 'x'};
   unsigned long minDelay[] = {900, 580, 580, 580, 580, 580, 580, 580, 700, 700, 1000, 650, 300};
@@ -753,7 +726,33 @@ void CollectMoney_spring1() {
   Move(commands, 13, minDelay, maxDelay);
 }
 
-/**********************************/
+/* ============ Move to Fountain ============ */
+void MoveToFountain() {
+  // MoveToFountain_2_6();
+  MoveToFountain_library4();
+}
+
+/* ============ Back from Fountain ============ */
+void BackFromFountain() {
+  // BackFromFountain_2_6();
+  BackFromFountain_library4();
+}
+
+/* ============ Collect Money ============ */
+void CollectMoney(bool collect, int graph) {
+  if (collect == true) {
+    // Collect money
+    if (graph == 3) {
+      CollectMoney_alley2();
+    } else if (graph == 4) {
+      CollectMoney_spring1();
+    } else {
+      CollectMoney_alley2();
+    }
+  }
+}
+
+/* ========================================== */
 void WaitInput() {
   for (;Serial.available() <= 0;) {
     // Waiting input
