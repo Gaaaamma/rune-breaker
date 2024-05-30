@@ -134,9 +134,12 @@ class Map():
     def ask_rune_breaker(self) -> str:
         """Use HTTP requests to ask rune-breaker"""
 
-        self.screenshot()
+        # Get 800 x 600 screen image
+        image = pyautogui.screenshot(region=(
+        0, 0, SETTINGS.screenshot_width, SETTINGS.screenshot_height
+        ))
         image_byte = BytesIO()
-        self.image.save(image_byte, format='PNG')
+        image.save(image_byte, format='PNG')
         image_byte.seek(0)
 
         rune_upload: str = f"http://{SETTINGS.rune_host}:{SETTINGS.rune_port}{SETTINGS.rune_upload}"
