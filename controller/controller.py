@@ -23,7 +23,11 @@ input()
 p2 = pyautogui.position()
 
 maple_map = Map(p1.x, p1.y, p2.x, p2.y)
-# maple_map.screenshot()
+
+# ========= Try to solve rune =========
+time.sleep(5)
+logger.info("Ready to solve rune for testing")
+maple_map.solve_rune(comm)
 
 
 # ========= Find location of wheel and player =========

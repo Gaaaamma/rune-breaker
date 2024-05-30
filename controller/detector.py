@@ -95,6 +95,7 @@ class Map():
         self.find_player()
         wheel_exist: bool = self.find_wheel()
         if not wheel_exist:
+            logger.warning("Wheel isn't exist now")
             return
 
         # Moving x axis
@@ -104,6 +105,7 @@ class Map():
             self.screenshot()
             self.find_player()
             player_to_wheel_x = self.wheel_x - self.player_x
+            logger.info(f"Player and Wheel distance X: {player_to_wheel_x}")
 
         # Moving y axis
         self.screenshot()
@@ -116,8 +118,10 @@ class Map():
             self.find_player()
             wheel_exist = self.find_wheel()
             player_to_wheel_y = self.wheel_y - self.player_y
+            logger.info(f"Player and Wheel distance Y: {player_to_wheel_y}")
 
         # Mine
+        logger.info("At wheel position: Ready to mine")
         comm.mine()
         
         # Ask rune-break for answer
