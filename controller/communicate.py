@@ -68,7 +68,7 @@ class Communicator():
         """Control player to move to wheel in y axis"""
 
         # Decide to jump up or jump down
-        direction: str = "up" if player_to_y > 0 else "down"
+        direction: str = "up" if player_to_y < 0 else "down"
         commands: List[str] = ["updown", direction]
         for cmd in commands:
             self.ask_ack(cmd)

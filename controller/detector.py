@@ -11,13 +11,19 @@ import requests
 from http import HTTPStatus
 
 class Map():
-    def __init__(self, x1: int, y1: int, x2: int, y2: int) -> None:
+    def __init__(
+        self, x1: int, y1: int,
+        x2: int, y2: int,
+        standby_x: int, standby_y: int,
+    ) -> None:
         self.x1: int = x1
         self.y1: int = y1
         self.x2: int = x2
         self.y2: int = y2
         self.width: int = x2 - x1
         self.height: int = y2 - y1
+        self.standby_x: int = standby_x - self.x1
+        self.standby_y: int = standby_y - self.y1
 
         self.wheel_x: int = -1
         self.wheel_y: int = -1
@@ -87,49 +93,61 @@ class Map():
             logger.info(f"({x}, {y}) = {pixel}")
             time.sleep(1)
 
-    def solve_rune(self, comm: Communicator):
-        """Solve rune"""
+    def solve_rune(self, comm: Communicator) -> bool:
+        """
+        Solve rune
+        return True: rune exists and is solved by Leonardo
+        return False: rune isn't exist
+        """
 
         # Get rune and player position
         self.screenshot()
         self.find_player()
         wheel_exist: bool = self.find_wheel()
         if not wheel_exist:
-            logger.warning("Wheel isn't exist now")
-            return
-
-        # Moving x axis
-        player_to_wheel_x: int = self.wheel_x - self.player_x
-        while wheel_exist and abs(player_to_wheel_x) > SETTINGS.x_miss:
-            comm.go_to_x(player_to_wheel_x)
-            self.screenshot()
-            self.find_player()
-            player_to_wheel_x = self.wheel_x - self.player_x
-            logger.info(f"Player and Wheel distance X: {player_to_wheel_x}")
-
-        # Moving y axis
-        self.screenshot()
-        self.find_player()
-        wheel_exist = self.find_wheel()
-        player_to_wheel_y: int = self.player_y - self.wheel_y
-        while wheel_exist and abs(player_to_wheel_y) > SETTINGS.y_miss:
-            comm.go_to_y(player_to_wheel_y)
-            self.screenshot()
-            self.find_player()
-            wheel_exist = self.find_wheel()
-            player_to_wheel_y = self.player_y - self.wheel_y
-            logger.info(f"Player and Wheel distance Y: {player_to_wheel_y}")
-
-        # Mine
-        logger.info("At wheel position: Ready to mine")
-        time.sleep(1)
-        comm.mine()
+            logger.warning("Wheel isn't exist now - not solved")
+            return False
         
-        # Ask rune-break for answer
-        answer: str = self.ask_rune_breaker()
+        while wheel_exist:
+            # Moving x axis
+            player_to_wheel_x: int = self.wheel_x - self.player_x
+            while abs(player_to_wheel_x) > SETTINGS.x_miss:
+                comm.go_to_x(player_to_wheel_x)
+                self.screenshot()
+                self.find_player()
+                player_to_wheel_x = self.wheel_x - self.player_x
+                logger.info(f"Player and Wheel distance X: {player_to_wheel_x}")
 
-        # Break rune
-        comm.break_rune(answer)
+            # Moving y axis
+            self.screenshot()
+            self.find_player()
+            player_to_wheel_y: int = self.wheel_y - self.player_y
+            while abs(player_to_wheel_y) > SETTINGS.y_miss:
+                comm.go_to_y(player_to_wheel_y)
+                self.screenshot()
+                self.find_player()
+                player_to_wheel_y = self.wheel_y - self.player_y
+                logger.info(f"Player and Wheel distance Y: {player_to_wheel_y}")
+
+            # Mine
+            logger.info("At wheel position: Ready to mine")
+            time.sleep(1)
+            comm.mine()
+        
+            # Ask rune-break for answer
+            answer: str = self.ask_rune_breaker()
+
+            # Break rune
+            comm.break_rune(answer)
+
+            # Move a little left/right to check if rune is solved
+            direction: int = -1 if self.wheel_x >= int(self.width / 2) else 1
+            comm.go_to_x(direction * SETTINGS.player_speed)
+            self.screenshot()
+            wheel_exist = self.find_wheel()
+            logger.info(f"Rune is solved: {not wheel_exist}")
+
+        return True
 
     def ask_rune_breaker(self) -> str:
         """Use HTTP requests to ask rune-breaker"""

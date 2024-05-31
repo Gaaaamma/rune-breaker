@@ -13,35 +13,43 @@ comm: Communicator = Communicator(
     baudrate=SETTINGS.baudrate,
 )
 
-# ========= Get map information =========
-logger.info("Move mouse to left-top corner of map and press 'Enter'")
-input()
-p1 = pyautogui.position()
+command: str = input("Please input command: ")
 
-logger.info("Move mouse to left-top corner of map and press 'Enter'")
-input()
-p2 = pyautogui.position()
+if command == "hunting":
+    logger.info("Hunting mode")
+    time.sleep(3)
 
-maple_map = Map(p1.x, p1.y, p2.x, p2.y)
+    # ========= Get map information =========
+    logger.info("Move mouse to left-top corner of map and press 'Enter'")
+    input()
+    p1 = pyautogui.position()
 
-# ========= Try to solve rune =========
-time.sleep(5)
-logger.info("Ready to solve rune for testing")
-maple_map.solve_rune(comm)
+    logger.info("Move mouse to left-top corner of map and press 'Enter'")
+    input()
+    p2 = pyautogui.position()
 
+    logger.info("Move mouse to standby position of map and press 'Enter'")
+    input()
+    standby = pyautogui.position()
 
-# ========= Find location of wheel and player =========
-# logger.info(f"Find wheel: {maple_map.find_wheel()} - ({maple_map.wheel_x}, {maple_map.wheel_y})")
-#logger.info(f"Find player: {maple_map.find_player()} - ({maple_map.player_x}, {maple_map.player_y})")
+    maple_map = Map(p1.x, p1.y, p2.x, p2.y, standby.x, standby.y)
 
-# ========== Testing communication between PC and Leonardo ============
-# TODO
+    # ========= working loop =========
+    while True:
+        logger.info(f"Hunting start: solve rune")
+        
+        rune_solved: bool = maple_map.solve_rune()
+        
+        logger.info("Player moves to standby position")
+        maple_map.screenshot()
+        maple_map.find_player()
+        comm.go_to_x(maple_map.standby_x - maple_map.player_x)
+        comm.go_to_y(maple_map.standby_y - maple_map.player_y)
 
-# Send hunting command to Leonardo
-# while not ser.writable():
-    # time.sleep(1)
+        if rune_solved:
+            comm.hunting(930)
+        else:
+            comm.standby(60)
 
-# Working loop
-# while True:
-    # pass
-# 
+else:
+    logger.info(f"Unknown command: {command}")
