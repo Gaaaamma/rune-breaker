@@ -41,10 +41,7 @@ if command == "hunting":
         rune_solved: bool = maple_map.solve_rune(comm)
         
         logger.info("Player moves to standby position")
-        maple_map.screenshot()
-        maple_map.find_player()
-        comm.go_to_x(maple_map.standby_x - maple_map.player_x)
-        comm.go_to_y(maple_map.standby_y - maple_map.player_y)
+        maple_map.go_to_position(maple_map.standby_x, maple_map.standby_y, comm)
 
         if rune_solved:
             comm.hunting(930)
