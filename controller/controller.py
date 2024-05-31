@@ -17,7 +17,6 @@ command: str = input("Please input command: ")
 
 if command == "hunting":
     logger.info("Hunting mode")
-    time.sleep(3)
 
     # ========= Get map information =========
     logger.info("Move mouse to left-top corner of map and press 'Enter'")
@@ -35,6 +34,7 @@ if command == "hunting":
     maple_map = Map(p1.x, p1.y, p2.x, p2.y, standby.x, standby.y)
 
     # ========= working loop =========
+    time.sleep(3)
     while True:
         logger.info(f"Hunting start: solve rune")
         
