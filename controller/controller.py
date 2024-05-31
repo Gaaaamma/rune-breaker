@@ -24,7 +24,7 @@ if command == "hunting":
     input()
     p1 = pyautogui.position()
 
-    logger.info("Move mouse to left-top corner of map and press 'Enter'")
+    logger.info("Move mouse to right-bottom corner of map and press 'Enter'")
     input()
     p2 = pyautogui.position()
 
@@ -38,7 +38,7 @@ if command == "hunting":
     while True:
         logger.info(f"Hunting start: solve rune")
         
-        rune_solved: bool = maple_map.solve_rune()
+        rune_solved: bool = maple_map.solve_rune(comm)
         
         logger.info("Player moves to standby position")
         maple_map.screenshot()
