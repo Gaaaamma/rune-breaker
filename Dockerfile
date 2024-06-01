@@ -5,9 +5,12 @@ FROM python:3.8-slim
 ENV TZ=Asia/Taipei
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update the package list and install tzdata for setting the timezone
+# Update the package list and install tzdata for setting the timezone and OpenCV dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends tzdata && \
+    apt-get install -y --no-install-recommends \
+    libgl1-mesa-glx \
+    libglib2.0-0 && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
     apt-get clean && \
