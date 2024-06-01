@@ -161,6 +161,7 @@ class Map():
         self.screenshot()
         self.find_player()
         player_to_x: int = x - self.player_x
+        logger.debug(f"x: {x}, self.player_x: {self.player_x}")
         while abs(player_to_x) > SETTINGS.x_miss:
             comm.go_to_x(player_to_x)
             self.screenshot()
