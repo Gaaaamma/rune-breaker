@@ -144,6 +144,7 @@ class Map():
             direction: int = -1 if self.wheel_x >= int(self.width / 2) else 1
             comm.go_to_x(direction * SETTINGS.player_speed)
             self.screenshot()
+            self.find_player()
             wheel_exist = self.find_wheel()
             logger.info(f"Rune is solved: {not wheel_exist}")
 
