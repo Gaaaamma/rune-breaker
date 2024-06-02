@@ -48,5 +48,9 @@ if command == "hunting":
         else:
             comm.standby(60)
 
+elif command == "color":
+    maple_map: Map = Map(0, 0, 0, 0, 0, 0)
+    maple_map.color_test()
+
 else:
     logger.info(f"Unknown command: {command}")
