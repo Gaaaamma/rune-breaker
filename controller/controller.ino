@@ -418,7 +418,7 @@ void SongSkyStandby(unsigned long period) {
   unsigned long time = millis();
   int second = (time-start)/1000;
   while (second < period) {
-    SongOfTheSky(direction, 80, 100, 500, 1000);
+    SongOfTheSky(direction, 120, 150, 500, 1000);
     direction = !direction;
     time = millis();
     second = (time-start)/1000;
