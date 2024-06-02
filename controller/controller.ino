@@ -73,7 +73,7 @@ void loop() {
 
       SongSkyStandby(seconds);
       Serial.println("songsky ack");
-      
+
     } else if (command == "standby") {
       // Get standby seconds
       Serial.println("next: seconds");
@@ -418,7 +418,7 @@ void SongSkyStandby(unsigned long period) {
   unsigned long time = millis();
   int second = (time-start)/1000;
   while (second < period) {
-    SongOfTheSky(direction, 10, 20, 500, 1000);
+    SongOfTheSky(direction, 80, 100, 500, 1000);
     direction = !direction;
     time = millis();
     second = (time-start)/1000;
