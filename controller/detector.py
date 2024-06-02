@@ -185,7 +185,10 @@ class Map():
 
         # Get 800 x 600 screen image
         image = pyautogui.screenshot(region=(
-        0, 0, SETTINGS.screenshot_width, SETTINGS.screenshot_height
+            SETTINGS.screenshot_x,
+            SETTINGS.screenshot_y,
+            SETTINGS.screenshot_width,
+            SETTINGS.screenshot_height,
         ))
         image_byte = BytesIO()
         image.save(image_byte, format='PNG')

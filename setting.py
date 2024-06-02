@@ -3,6 +3,8 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
+    screenshot_x: int = 0
+    screenshot_y: int = 0
     screenshot_width: int = 800
     screenshot_height: int = 600
     raw_data_dir: str = "./data/raw/"
