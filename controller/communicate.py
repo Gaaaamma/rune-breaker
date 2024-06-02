@@ -32,6 +32,13 @@ class Communicator():
         for cmd in commands:
             self.ask_ack(cmd)
 
+    def songsky(self, seconds: int):
+        """Control player to hunt(standby with songsky only) for seconds"""
+
+        commands: List[str] = ["songsky", str(seconds)]
+        for cmd in commands:
+            self.ask_ack(cmd)
+
     def standby(self, seconds: int):
         """Control player to hunt(standby) for seconds"""
 
@@ -72,7 +79,7 @@ class Communicator():
         commands: List[str] = ["updown", direction]
         for cmd in commands:
             self.ask_ack(cmd)
-    
+
     def mine(self):
         """Ask player to mine"""
         

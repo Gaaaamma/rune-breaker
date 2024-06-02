@@ -65,6 +65,15 @@ void loop() {
       Battle(seconds, 0, true, true);
       Serial.println("hunting ack");
 
+    } else if (command == "songsky") {
+      // Get wait seconds
+      Serial.println("next: seconds");
+      WaitInput();
+      int seconds = Serial.readStringUntil('\n').toInt();
+
+      SongSkyStandby(seconds);
+      Serial.println("songsky ack");
+      
     } else if (command == "standby") {
       // Get standby seconds
       Serial.println("next: seconds");
@@ -400,6 +409,19 @@ void ArrowMove(char direction[], int counts, unsigned long wait[]) {
 void WalkingSongSky(int times) {
   for (int i = 0; i < times; i++) {
     SongOfTheSky(true, 100, 105, 50, 55);
+  }
+}
+
+void SongSkyStandby(unsigned long period) {
+  bool direction = false;
+  unsigned long start = millis();
+  unsigned long time = millis();
+  int second = (time-start)/1000;
+  while (second < period) {
+    SongOfTheSky(direction, 10, 20, 500, 1000);
+    direction = !direction;
+    time = millis();
+    second = (time-start)/1000;
   }
 }
 

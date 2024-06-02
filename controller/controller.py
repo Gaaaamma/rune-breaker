@@ -44,9 +44,9 @@ if command == "hunting":
         maple_map.go_to_position(maple_map.standby_x, maple_map.standby_y, comm)
 
         if rune_solved:
-            comm.hunting(930)
+            comm.hunting(SETTINGS.hunting_time)
         else:
-            comm.standby(60)
+            comm.songsky(SETTINGS.songsky_time)
 
 elif command == "color":
     maple_map: Map = Map(0, 0, 0, 0, 0, 0)
