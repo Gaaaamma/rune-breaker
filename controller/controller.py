@@ -8,10 +8,10 @@ from logger import logger
 from controller.communicate import Communicator
 
 print(SETTINGS.board_port)
-# comm: Communicator = Communicator(
-#     port=SETTINGS.board_port,
-#     baudrate=SETTINGS.baudrate,
-# )
+comm: Communicator = Communicator(
+    port=SETTINGS.board_port,
+    baudrate=SETTINGS.baudrate,
+)
 
 # ========= Get map information =========
 logger.info("Move mouse to left-top corner of map and press 'Enter'")
