@@ -83,10 +83,15 @@ class Map():
             last_x = self.player_x
             time.sleep(1)
 
-    def color_test(self, x: int, y: int):
+    def color_test(self):
         """Test the color user point to"""
-
-        logger.info(f"({x}, {y}) = {self.image.getpixel((x, y))}")
+        while True:
+            point = pyautogui.position()
+            x, y = point
+            screenshot = ImageGrab.grab(bbox=(x, y, x+1, y+1))
+            pixel = screenshot.getpixel((0, 0))
+            logger.info(f"({x}, {y}) = {pixel}")
+            time.sleep(1)
 
     def solve_rune(self, comm: Communicator) -> bool:
         """

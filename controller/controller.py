@@ -49,12 +49,8 @@ if command == "hunting":
             comm.songsky(SETTINGS.songsky_time)
 
 elif command == "color":
-    while True:
-        p1 = pyautogui.position()
-        maple_map: Map = Map(p1.x, p1.y, p1.x+1, p1.y+1, 0, 0)
-        maple_map.screenshot()
-        maple_map.color_test(0, 0)
-        time.sleep(1)
+    maple_map: Map = Map(0, 0, 0, 0, 0, 0)
+    maple_map.color_test()
 
 else:
     logger.info(f"Unknown command: {command}")
