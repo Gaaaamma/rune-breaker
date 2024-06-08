@@ -51,6 +51,12 @@ class Settings(BaseSettings):
     player_r: int = 255
     player_g: int = 221
     player_b: int = 68
+    npc_r: int = 0
+    npc_g: int = 221
+    npc_b: int = 0
+    transport_r: int = 51
+    transport_g: int = 204
+    transport_b: int = 255
     player_speed: int = 15 # pixels/second
     x_miss: int = 6
     y_miss: int = 5
