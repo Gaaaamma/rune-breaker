@@ -310,7 +310,7 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     time = millis();
     second = (time-start)/1000;
     if (startUp || (time-SwirlStart)/1000 > SWIRL_CD) {
-      Swirl(direction);
+      Swirl(true);
       SwirlStart = millis();
       delay(random(800, 1000));
     }
@@ -364,7 +364,7 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     time = millis();
     second = (time-start)/1000;
     if (startUp || (underAttack && (time-MoneyStart)/1000 > MONEY_CD)) {
-      CollectMoney(collectMoney, 3);
+      CollectMoney(collectMoney, 0);
       MoneyStart = millis();
     }
     delay(random(50, 100));
@@ -647,12 +647,28 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
       WalkLatency(false, 200, 250);
     } else if (direction[i] == 'x') {
       WalkLatency(true, 200, 250);
+    } else if (direction[i] == 'p') {
+      SimpleSkill(true, ROPE);
     }
     delay(random(minDelay[i], maxDelay[i]));
   }
 }
 
-/************** Library 4 ***************/
+/************** Fountain ***************/
+void MoveToFountain_eastside() {
+  char commands[] = {'q', 'w', 'w', 'd', 'd', 'd', 'd', 'd', 'd', 'a', 'p'};
+  unsigned long minDelay[] = {400, 600, 600, 600, 600, 600, 600, 600, 600, 600, 2000};
+  unsigned long maxDelay[] = {410, 650, 650, 650, 650, 650, 650, 650, 650, 650, 2050};
+  Move(commands, 11, minDelay, maxDelay);
+}
+
+void BackFromFountain_eastside() {
+  char commands[] = {'q', 'q', 'q', 's', 'x'};
+  unsigned long minDelay[] = {800, 800, 800, 800, 800};
+  unsigned long maxDelay[] = {810, 810, 810, 810, 810,};
+  Move(commands, 5, minDelay, maxDelay);
+}
+
 void MoveToFountain_library4() {
   char commands[] = {'e', 'd'};
   unsigned long minDelay[] = {400, 750};
@@ -786,13 +802,15 @@ void CollectMoney_spring1() {
 /* ============ Move to Fountain ============ */
 void MoveToFountain() {
   // MoveToFountain_2_6();
-  MoveToFountain_library4();
+  // MoveToFountain_library4();
+  MoveToFountain_eastside();
 }
 
 /* ============ Back from Fountain ============ */
 void BackFromFountain() {
   // BackFromFountain_2_6();
-  BackFromFountain_library4();
+  // BackFromFountain_library4();
+  BackFromFountain_eastside();
 }
 
 /* ============ Collect Money ============ */
@@ -803,8 +821,6 @@ void CollectMoney(bool collect, int graph) {
       CollectMoney_alley2();
     } else if (graph == 4) {
       CollectMoney_spring1();
-    } else {
-      CollectMoney_alley2();
     }
   }
 }
