@@ -8,30 +8,30 @@ from logger import logger
 from controller.communicate import Communicator
 
 print(SETTINGS.board_port)
-comm: Communicator = Communicator(
-    port=SETTINGS.board_port,
-    baudrate=SETTINGS.baudrate,
-)
+# comm: Communicator = Communicator(
+#     port=SETTINGS.board_port,
+#     baudrate=SETTINGS.baudrate,
+# )
+
+# ========= Get map information =========
+logger.info("Move mouse to left-top corner of map and press 'Enter'")
+input()
+p1 = pyautogui.position()
+
+logger.info("Move mouse to right-bottom corner of map and press 'Enter'")
+input()
+p2 = pyautogui.position()
+
+logger.info("Move mouse to standby position of map and press 'Enter'")
+input()
+standby = pyautogui.position()
+
+maple_map = Map(p1.x, p1.y, p2.x, p2.y, standby.x, standby.y)
 
 command: str = input("Please input command: ")
 
 if command == "hunting":
     logger.info("Hunting mode")
-
-    # ========= Get map information =========
-    logger.info("Move mouse to left-top corner of map and press 'Enter'")
-    input()
-    p1 = pyautogui.position()
-
-    logger.info("Move mouse to right-bottom corner of map and press 'Enter'")
-    input()
-    p2 = pyautogui.position()
-
-    logger.info("Move mouse to standby position of map and press 'Enter'")
-    input()
-    standby = pyautogui.position()
-
-    maple_map = Map(p1.x, p1.y, p2.x, p2.y, standby.x, standby.y)
 
     # ========= working loop =========
     time.sleep(3)
@@ -49,7 +49,7 @@ if command == "hunting":
             comm.songsky(SETTINGS.songsky_time)
 
 elif command == "color":
-    maple_map: Map = Map(0, 0, 0, 0, 0, 0)
+    maple_map.screenshot()
     maple_map.color_test()
 
 else:

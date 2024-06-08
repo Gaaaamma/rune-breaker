@@ -85,13 +85,12 @@ class Map():
 
     def color_test(self):
         """Test the color user point to"""
-        while True:
-            point = pyautogui.position()
-            x, y = point
-            screenshot = ImageGrab.grab(bbox=(x, y, x+1, y+1))
-            pixel = screenshot.getpixel((0, 0))
-            logger.info(f"({x}, {y}) = {pixel}")
-            time.sleep(1)
+        
+        for row in range(self.height):
+            for col in range(self.width):
+                rgba = self.image.getpixel((col, row))
+                r, g, b = rgba
+                logger.info(f"({col}, {row}) = ({r}, {g}, {b})")
 
     def solve_rune(self, comm: Communicator) -> bool:
         """
