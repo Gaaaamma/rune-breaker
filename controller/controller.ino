@@ -656,7 +656,7 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
 
 /************** Fountain ***************/
 void MoveToFountain_eastside() {
-  char commands[] = {'q', 'w', 'w', 'd', 'd', 'd', 'd', 'd', 'd', 'a', 'p'};
+  char commands[] = {'q', 'a', 'a', 'd', 'd', 'd', 'd', 'd', 'd', 'a', 'p'};
   unsigned long minDelay[] = {400, 600, 600, 600, 600, 600, 600, 600, 600, 600, 2000};
   unsigned long maxDelay[] = {410, 650, 650, 650, 650, 650, 650, 650, 650, 650, 2050};
   Move(commands, 11, minDelay, maxDelay);
