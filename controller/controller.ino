@@ -818,10 +818,10 @@ void CollectMoney_spring1() {
 void CollectMoney_fall1() {
   MoveToFountain_fall1();
   delay(800);
-  char commands[] = {'e', 'e', 'a', 'a', 's', 'b', 's', 'e', 'd'};
-  unsigned long minDelay[] = {580, 1300, 580, 580, 650, 700, 800, 400, 580};
-  unsigned long maxDelay[] = {600, 1350, 600, 600, 660, 750, 810, 430, 600};
-  Move(commands, 9, minDelay, maxDelay);
+  char commands[] = {'e', 'e', 'a', 'a', 's', 'b', 's', 's', 's', 's' 'e', 'd'};
+  unsigned long minDelay[] = {580, 1300, 580, 580, 650, 700, 800, 800, 800, 800, 400, 580};
+  unsigned long maxDelay[] = {600, 1350, 600, 600, 660, 750, 810, 810, 810, 810, 430, 600};
+  Move(commands, 12, minDelay, maxDelay);
 }
 
 /* ============ Move to Fountain ============ */
