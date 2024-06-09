@@ -819,8 +819,8 @@ void CollectMoney_fall1() {
   MoveToFountain_fall1();
   delay(800);
   char commands[] = {'e', 'a', 'a', 's', 'b', 's', 'e', 'd'};
-  unsigned long minDelay[] = {1300, 580, 580, 650, 700, 650, 600, 580};
-  unsigned long maxDelay[] = {1350, 600, 600, 660, 750, 660, 630, 600};
+  unsigned long minDelay[] = {1300, 580, 580, 650, 700, 800, 400, 580};
+  unsigned long maxDelay[] = {1350, 600, 600, 660, 750, 810, 430, 600};
   Move(commands, 8, minDelay, maxDelay);
 }
 
