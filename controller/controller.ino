@@ -310,7 +310,7 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     time = millis();
     second = (time-start)/1000;
     if (startUp || (time-SwirlStart)/1000 > SWIRL_CD) {
-      Swirl(true);
+      Swirl(direction);
       SwirlStart = millis();
       delay(random(800, 1000));
     }
@@ -364,7 +364,7 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     time = millis();
     second = (time-start)/1000;
     if (startUp || (underAttack && (time-MoneyStart)/1000 > MONEY_CD)) {
-      CollectMoney(collectMoney, 0);
+      CollectMoney(collectMoney, 5);
       MoneyStart = millis();
     }
     delay(random(50, 100));
@@ -632,9 +632,9 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
     } else if (direction[i] == 'd') {
       WindMove(true, 80, 100);
     } else if (direction[i] == 'q') {
-      DoubleJumpLatency(false, 90, 120);
+      DoubleJumpLatency(false, 110, 120);
     } else if (direction[i] == 'e') {
-      DoubleJumpLatency(true, 90, 120);
+      DoubleJumpLatency(true, 110, 120);
     } else if (direction[i] == 'l') {
       Turn(false);
     } else if (direction[i] == 'r') {
@@ -649,6 +649,8 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
       WalkLatency(true, 200, 250);
     } else if (direction[i] == 'p') {
       SimpleSkill(true, ROPE);
+    } else if (direction[i] == 'b') {
+      Tornado(true);
     }
     delay(random(minDelay[i], maxDelay[i]));
   }
@@ -667,6 +669,20 @@ void BackFromFountain_eastside() {
   unsigned long minDelay[] = {800, 800, 800, 800, 800};
   unsigned long maxDelay[] = {810, 810, 810, 810, 810,};
   Move(commands, 5, minDelay, maxDelay);
+}
+
+void MoveToFountain_fall1() {
+  char commands[] = {'e', 'd'};
+  unsigned long minDelay[] = {400, 750};
+  unsigned long maxDelay[] = {410, 850};
+  Move(commands, 2, minDelay, maxDelay);
+}
+
+void BackFromFountain_fall1() {
+  char commands[] = {'q', 'a'};
+  unsigned long minDelay[] = {400, 900};
+  unsigned long maxDelay[] = {410, 1000};
+  Move(commands, 2, minDelay, maxDelay);
 }
 
 void MoveToFountain_library4() {
@@ -799,18 +815,29 @@ void CollectMoney_spring1() {
   Move(commands, 13, minDelay, maxDelay);
 }
 
+void CollectMoney_fall1() {
+  MoveToFountain_fall1();
+  delay(800);
+  char commands[] = {'e', 'a', 'a', 's', 'b', 's', 'e', 'd'};
+  unsigned long minDelay[] = {1300, 580, 580, 650, 700, 650, 600, 580};
+  unsigned long maxDelay[] = {1350, 600, 600, 660, 750, 660, 630, 600};
+  Move(commands, 8, minDelay, maxDelay);
+}
+
 /* ============ Move to Fountain ============ */
 void MoveToFountain() {
   // MoveToFountain_2_6();
   // MoveToFountain_library4();
-  MoveToFountain_eastside();
+  MoveToFountain_fall1()
+  // MoveToFountain_eastside();
 }
 
 /* ============ Back from Fountain ============ */
 void BackFromFountain() {
   // BackFromFountain_2_6();
   // BackFromFountain_library4();
-  BackFromFountain_eastside();
+  BackFromFountain_fall1();
+  // BackFromFountain_eastside();
 }
 
 /* ============ Collect Money ============ */
@@ -821,6 +848,8 @@ void CollectMoney(bool collect, int graph) {
       CollectMoney_alley2();
     } else if (graph == 4) {
       CollectMoney_spring1();
+    } else if (graph == 5) {
+      CollectMoney_fall1();
     }
   }
 }
