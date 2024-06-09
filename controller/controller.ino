@@ -828,7 +828,7 @@ void CollectMoney_fall1() {
 void MoveToFountain() {
   // MoveToFountain_2_6();
   // MoveToFountain_library4();
-  MoveToFountain_fall1()
+  MoveToFountain_fall1();
   // MoveToFountain_eastside();
 }
 
