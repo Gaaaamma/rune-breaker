@@ -8,6 +8,33 @@ KEY_RIGHT_ARROW
 const char CONFIRM = 'y';
 const char ENTER = 10;
 
+const char BOSS = '.';
+const char ITEM = 'i';
+const int BOSS_PAGE_NUM = 14;
+const long BOSS_FIRST_X = -30000;
+const long BOSS_FIRST_Y = -23500;
+const long BOSS_MOVE_X = -15000;
+const long BOSS_MOVE_Y = 1500;
+const long BOSS_NEXT_PAGE_X = -30000;
+const long BOSS_NEXT_PAGE_Y = 4000;
+const long BOSS_DISTANCE_Y = 2000;
+const int BOSS_COUNTS = 12;
+const int BOSS_LIST[BOSS_COUNTS] = {7, 2, 3, 4, 8, 9, 10, 11, 12, 13, 14, 17};
+const long LEFT_TOP_ITEM_X = -31500;
+const long LEFT_TOP_ITEM_Y = -28000;
+const long MAGNUS_OUT_SEAT_X = -26500;
+const long MAGNUS_OUT_SEAT_Y = 0;
+const long HILLA_OUT_SEAT_X = -25500;
+const long HILLA_OUT_SEAT_Y = -2000;
+const long CHAOS4_OUT_X = -30000;
+const long CHAOS4_OUT_Y = -2000;
+const long CHAOS4_ACTIVATE_X = 0;
+const long CHAOS4_ACTIVATE_Y = 0;
+const long VONLEON_OUT_X = -22000;
+const long VONLEON_OUT_Y = -2000;
+const long PINKBEAN_ACTIVATE_X = -8000;
+const long PINKBEAN_ACTIVATE_Y = -3000;
+
 const char GUIDE = 'u';
 const long GUIDE_FIRST_X = -30000;
 const long GUIDE_FIRST_Y = -2000;
@@ -169,6 +196,13 @@ void loop() {
       }
       Serial.println("rune ack");
 
+    } else if (command == "boss") {
+      Serial.print("next: boss moving index");
+      WaitInput();
+      int index = Serial.readStringUntil('\n').toInt();
+
+      BossMoving(index);
+      Serial.println("boss moving ack");
     } else {
         // Unknown command
         Serial.println("Unknown command");
@@ -822,6 +856,30 @@ void CollectMoney_fall1() {
   unsigned long minDelay[] = {580, 1300, 580, 580, 650, 700, 800, 800, 800, 800, 400, 580};
   unsigned long maxDelay[] = {600, 1350, 600, 600, 660, 750, 810, 810, 810, 810, 430, 600};
   Move(commands, 12, minDelay, maxDelay);
+}
+
+// ====================== Daily boss ======================
+void BossMoving(int index) {
+  // Open UI
+  Keyboard.write(BOSS);
+  delay(1000);
+
+  if (index / BOSS_PAGE_NUM > 0) {
+    // Need to go to next page
+    AbsoluteMouse.moveTo(BOSS_NEXT_PAGE_X, BOSS_NEXT_PAGE_Y);
+    delay(1000);
+    AbsoluteMouse.click(MOUSE_LEFT);
+    delay(1000);
+  }
+  // Move mouse to the BOSS location
+  AbsoluteMouse.moveTo(BOSS_FIRST_X, BOSS_FIRST_Y + (index % BOSS_PAGE_NUM) * BOSS_DISTANCE_Y);
+  delay(500);
+  AbsoluteMouse.click(MOUSE_LEFT);
+  delay(500);
+  AbsoluteMouse.moveTo(BOSS_MOVE_X, BOSS_MOVE_Y);
+  delay(500);
+  AbsoluteMouse.click(MOUSE_LEFT);
+  delay(1000);
 }
 
 /* ============ Move to Fountain ============ */
