@@ -197,7 +197,7 @@ void loop() {
       Serial.println("rune ack");
 
     } else if (command == "boss") {
-      Serial.print("next: boss moving index");
+      Serial.println("next: boss moving index");
       WaitInput();
       int index = Serial.readStringUntil('\n').toInt();
 
