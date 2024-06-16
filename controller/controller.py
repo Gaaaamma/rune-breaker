@@ -24,7 +24,7 @@ while True:
         while True:
             logger.info(f"Find NPC to check if we are in the village")
             if maple_map.find_npc():
-                logger.info(f"Find NPC - stop the program to prevent from dancing in the village")
+                logger.info(f"Find NPC - stop hunting to prevent from dancing in the village")
                 break
 
             logger.info(f"Hunting start: solve rune")
