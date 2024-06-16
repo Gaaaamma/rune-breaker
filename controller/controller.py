@@ -1,8 +1,5 @@
-import serial
 import time
-
-import pyautogui
-from controller.detector import Map
+from controller.detector import Map, initialize_map
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
@@ -14,43 +11,39 @@ comm: Communicator = Communicator(
 )
 
 # ========= Get map information =========
-logger.info("Move mouse to left-top corner of map and press 'Enter'")
-input()
-p1 = pyautogui.position()
+maple_map: Map = initialize_map()
 
-logger.info("Move mouse to right-bottom corner of map and press 'Enter'")
-input()
-p2 = pyautogui.position()
+while True:
+    command: str = input("Please input command: ")
 
-logger.info("Move mouse to standby position of map and press 'Enter'")
-input()
-standby = pyautogui.position()
+    if command == "hunting":
+        logger.info("Hunting mode")
 
-maple_map = Map(p1.x, p1.y, p2.x, p2.y, standby.x, standby.y)
+        # ========= working loop =========
+        time.sleep(3)
+        while True:
+            logger.info(f"Find NPC to check if we are in the village")
+            if maple_map.find_npc():
+                logger.info(f"Find NPC - stop the program to prevent from dancing in the village")
+                break
 
-command: str = input("Please input command: ")
+            logger.info(f"Hunting start: solve rune")
+            rune_solved: bool = maple_map.solve_rune(comm)
 
-if command == "hunting":
-    logger.info("Hunting mode")
+            logger.info("Player moves to standby position")
+            maple_map.go_to_position(maple_map.standby_x, maple_map.standby_y, comm)
 
-    # ========= working loop =========
-    time.sleep(3)
-    while True:
-        logger.info(f"Hunting start: solve rune")
-        
-        rune_solved: bool = maple_map.solve_rune(comm)
-        
-        logger.info("Player moves to standby position")
-        maple_map.go_to_position(maple_map.standby_x, maple_map.standby_y, comm)
+            if rune_solved:
+                comm.hunting(SETTINGS.hunting_time)
+            else:
+                comm.songsky(SETTINGS.songsky_time)
 
-        if rune_solved:
-            comm.hunting(SETTINGS.hunting_time)
-        else:
-            comm.songsky(SETTINGS.songsky_time)
+    elif command == "color":
+        maple_map.screenshot()
+        maple_map.color_test()
 
-elif command == "color":
-    maple_map.screenshot()
-    maple_map.color_test()
+    elif command == "reset":
+        maple_map = initialize_map()
 
-else:
-    logger.info(f"Unknown command: {command}")
+    else:
+        logger.info(f"Unknown command: {command}")

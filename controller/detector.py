@@ -1,14 +1,13 @@
 import time
 import pyautogui
-from PIL import ImageGrab
 from typing import Dict
-from serial import Serial
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
 from io import BytesIO
 import requests
 from http import HTTPStatus
+
 
 class Map():
     def __init__(
@@ -69,6 +68,22 @@ class Map():
             r == SETTINGS.player_r and
             g == SETTINGS.player_g and 
             b == SETTINGS.player_b
+        )
+    
+    def find_npc(self) -> bool:
+        self.screenshot()
+        for row in range(self.height):
+            for col in range(self.width):
+                if self.is_npc(self.image.getpixel((col, row))):
+                    return True
+        return False
+
+    def is_npc(self, rgba) -> bool:
+        r, g, b = rgba
+        return (
+            r == SETTINGS.npc_r and
+            g == SETTINGS.npc_g and 
+            b == SETTINGS.npc_b
         )
 
     def speed_test(self):
@@ -209,3 +224,21 @@ class Map():
         
         logger.error(f"Rune-break Fail: {response.status_code} - {response.reason}")
         return ""
+
+def initialize_map() -> Map:
+    """Procedure to initialize the map"""
+
+    logger.info("Move mouse to left-top corner of map and press 'Enter'")
+    input()
+    p1 = pyautogui.position()
+
+    logger.info("Move mouse to right-bottom corner of map and press 'Enter'")
+    input()
+    p2 = pyautogui.position()
+
+    logger.info("Move mouse to standby position of map and press 'Enter'")
+    input()
+    standby = pyautogui.position()
+
+    maple_map = Map(p1.x, p1.y, p2.x, p2.y, standby.x, standby.y)
+    return maple_map
