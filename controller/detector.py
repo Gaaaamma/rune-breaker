@@ -121,12 +121,17 @@ class Map():
             self.screenshot()
             self.find_player()
             player_to_wheel_y: int = self.wheel_y - self.player_y
+            y_fail: int = 0
             while abs(player_to_wheel_y) > SETTINGS.y_miss:
+                if y_fail >= SETTINGS.y_fail_threshold:
+                    logger.info(f"Player go_to_y fails {y_fail} times - CANCEL")
+                    break
                 comm.go_to_y(player_to_wheel_y)
                 self.screenshot()
                 self.find_player()
                 player_to_wheel_y = self.wheel_y - self.player_y
                 logger.info(f"Player and Wheel distance Y: {player_to_wheel_y}")
+                y_fail += 1
 
             # Mine
             logger.info("At wheel position: Ready to mine")
