@@ -86,6 +86,22 @@ class Map():
             b == SETTINGS.npc_b
         )
 
+    def find_others(self) -> bool:
+        self.screenshot()
+        for row in range(self.height):
+            for col in range(self.width):
+                if self.is_others(self.image.getpixel((col, row))):
+                    return True
+        return False
+
+    def is_others(self, rgba) -> bool:
+        r, g, b = rgba
+        return (
+            r == SETTINGS.others_r and
+            g == SETTINGS.others_g and 
+            b == SETTINGS.others_b
+        )
+
     def speed_test(self):
         """Test player moving speed"""
         

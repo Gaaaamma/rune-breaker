@@ -54,6 +54,9 @@ class Settings(BaseSettings):
     npc_r: int = 0
     npc_g: int = 221
     npc_b: int = 0
+    others_r: int = 255
+    others_g: int = 0
+    others_b: int = 0
     transport_r: int = 51
     transport_g: int = 204
     transport_b: int = 255
