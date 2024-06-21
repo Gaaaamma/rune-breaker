@@ -65,6 +65,8 @@ const char BIRD = 'v';
 const unsigned long BIRD_CD = 25;
 const char C2F = 'g';
 const unsigned long MONEY_CD = 90; 
+const char ORIGIN = '5';
+const unsigned long ORIGIN_CD = 340;
 
 const int BUFF_COUNTS = 6;
 const char BUFF[6] = {'1', '2', '3', C2F, 'c', 'x'};
@@ -308,8 +310,9 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
   unsigned long FountainStart = start;
   unsigned long BirdStart = start;
   unsigned long MoneyStart = start;
+  unsigned long OriginStart = start;
 
-  unsigned long buffStart[5] = {start, start, start, start, start};
+  unsigned long buffStart[6] = {start, start, start, start, start, start};
 
   unsigned long time = millis();
   int second = (time-start)/1000;
@@ -404,6 +407,14 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
          
       // Move back to origin position
       BackFromFountain();
+    }
+
+    // Origin
+    time = millis();
+    if ((time-OriginStart)/1000 > ORIGIN_CD) {
+      SimpleSkill(direction, ORIGIN);
+      OriginStart = millis();
+      delay(random(6000, 6050));
     }
 
     // Money
