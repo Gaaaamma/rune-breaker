@@ -27,22 +27,25 @@ while True:
         # ========= hunting task =========
         logger.info("Hunting mode")
         time.sleep(3)
-        while True:
-            logger.info(f"Find NPC to check if we are in the village")
-            if maple_map.find_npc():
-                logger.info(f"Find NPC - stop hunting to prevent from dancing in the village")
-                break
+        try:
+            while True:
+                logger.info(f"Find NPC to check if we are in the village")
+                if maple_map.find_npc():
+                    logger.info(f"Find NPC - stop hunting to prevent from dancing in the village")
+                    break
 
-            logger.info(f"Hunting start: solve rune")
-            rune_solved: bool = maple_map.solve_rune(comm)
+                logger.info(f"Hunting start: solve rune")
+                rune_solved: bool = maple_map.solve_rune(comm)
 
-            logger.info("Player moves to standby position")
-            maple_map.go_to_position(maple_map.standby_x, maple_map.standby_y, comm)
+                logger.info("Player moves to standby position")
+                maple_map.go_to_position(maple_map.standby_x, maple_map.standby_y, comm)
 
-            if rune_solved:
-                comm.hunting(SETTINGS.hunting_time)
-            else:
-                comm.songsky(SETTINGS.songsky_time)
+                if rune_solved:
+                    comm.hunting(SETTINGS.hunting_time)
+                else:
+                    comm.songsky(SETTINGS.songsky_time)
+        except Exception as e:
+            logger.error(f"Exception: {e}")
 
         # Stop monitor test
         stop_event.set()
