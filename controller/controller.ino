@@ -66,10 +66,10 @@ const unsigned long BIRD_CD = 25;
 const char C2F = 'g';
 const unsigned long MONEY_CD = 90; 
 
-const int BUFF_COUNTS = 5;
-const char BUFF[5] = {'2', '3', C2F, 'c', 'x'};
-const String BUFF_NAME[5] = {"Storm", "Glory", "Shilff", "Grandpa", "Critical"};
-unsigned long BUFF_CD[5] = {120, 120, 90, 150, 120};
+const int BUFF_COUNTS = 6;
+const char BUFF[6] = {'1', '2', '3', C2F, 'c', 'x'};
+const String BUFF_NAME[6] = {"OnTheSky", "Storm", "Glory", "Shilff", "Grandpa", "Critical"};
+unsigned long BUFF_CD[6] = {62, 120, 120, 90, 150, 120};
 
 int hunting_graph = 3; // 3: alley2, 4: spring1
 
