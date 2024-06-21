@@ -16,6 +16,12 @@ class Communicator():
         )
         logger.info(f"Connect to dev board success: {port}")
     
+    def send(self, command: str):
+        """Send message to Leonardo and return"""
+
+        self.serial.write((command + "\n").encode())
+        logger.info(f"Send command and return: {command}")
+
     def ask_ack(self, command: str):
         """Send message to Leonardo and wait for ack"""
 
