@@ -9,6 +9,7 @@ alert_active: bool = True
 def alert(mmap: Map, alert_period: float):
     """Detect mmap and check every alert_period"""
 
+    global alert_active
     logger.info("Alert start scanning")
     while alert_active:
         if mmap.find_npc():
