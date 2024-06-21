@@ -89,8 +89,13 @@ void loop() {
       WaitInput();
       int seconds = Serial.readStringUntil('\n').toInt();
 
-      Battle(seconds, 0, true, true);
-      Serial.println("hunting ack");
+      bool result = Battle(seconds, 0, true, true);
+      
+      if (result == true) {
+        Serial.println("hunting ack");
+      } else {
+        Serial.println("stop");
+      }
 
     } else if (command == "songsky") {
       // Get wait seconds
@@ -239,7 +244,7 @@ void PlayFrenzy(int minutes) {
   }
 }
 
-void Battle(unsigned long period, int preMove, bool useFountain, bool collectMoney) {
+bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMoney) {
   if (preMove == 1) {
     char toCenterCommand[] = {'d', 'd', 'd'};
     unsigned long minDelay[] = {600, 600, 600};
@@ -310,6 +315,13 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
   int second = (time-start)/1000;
   bool startUp = true;
   while (second < period) {
+    // Termination check
+    if (Serial.available() > 0) {
+      String command = Serial.readStringUntil('\n');
+      if (command == "stop") {
+        return false;
+      }
+    }
     bool underAttack = false;
     SongOfTheSky(direction, 10, 20, 500, 1000);
     direction = !direction;
@@ -404,6 +416,7 @@ void Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     delay(random(50, 100));
     startUp = false;
   }
+  return true;
 }
 
 void ArrowMove(char direction[], int counts, unsigned long wait[]) {
