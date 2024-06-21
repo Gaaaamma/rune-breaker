@@ -2,16 +2,16 @@
 
 from controller.detector import Map
 from logger import logger
+from threading import Event
 import time
 
-alert_active: bool = True
+stop_event: Event = Event()
 
 def alert(mmap: Map, alert_period: float):
     """Detect mmap and check every alert_period"""
 
-    global alert_active
     logger.info("Alert start scanning")
-    while alert_active:
+    while not stop_event.is_set():
         if mmap.find_npc():
             logger.info(f"Find NPC - you are in the village")
         if mmap.find_others():

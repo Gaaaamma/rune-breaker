@@ -1,6 +1,6 @@
 import time
 from controller.detector import Map, initialize_map
-from controller.alert import alert, alert_active
+from controller.alert import alert, stop_event
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
@@ -20,7 +20,7 @@ while True:
 
     if command == "hunting":
         # ========= monitor task =========
-        alert_active = True
+        stop_event.clear()
         monitor: Thread = Thread(target=alert, args=(maple_map, SETTINGS.alert_period))
         monitor.start()
 
@@ -45,7 +45,7 @@ while True:
                 comm.songsky(SETTINGS.songsky_time)
 
         # Stop monitor test
-        alert_active = False
+        stop_event.set()
         monitor.join()
 
     elif command == "color":
