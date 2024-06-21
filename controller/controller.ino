@@ -331,7 +331,6 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
 
     // Frenzy
     time = millis();
-    second = (time-start)/1000;
     if (startUp || (time-FrenzyStart)/1000 > FRENZY_CD) {
       SimpleSkill(direction, FRENZY);      
       FrenzyStart = millis();
@@ -347,7 +346,6 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
         
     // Tornado
     time = millis();
-    second = (time-start)/1000;
     if (startUp || (time-TornadoStart)/1000 > TORNADO_CD) {
       Tornado(direction);
       TornadoStart = millis();
@@ -357,7 +355,6 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
 
     // Swirl
     time = millis();
-    second = (time-start)/1000;
     if (startUp || (time-SwirlStart)/1000 > SWIRL_CD) {
       Swirl(direction);
       SwirlStart = millis();
@@ -366,7 +363,6 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
 
     // Bird
     time = millis();
-    second = (time-start)/1000;
     if (startUp || (time-BirdStart)/1000 > BIRD_CD) {
       SimpleSkill(direction, BIRD);
       BirdStart = millis();
@@ -375,7 +371,6 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
 
     // Monsoon
     time = millis();
-    second = (time-start)/1000;
     if (startUp || (time-MonsoonStart)/1000 > MONSOON_CD) {
       SimpleSkill(direction, MONSOON);
       MonsoonStart = millis();
@@ -385,7 +380,6 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     // Buffs
     for (int i = 0; i < BUFF_COUNTS; i++) {
       time = millis();
-      second = (time-start)/1000;
       if (startUp || (time-buffStart[i])/1000 > BUFF_CD[i]) {
         SimpleSkill(direction, BUFF[i]);
         buffStart[i] = millis();
@@ -395,7 +389,6 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
 
     // Fountain
     time = millis();
-    second = (time-start)/1000;
     if (useFountain && (startUp || (time-FountainStart)/1000 > FOUNTAIN_CD)) {
       // Move to the specific position
       MoveToFountain();
@@ -419,13 +412,14 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
 
     // Money
     time = millis();
-    second = (time-start)/1000;
     if (startUp || (underAttack && (time-MoneyStart)/1000 > MONEY_CD)) {
       CollectMoney(collectMoney, 5);
       MoneyStart = millis();
     }
     delay(random(50, 100));
     startUp = false;
+    time = millis();
+    second = (time-start)/1000;
   }
   return true;
 }
