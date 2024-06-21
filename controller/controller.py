@@ -1,5 +1,6 @@
 import time
 from controller.detector import Map, initialize_map
+from controller.alert import alert
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
@@ -17,9 +18,10 @@ while True:
     command: str = input("Please input command: ")
 
     if command == "hunting":
-        logger.info("Hunting mode")
+        # ========= monitor task =========
 
         # ========= working loop =========
+        logger.info("Hunting mode")
         time.sleep(3)
         while True:
             logger.info(f"Find NPC to check if we are in the village")
@@ -44,6 +46,9 @@ while True:
 
     elif command == "reset":
         maple_map = initialize_map()
+
+    elif command == "test":
+        alert(maple_map, SETTINGS.alert_period)
 
     else:
         logger.info(f"Unknown command: {command}")

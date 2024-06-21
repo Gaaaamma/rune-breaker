@@ -70,7 +70,7 @@ class Settings(BaseSettings):
     rune_host: str = "localhost"
     rune_port: str = "32980"
     rune_upload: str = "/v1/rune-break/image"
-    
+    alert_period: float = 5.0
 
     debug: bool = False
     log_level: int = 20
