@@ -1,9 +1,10 @@
 import time
 from controller.detector import Map, initialize_map
-from controller.alert import alert
+from controller.alert import alert, alert_active
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
+from threading import Thread
 
 print(SETTINGS.board_port)
 comm: Communicator = Communicator(
@@ -19,8 +20,11 @@ while True:
 
     if command == "hunting":
         # ========= monitor task =========
+        alert_active = True
+        monitor: Thread = Thread(target=alert, args=(maple_map, SETTINGS.alert_period))
+        monitor.start()
 
-        # ========= working loop =========
+        # ========= hunting task =========
         logger.info("Hunting mode")
         time.sleep(3)
         while True:
@@ -39,6 +43,10 @@ while True:
                 comm.hunting(SETTINGS.hunting_time)
             else:
                 comm.songsky(SETTINGS.songsky_time)
+
+        # Stop monitor test
+        alert_active = False
+        monitor.join()
 
     elif command == "color":
         maple_map.screenshot()
