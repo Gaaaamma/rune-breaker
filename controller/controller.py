@@ -62,6 +62,9 @@ def main():
                 stop_event.set()
                 monitor.join()
 
+        elif command == "waiting":
+            comm.hunting(SETTINGS.hunting_time)
+
         elif command == "color":
             maple_map.screenshot()
             maple_map.color_test()
