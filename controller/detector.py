@@ -194,24 +194,24 @@ class Map():
 
         # Moving x axis
         self.screenshot()
-        self.find_player()
+        player_exist: bool = self.find_player()
         player_to_x: int = x - self.player_x
         logger.debug(f"x: {x}, self.player_x: {self.player_x}")
-        while abs(player_to_x) > SETTINGS.x_miss:
+        while player_exist and abs(player_to_x) > SETTINGS.x_miss:
             comm.go_to_x(player_to_x)
             self.screenshot()
-            self.find_player()
+            player_exist = self.find_player()
             player_to_x = x - self.player_x
             logger.info(f"Player and Wheel distance X: {player_to_x}")
 
         # Moving y axis
         self.screenshot()
-        self.find_player()
+        player_exist = self.find_player()
         player_to_y: int = y - self.player_y
-        while abs(player_to_y) > SETTINGS.y_miss:
+        while player_exist and abs(player_to_y) > SETTINGS.y_miss:
             comm.go_to_y(player_to_y)
             self.screenshot()
-            self.find_player()
+            player_exist = self.find_player()
             player_to_y = y - self.player_y
             logger.info(f"Player and Wheel distance Y: {player_to_y}")
 
