@@ -233,7 +233,7 @@ void loop() {
 
       BossMoving(index);
       Serial.println("boss moving ack");
-    } else {
+    } else if (command != "stop") {
         // Unknown command
         Serial.println("Unknown command");
     }
