@@ -124,8 +124,12 @@ void loop() {
         Serial.println("invalid standby second: " + restOfCommand);
         
       } else {
-        Battle(seconds, 0, false, false);
-        Serial.println("standby ack");
+        bool result = Battle(seconds, 0, false, false);
+        if (result == true) {
+          Serial.println("standby ack");
+        } else {
+          Serial.println("stop");
+        }
       }
 
     } else if (command.startsWith("fountain-")) {
@@ -137,8 +141,12 @@ void loop() {
         Serial.println("invalid fountain second: " + restOfCommand);
         
       } else {
-        Battle(seconds, 0, true, false);
-        Serial.println("fountain ack");
+        bool result = Battle(seconds, 0, true, false);
+        if (result == true) {
+          Serial.println("fountain ack");
+        } else {
+          Serial.println("stop");
+        }
       }
 
     } else if (command.startsWith("frenzy-")) {
