@@ -28,7 +28,7 @@ def main():
     while True:
         command: str = input("Please input command: ")
 
-        if command == "hunting":
+        if command == "hunt":
             # ========= monitor task =========
             stop_event.clear()
             monitor: Thread = Thread(target=alert, args=(maple_map, SETTINGS.alert_period))
@@ -62,7 +62,7 @@ def main():
                 stop_event.set()
                 monitor.join()
 
-        elif command == "waiting":
+        elif command == "wait":
             comm.hunting(SETTINGS.hunting_time)
 
         elif command == "color":
