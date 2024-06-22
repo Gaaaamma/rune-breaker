@@ -318,13 +318,10 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
   int second = (time-start)/1000;
   bool startUp = true;
   while (second < period) {
-    // Termination check
-    if (Serial.available() > 0) {
-      String command = Serial.readStringUntil('\n');
-      if (command == "stop") {
-        return false;
-      }
+    if (TerminationCheck() == true) {
+      return false;
     }
+
     bool underAttack = false;
     SongOfTheSky(direction, 10, 20, 500, 1000);
     direction = !direction;
@@ -931,11 +928,22 @@ void CollectMoney(bool collect, int graph) {
 }
 
 /* ========================================== */
+bool TerminationCheck() {
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n');
+    if (command == "stop") {
+      return true;
+    }
+  }
+  return false;
+}
+
 void WaitInput() {
   for (;Serial.available() <= 0;) {
     // Waiting input
   }
 }
+
 void ConsumeInput() {
   while (Serial.available()  > 0) {
     char c = Serial.read();
