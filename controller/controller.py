@@ -48,9 +48,10 @@ def main():
             except Exception as e:
                 logger.error(f"Exception: {e}")
 
-            # Stop monitor test
-            stop_event.set()
-            monitor.join()
+            finally:
+                # Stop monitor task
+                stop_event.set()
+                monitor.join()
 
         elif command == "color":
             maple_map.screenshot()
