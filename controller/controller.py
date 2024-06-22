@@ -5,6 +5,15 @@ from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
 from threading import Thread
+import signal
+import sys
+
+def signal_handler(sig, frame):
+    stop_event.set()
+    print('Controller exit')
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 def main():
     print(SETTINGS.board_port)
