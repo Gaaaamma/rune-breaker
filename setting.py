@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     player_speed: int = 15 # pixels/second
     x_miss: int = 6
     y_miss: int = 5
-    y_fail_threshold: int = 8
+    y_fail_threshold: int = 5
     hunting_time: int = 910
     songsky_time: int = 10
     standby_time: int = 60

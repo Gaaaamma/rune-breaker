@@ -208,12 +208,16 @@ class Map():
         self.screenshot()
         player_exist = self.find_player()
         player_to_y: int = y - self.player_y
+        fail_counter: int = 0
         while player_exist and abs(player_to_y) > SETTINGS.y_miss:
             comm.go_to_y(player_to_y)
             self.screenshot()
             player_exist = self.find_player()
             player_to_y = y - self.player_y
             logger.info(f"Player and Wheel distance Y: {player_to_y}")
+            fail_counter += 1
+            if fail_counter >= SETTINGS.y_fail_threshold:
+                break
 
     def ask_rune_breaker(self) -> str:
         """Use HTTP requests to ask rune-breaker"""
