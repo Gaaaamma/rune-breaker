@@ -1,12 +1,10 @@
 """Use to alert if in village, have other players"""
 
 from controller.detector import Map, Communicator
+from controller.event import alert_event, stop_event
 from logger import logger
-from threading import Event
 import time
 
-alert_event: Event = Event()
-stop_event: Event = Event()
 
 def alert(comm: Communicator, mmap: Map, alert_period: float):
     """Detect mmap and check every alert_period"""

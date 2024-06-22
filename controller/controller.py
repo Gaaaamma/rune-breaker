@@ -1,6 +1,7 @@
 import time
 from controller.detector import Map, initialize_map
-from controller.alert import alert, alert_handler, alert_event, stop_event
+from controller.alert import alert, alert_handler
+from controller.event import alert_event, stop_event
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator

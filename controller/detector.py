@@ -4,7 +4,7 @@ from typing import Dict
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
-from controller.alert import alert_event
+from controller.event import alert_event
 from io import BytesIO
 import requests
 from http import HTTPStatus
