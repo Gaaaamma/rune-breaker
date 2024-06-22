@@ -50,6 +50,10 @@ def main():
                     logger.info("Player moves to standby position")
                     maple_map.go_to_position(maple_map.standby_x, maple_map.standby_y, comm)
 
+                    if alert_event.is_set():
+                        logger.info("Alert event is set, stop hunting")
+                        break
+
                     if rune_solved:
                         comm.hunting(SETTINGS.hunting_time)
                     else:

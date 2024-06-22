@@ -4,6 +4,7 @@ from typing import Dict
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
+from controller.alert import alert_event
 from io import BytesIO
 import requests
 from http import HTTPStatus
@@ -197,7 +198,7 @@ class Map():
         player_exist: bool = self.find_player()
         player_to_x: int = x - self.player_x
         logger.debug(f"x: {x}, self.player_x: {self.player_x}")
-        while player_exist and abs(player_to_x) > SETTINGS.x_miss:
+        while not alert_event.is_set() and player_exist and abs(player_to_x) > SETTINGS.x_miss:
             comm.go_to_x(player_to_x)
             self.screenshot()
             player_exist = self.find_player()
@@ -209,7 +210,7 @@ class Map():
         player_exist = self.find_player()
         player_to_y: int = y - self.player_y
         fail_counter: int = 0
-        while player_exist and abs(player_to_y) > SETTINGS.y_miss:
+        while not alert_event.is_set() and player_exist and abs(player_to_y) > SETTINGS.y_miss:
             comm.go_to_y(player_to_y)
             self.screenshot()
             player_exist = self.find_player()
