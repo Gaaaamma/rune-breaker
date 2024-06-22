@@ -85,101 +85,116 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     String command = Serial.readStringUntil('\n');
-    if (command == "hunting") {
+    if (command.startsWith("hunt-")) {
       // Get hunting seconds
-      Serial.println("next: seconds");
-      WaitInput();
-      int seconds = Serial.readStringUntil('\n').toInt();
-
-      bool result = Battle(seconds, 0, true, true);
-      
-      if (result == true) {
-        Serial.println("hunting ack");
+      String restOfCommand = command.substring(5); // Remove "hunt-" prefix
+      int seconds = restOfCommand.toInt();
+      if (seconds == 0) {
+        // invalid second
+        Serial.println("invalid hunt second: " + restOfCommand);
+        
       } else {
-        Serial.println("stop");
+        bool result = Battle(seconds, 0, true, true);
+        if (result == true) {
+          Serial.println("hunting ack");
+        } else {
+          Serial.println("stop");
+        }
       }
 
-    } else if (command == "songsky") {
+    } else if (command.startsWith("songsky-")) {
       // Get wait seconds
-      Serial.println("next: seconds");
-      WaitInput();
-      int seconds = Serial.readStringUntil('\n').toInt();
+      String restOfCommand = command.substring(8); // Remove "songsky-" prefix
+      int seconds = restOfCommand.toInt();
+      if (seconds == 0) {
+        // invalid second
+        Serial.println("invalid songsky second: " + restOfCommand);
+        
+      } else {
+        SongSkyStandby(seconds);
+        Serial.println("songsky ack");
+      }
 
-      SongSkyStandby(seconds);
-      Serial.println("songsky ack");
+    } else if (command.startsWith("standby-")) {
+      // Get wait seconds
+      String restOfCommand = command.substring(8); // Remove "standby-" prefix
+      int seconds = restOfCommand.toInt();
+      if (seconds == 0) {
+        // invalid second
+        Serial.println("invalid standby second: " + restOfCommand);
+        
+      } else {
+        Battle(seconds, 0, false, false);
+        Serial.println("standby ack");
+      }
 
-    } else if (command == "standby") {
-      // Get standby seconds
-      Serial.println("next: seconds");
-      WaitInput();
-      int seconds = Serial.readStringUntil('\n').toInt();
+    } else if (command.startsWith("fountain-")) {
+      // Get wait seconds
+      String restOfCommand = command.substring(9); // Remove "fountain-" prefix
+      int seconds = restOfCommand.toInt();
+      if (seconds == 0) {
+        // invalid second
+        Serial.println("invalid fountain second: " + restOfCommand);
+        
+      } else {
+        Battle(seconds, 0, true, false);
+        Serial.println("fountain ack");
+      }
 
-      Battle(seconds, 0, false, false);
-      Serial.println("standby ack");
+    } else if (command.startsWith("frenzy-")) {
+      // Get wait minutes
+      String restOfCommand = command.substring(7); // Remove "frenzy-" prefix
+      int minutes = restOfCommand.toInt();
+      if (minutes == 0) {
+        // invalid second
+        Serial.println("invalid frenzy minutes: " + restOfCommand);
+        
+      } else {
+        PlayFrenzy(minutes);
+        Serial.println("frenzy ack");
+      }
 
-    } else if (command == "fountain") {
-      // Get standby seconds
-      Serial.println("next: seconds");
-      WaitInput();
-      int seconds = Serial.readStringUntil('\n').toInt();
+    } else if (command.startsWith("move-")) {
+      // Get press duration
+      String restOfCommand = command.substring(5); // Remove "move-" prefix
+      float duration = restOfCommand.toFloat();
+      duration *= 1000;
+      if (duration < 0) {
+          duration *= -1;
+          Keyboard.press(KEY_LEFT_ARROW);
+      } else {
+          Keyboard.press(KEY_RIGHT_ARROW);
+      }
 
-      Battle(seconds, 0, true, false);
-      Serial.println("fountain ack");
+      delay(duration);
+      Keyboard.releaseAll();
+      Serial.println("move ack");
 
-    } else if (command == "frenzy") {
-      Serial.print("next: minutes");
-      WaitInput();
-      int minutes = Serial.readStringUntil('\n').toInt();
+    } else if (command.startsWith("updown-")) {
+      // Get direction
+      String direction = command.substring(7); // Remove "updown-" prefix
 
-      PlayFrenzy(minutes);
-      Serial.println("frenzy ack");
-
-    } else if (command == "move") {
-        // Get moving duration (sec)
-        Serial.println("next: duration");
-        WaitInput();
-        float duration = Serial.readStringUntil('\n').toFloat();
-
-        duration *= 1000;
-        if (duration < 0) {
-            duration *= -1;
-            Keyboard.press(KEY_LEFT_ARROW);
-        } else {
-            Keyboard.press(KEY_RIGHT_ARROW);
-        }
-
-        delay(duration);
-        Keyboard.releaseAll();
-        Serial.println("move ack");
-
-    } else if (command == "updown") {
-        // Get up down directoin
-        Serial.println("next: direction");
-        WaitInput();
-        String direction = Serial.readStringUntil('\n');
-
-        if (direction == "up") {
-          SimpleSkill(true, ROPE);
-          delay(3500);
-          Serial.println("up ack");
-        } else if (direction == "down"){
-          DownJump();
-          delay(2500);
-          Serial.println("down ack");
-        } else {
-          Serial.println("Unknown updown direction");
-        }
+      if (direction == "up") {
+        SimpleSkill(true, ROPE);
+        delay(3500);
+        Serial.println("up ack");
+      } else if (direction == "down"){
+        DownJump();
+        delay(2500);
+        Serial.println("down ack");
+      } else {
+        Serial.println("Unknown updown direction");
+      }
         
     } else if (command == "mine") {
       SimpleSkill(true, CONFIRM);
       delay(500);
       Serial.println("mine ack");
 
-    } else if (command == "rune") {
-      // Get rune answer
-      Serial.println("next: answer");
-      WaitInput();
-      String answer = Serial.readStringUntil('\n');
+    } else if (command.startsWith("rune-")) {
+      // Get answer
+      String answer = command.substring(5); // Remove "rune-" prefix
+
       for (int i = 0; i < answer.length(); i++) {
         char c = answer.charAt(i);
         switch (c) {
