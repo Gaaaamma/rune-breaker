@@ -1,6 +1,6 @@
 import time
 from controller.detector import Map, initialize_map
-from controller.alert import alert, stop_event
+from controller.alert import alert, alert_handler, alert_event, stop_event
 from setting import SETTINGS
 from logger import logger
 from controller.communicate import Communicator
@@ -31,7 +31,7 @@ def main():
         if command == "hunt":
             # ========= monitor task =========
             stop_event.clear()
-            monitor: Thread = Thread(target=alert, args=(maple_map, SETTINGS.alert_period))
+            monitor: Thread = Thread(target=alert, args=(comm, maple_map, SETTINGS.alert_period))
             monitor.start()
 
             # ========= hunting task =========
@@ -39,9 +39,9 @@ def main():
             time.sleep(3)
             try:
                 while True:
-                    logger.info(f"Find NPC to check if we are in the village")
-                    if maple_map.find_npc():
-                        logger.info(f"Find NPC - stop hunting to prevent from dancing in the village")
+                    logger.info("Check if alert_event is set")
+                    if alert_event.is_set():
+                        logger.info("Alert event is set, stop hunting")
                         break
 
                     logger.info(f"Hunting start: solve rune")
@@ -61,6 +61,7 @@ def main():
                 # Stop monitor task
                 stop_event.set()
                 monitor.join()
+                alert_handler(comm)
 
         elif command == "wait":
             comm.hunting(SETTINGS.hunting_time)
@@ -71,6 +72,12 @@ def main():
 
         elif command == "reset":
             maple_map = initialize_map()
+
+        elif command == "reconnect":
+            comm = Communicator(
+                port=SETTINGS.board_port,
+                baudrate=SETTINGS.baudrate,
+            )
 
         elif command == "test":
             alert(maple_map, SETTINGS.alert_period)
