@@ -56,8 +56,12 @@ def main():
                         break
 
                     if rune_solved:
-                        comm.hunting(SETTINGS.hunting_time)
+                        # Doube check if rune is solved
+                        maple_map.screenshot()
+                        if not maple_map.find_wheel():
+                            comm.hunting(SETTINGS.hunting_time)
                     else:
+                        # Rune hasn't appeared
                         comm.songsky(SETTINGS.songsky_time)
             except Exception as e:
                 logger.error(f"Exception: {e}")
