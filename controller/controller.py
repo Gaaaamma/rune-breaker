@@ -54,12 +54,8 @@ def main():
                     if alert_event.is_set():
                         logger.info("Alert event is set, stop hunting")
                         break
-                    
-                    # Double check due to error rune solved sometimes
-                    maple_map.screenshot()
-                    rune_solved = not maple_map.find_wheel()
 
-                    if rune_solved:            
+                    if rune_solved:
                         comm.hunting(SETTINGS.hunting_time)
                     else:
                         comm.songsky(SETTINGS.songsky_time)
