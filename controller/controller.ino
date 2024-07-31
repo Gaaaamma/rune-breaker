@@ -235,7 +235,10 @@ void loop() {
 
       BossMoving(index);
       Serial.println("boss moving ack");
-    } else if (command != "stop") {
+    } else if (command == "test") {
+      delay(2000);
+      CollectMoney_fall1();
+    }else if (command != "stop") {
         // Unknown command
         Serial.println("Unknown command");
     }
@@ -659,9 +662,10 @@ void Fountain(bool direction) {
   Keyboard.press(KEY_DOWN_ARROW);
   Keyboard.write(FOUNTAIN);
   delay(random(70, 100));
-  Keyboard.write(TWO_FACE);
-  delay(random(70, 100));
   Keyboard.releaseAll();
+  delay(700);
+  SimpleSkill(true, TWO_FACE);
+  delay(random(100, 110));
 }
 
 void Tornado(bool direction) {
@@ -727,6 +731,8 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
       SimpleSkill(true, ROPE);
     } else if (direction[i] == 'b') {
       Tornado(true);
+    } else if (direction[i] == TWO_FACE) {
+      SimpleSkill(true, TWO_FACE);
     }
     delay(random(minDelay[i], maxDelay[i]));
   }
@@ -895,8 +901,8 @@ void CollectMoney_fall1() {
   MoveToFountain_fall1();
   delay(800);
   char commands[] = {'e', 'e', 'a', 'a', 's', 'b', '6', 's', 's', 's', 's', 'e', 'd'};
-  unsigned long minDelay[] = {580, 1300, 580, 580, 650, 700, 700, 800, 800, 800, 800, 400, 580};
-  unsigned long maxDelay[] = {600, 1350, 600, 600, 660, 750, 750, 810, 810, 810, 810, 430, 600};
+  unsigned long minDelay[] = {580, 1300, 580, 580, 650, 1000, 700, 800, 800, 800, 800, 400, 580};
+  unsigned long maxDelay[] = {600, 1350, 600, 600, 660, 1050, 750, 810, 810, 810, 810, 430, 600};
   Move(commands, 13, minDelay, maxDelay);
 }
 
