@@ -51,6 +51,8 @@ const char ROPE = '9';
 const char FRENZY = '8';
 const unsigned long FRENZY_CD = 300;
 
+const char TWO_FACE = '6';
+const unsigned long TWO_FACE_CD = 53; 
 const char FOUNTAIN = 'z';
 const unsigned long FOUNTAIN_CD = 58; 
 const char TORNADO = 'b';
@@ -657,6 +659,8 @@ void Fountain(bool direction) {
   Keyboard.press(KEY_DOWN_ARROW);
   Keyboard.write(FOUNTAIN);
   delay(random(70, 100));
+  Keyboard.write(TWO_FACE);
+  delay(random(70, 100));
   Keyboard.releaseAll();
 }
 
@@ -890,10 +894,10 @@ void CollectMoney_spring1() {
 void CollectMoney_fall1() {
   MoveToFountain_fall1();
   delay(800);
-  char commands[] = {'e', 'e', 'a', 'a', 's', 'b', 's', 's', 's', 's', 'e', 'd'};
-  unsigned long minDelay[] = {580, 1300, 580, 580, 650, 700, 800, 800, 800, 800, 400, 580};
-  unsigned long maxDelay[] = {600, 1350, 600, 600, 660, 750, 810, 810, 810, 810, 430, 600};
-  Move(commands, 12, minDelay, maxDelay);
+  char commands[] = {'e', 'e', 'a', 'a', 's', 'b', '6', 's', 's', 's', 's', 'e', 'd'};
+  unsigned long minDelay[] = {580, 1300, 580, 580, 650, 700, 700, 800, 800, 800, 800, 400, 580};
+  unsigned long maxDelay[] = {600, 1350, 600, 600, 660, 750, 750, 810, 810, 810, 810, 430, 600};
+  Move(commands, 13, minDelay, maxDelay);
 }
 
 // ====================== Daily boss ======================
