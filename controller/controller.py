@@ -72,6 +72,17 @@ def main():
                 monitor.join()
                 alert_handler(comm)
 
+        elif command.startswith("frenzy-") and len(command) > 7:
+            try:
+                minutes: int = int(command[7:])
+                logger.info("Play frenzy after 5 seconds")
+                time.sleep(5)
+                logger.info(f"Play frenzy for {minutes} minutes")
+                comm.frenzy(minutes)
+
+            except Exception as e:
+                logger.error(f"Command: {command} - {e}")
+        
         elif command == "wait":
             comm.hunting(SETTINGS.hunting_time)
 
