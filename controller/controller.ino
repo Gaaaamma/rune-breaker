@@ -8,6 +8,16 @@ KEY_RIGHT_ARROW
 const char CONFIRM = 'y';
 const char ENTER = 10;
 
+/*               HID AbsoluteMouse coordination 
+(-32767, -32767) ------------- # ------------- (32767, -32767)
+                 |             |             |
+                 |             |             |
+                 |------------ 0 ------------| (32767, 0)
+                 |             |             |
+                 |             |             |
+(-32767, 32767)  ------------- # ------------- (32767, 32767)
+*/
+
 const char BOSS = '.';
 const char ITEM = 'i';
 const int BOSS_PAGE_NUM = 14;
@@ -39,7 +49,7 @@ const char GUIDE = 'u';
 const long GUIDE_FIRST_X = -30000;
 const long GUIDE_FIRST_Y = -2000;
 const long GUIDE_DISTANCE_X = 1650;
-const long MOVE_BOUnD_MAX = 32767;
+const long MOVE_BOUND_MAX = 32767;
 const long MOVE_BOUND_MIN = -32767;
 
 const unsigned long WHEEL_CD = 930;
@@ -233,6 +243,27 @@ void loop() {
       int index = restOfCommand.toInt();
       BossMoving(index);
       Serial.println("boss moving ack");
+
+    } else if (command.startsWith("mouse-")) { // Format mouse_x,y
+      // Get moving x, y coordination
+      int dashIndex = command.indexOf('-') + 1;  // Find the position of the first '_'
+      String coordStr = command.substring(dashIndex);  // Extract the substring containing coordinates
+      int commaIndex = coordStr.indexOf(',');  // Find the position of the comma
+
+      // Parse x and y values from the substring
+      int xCoord = coordStr.substring(0, commaIndex).toInt();
+      int yCoord = coordStr.substring(commaIndex + 1).toInt();
+
+      // Check if the values are within the valid range
+      if (xCoord >= MOVE_BOUND_MIN && xCoord <= MOVE_BOUND_MAX && yCoord >= MOVE_BOUND_MIN && yCoord <= MOVE_BOUND_MAX) {
+          // Handle mouse movement event
+
+          // Ack
+          Serial.println("Mouse move: " + string(xCoord) + ", " + string(yCoord));
+
+      } else {
+          Serial.println("Error: Coordinates out of range " + command);
+      }
 
     } else if (command == "test") {
       delay(2000);
