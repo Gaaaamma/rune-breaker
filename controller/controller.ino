@@ -259,7 +259,7 @@ void loop() {
           // Handle mouse movement event
 
           // Ack
-          Serial.println("Mouse move: " + string(xCoord) + ", " + string(yCoord));
+          Serial.println("Mouse move: " + String(xCoord) + ", " + String(yCoord));
 
       } else {
           Serial.println("Error: Coordinates out of range " + command);
