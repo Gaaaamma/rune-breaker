@@ -228,13 +228,12 @@ void loop() {
       }
       Serial.println("rune ack");
 
-    } else if (command == "boss") {
-      Serial.println("next: boss moving index");
-      WaitInput();
-      int index = Serial.readStringUntil('\n').toInt();
-
+    } else if (command == "boss-") {
+      String restOfCommand = command.substring(5); // Get boss moving index
+      int index = restOfCommand.toInt();
       BossMoving(index);
       Serial.println("boss moving ack");
+
     } else if (command == "test") {
       delay(2000);
       CollectMoney_fall1();
