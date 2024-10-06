@@ -257,6 +257,8 @@ void loop() {
       // Check if the values are within the valid range
       if (xCoord >= MOVE_BOUND_MIN && xCoord <= MOVE_BOUND_MAX && yCoord >= MOVE_BOUND_MIN && yCoord <= MOVE_BOUND_MAX) {
           // Handle mouse movement event
+            AbsoluteMouse.moveTo(xCoord, yCoord);
+            delay(100);
 
           // Ack
           Serial.println("Mouse move: " + String(xCoord) + ", " + String(yCoord));
