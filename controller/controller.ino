@@ -244,7 +244,7 @@ void loop() {
       BossMoving(index);
       Serial.println("boss moving ack");
 
-    } else if (command.startsWith("mouse-")) { // Format mouse_x,y
+    } else if (command.startsWith("mouseto-")) { // Format mouseto_x,y
       // Get moving x, y coordination
       int dashIndex = command.indexOf('-') + 1;  // Find the position of the first '_'
       String coordStr = command.substring(dashIndex);  // Extract the substring containing coordinates
