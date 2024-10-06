@@ -115,6 +115,21 @@ class Map():
             last_x = self.player_x
             time.sleep(1)
 
+    def map_coordination_test(self):
+        """function to test coordinatin difference"""
+
+        logger.info("Move mouse to position A and press 'Enter'")
+        input()
+        p1 = pyautogui.position()
+
+        logger.info("Move mouse to position B and press 'Enter'")
+        input()
+        p2 = pyautogui.position()
+
+        logger.info(f"Positino A (x, y) = ({p1.x}, {p1.y})")
+        logger.info(f"Position B (x, y) = ({p2.x}, {p2.y})")
+        logger.info(f"Diff from A to B  = ({p2.x - p1.x}, {p2.y - p1.y})")
+
     def color_test(self):
         """Test the color user point to"""
         

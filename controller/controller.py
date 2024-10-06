@@ -99,6 +99,11 @@ def main():
                 baudrate=SETTINGS.baudrate,
             )
 
+        elif command == "coordination":
+            logger.info(f"Testing map coordination difference")
+            while True:
+                maple_map.map_coordination_test()
+
         elif command == "test":
             alert(maple_map, SETTINGS.alert_period)
 
