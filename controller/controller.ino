@@ -267,6 +267,20 @@ void loop() {
           Serial.println("Error: Coordinates out of range " + command);
       }
 
+    } else if (command.startsWith("mousere-")) { // Format mousere_x,y
+      // Get moving x, y coordination
+      int dashIndex = command.indexOf('-') + 1;  // Find the position of the first '_'
+      String coordStr = command.substring(dashIndex);  // Extract the substring containing coordinates
+      int commaIndex = coordStr.indexOf(',');  // Find the position of the comma
+
+      // Parse x and y values from the substring
+      int xCoord = coordStr.substring(0, commaIndex).toInt();
+      int yCoord = coordStr.substring(commaIndex + 1).toInt();
+
+      // Move relatively
+      AbsoluteMouse.move(xCoord, yCoord);
+      Serial.println("Mouse move: " + String(xCoord) + ", " + String(yCoord));
+
     } else if (command == "test") {
       delay(2000);
       CollectMoney_fall1();
