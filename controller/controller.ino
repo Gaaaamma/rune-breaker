@@ -911,13 +911,18 @@ void BossMoving(int index) {
   Keyboard.write(BOSS);
   delay(1000);
 
-  if (index / BOSS_PAGE_NUM > 0) {
+  // Invalid index
+  if (index < 0) {
+    return;
+
+  } else if (index >= BOSS_PAGE_NUM) {
     // Need to go to next page
     AbsoluteMouse.moveTo(BOSS_NEXT_PAGE_X, BOSS_NEXT_PAGE_Y);
     delay(1000);
     AbsoluteMouse.click(MOUSE_LEFT);
     delay(1000);
   }
+
   // Move mouse to the BOSS location
   AbsoluteMouse.moveTo(BOSS_FIRST_X, BOSS_FIRST_Y + (index % BOSS_PAGE_NUM) * BOSS_DISTANCE_Y);
   delay(500);
