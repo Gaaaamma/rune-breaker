@@ -237,7 +237,7 @@ void loop() {
     } else if (command == "test") {
       delay(2000);
       CollectMoney_fall1();
-    }else if (command != "stop") {
+    } else if (command != "stop") {
         // Unknown command
         Serial.println("Unknown command");
     }
