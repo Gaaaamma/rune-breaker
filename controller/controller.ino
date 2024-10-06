@@ -279,6 +279,7 @@ void loop() {
 
       // Move relatively
       AbsoluteMouse.move(xCoord, yCoord);
+      delay(100);
       Serial.println("Mouse move: " + String(xCoord) + ", " + String(yCoord));
 
     } else if (command == "test") {
