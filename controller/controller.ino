@@ -228,7 +228,7 @@ void loop() {
       }
       Serial.println("rune ack");
 
-    } else if (command == "boss-") {
+    } else if (command.startsWith("boss-")) {
       String restOfCommand = command.substring(5); // Get boss moving index
       int index = restOfCommand.toInt();
       BossMoving(index);
