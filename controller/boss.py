@@ -48,7 +48,7 @@ class BossControl(BaseModel):
         x_move: int
         y_move: int
         throw_item: Optional[ThrowSetting]
-        keyboard: List[str]
+        keyboard: Optional[List[str]]
     
     name: str
     index: int

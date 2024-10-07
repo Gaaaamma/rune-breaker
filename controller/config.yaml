@@ -1,5 +1,13 @@
 # Define boss moving plan
 ---
+command:
+  enter: &enter e
+  confirm: &confirm y
+  up: &arrow_up w
+  down: &arrow_down s
+  left: &arrow_left a
+  right: &arrow_right d
+
 inventory:
   category:
     diff_x: 990
@@ -19,18 +27,18 @@ boss:
       - x_move: 136
         y_move: 0
         throw_item: null
-        keyboard: ["w", "w", "w", "s", "e"]
+        keyboard: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
       - x_move: 30
         y_move: 0
         throw_item:
           category_index: 2
           x_index: 0
           y_index: 0
-        keyboard: ["u", "u", "u", "d", "y"]
+        keyboard: null
       - x_move: -8
         y_move: 0
         throw_item: null
-        keyboard: ["u"]
+        keyboard: [*arrow_up]
   - name: magnus
     index: 3
     commands: null
