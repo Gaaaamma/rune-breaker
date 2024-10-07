@@ -238,6 +238,13 @@ void loop() {
       }
       Serial.println("rune ack");
 
+    } else if (command.startsWith("key-")) {
+      // Get keyboard command
+      int keyIndex = command.indexOf('-') + 1;
+      char key = command.charAt(keyIndex);
+      SimpleSkill(true, key);
+      Serial.println("Keyboard write " + String(key));
+
     } else if (command.startsWith("boss-")) {
       String restOfCommand = command.substring(5); // Get boss moving index
       int index = restOfCommand.toInt();
