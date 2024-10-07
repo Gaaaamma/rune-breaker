@@ -9,3 +9,4 @@ fastapi==0.111.0
 uvicorn==0.29.0
 pySerial==3.5
 requests==2.32.2
+PyYAML==6.0.1

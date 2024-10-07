@@ -1,0 +1,64 @@
+# Define boss moving plan
+---
+inventory:
+  category:
+    diff_x: 990
+    diff_y: 0
+    equipment_x: -8908
+    equipment_y: -14138
+  item:
+    diff_x: 1365
+    diff_y: 1365
+    first_x: -8669
+    first_y: -12014
+  
+boss:
+  - name: zakum
+    index: 2
+    commands:
+      - x_move: 136
+        y_move: 0
+        throw_item: null
+        keyboard: ["w", "w", "w", "s", "e"]
+      - x_move: 30
+        y_move: 0
+        throw_item:
+          category_index: 2
+          x_index: 0
+          y_index: 0
+        keyboard: ["u", "u", "u", "d", "y"]
+      - x_move: -8
+        y_move: 0
+        throw_item: null
+        keyboard: ["u"]
+  - name: magnus
+    index: 3
+    commands: null
+  - name: hilla
+    index: 4
+    commands: null
+  - name: pierre
+    index: 8
+    commands: null
+  - name: vonbon
+    index: 9
+    commands: null
+  - name: queen
+    index: 10
+    commands: null
+  - name: vellum
+    index: 11
+    commands: null
+  - name: vonleon
+    index: 12
+    commands: null
+  - name: horntail
+    index: 13
+    commands: null
+  - name: arkarium
+    index: 14
+    commands: null
+  - name: pinkbean
+    index: 17
+    commands: null
+...

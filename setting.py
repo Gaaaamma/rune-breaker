@@ -72,6 +72,9 @@ class Settings(BaseSettings):
     rune_upload: str = "/v1/rune-break/image"
     alert_period: float = 5.0
 
+    # Boss
+    config_file: str = "./controller/config.yaml"
+
     debug: bool = False
     log_level: int = 20
     formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
