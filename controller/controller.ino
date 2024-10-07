@@ -242,6 +242,12 @@ void loop() {
       // Get keyboard command
       int keyIndex = command.indexOf('-') + 1;
       char key = command.charAt(keyIndex);
+
+      // Use 'E' to represent ENTER
+      if (key == 'E') {
+        key = ENTER;
+      }
+
       SimpleSkill(true, key);
       Serial.println("Keyboard write " + String(key));
 
