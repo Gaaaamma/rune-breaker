@@ -2,7 +2,7 @@
 
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 import yaml
 
 from setting import SETTINGS
@@ -49,6 +49,19 @@ class BossControl(BaseModel):
         y_move: int
         throw_item: Optional[ThrowSetting]
         keyboard: Optional[List[str]]
+        delay: Optional[List[int]]
+
+        @model_validator(mode="after")
+        def keyboard_delay_len_check(cls, values):
+            keyboard = values.keyboard
+            delay = values.delay
+
+            l_keyboard: int = len(keyboard) if keyboard is not None else -1
+            l_delay: int = len(delay) if delay is not None else -1
+            if l_keyboard != l_delay:
+                raise ValueError(f"len(keyboard)={l_keyboard} != len(delay)={l_delay}.")
+
+            return values
     
     name: str
     index: int

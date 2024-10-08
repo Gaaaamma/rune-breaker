@@ -28,6 +28,7 @@ boss:
         y_move: 0
         throw_item: null
         keyboard: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
+        delay: [100, 100, 100, 100, 100]
       - x_move: 30
         y_move: 0
         throw_item:
@@ -35,10 +36,12 @@ boss:
           x_index: 0
           y_index: 0
         keyboard: null
+        delay: null
       - x_move: -8
         y_move: 0
         throw_item: null
         keyboard: [*arrow_up]
+        delay: [100]
   - name: magnus
     index: 3
     commands: null
