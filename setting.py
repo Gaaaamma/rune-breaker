@@ -1,6 +1,9 @@
 """Pydantic BaseSettings"""
 
+from typing import Dict
+
 from pydantic_settings import BaseSettings
+import yaml
 
 class Settings(BaseSettings):
     screenshot_x: int = 0
@@ -81,8 +84,11 @@ class Settings(BaseSettings):
 
     class Config:
         env_file: str = ".env"
-    
+
+
 SETTINGS: Settings = Settings()
+with open(SETTINGS.config_file) as file:
+    CONFIG: Dict = yaml.safe_load(file)
 
 # inner: 455 - 62 = 393
 # outer: 456 - 61 = 395

@@ -6,7 +6,7 @@ from pydantic import BaseModel, model_validator
 import yaml
 
 from logger import logger
-from setting import SETTINGS
+from setting import SETTINGS, CONFIG
 
 
 class Inventory(BaseModel):
@@ -32,9 +32,7 @@ class Inventory(BaseModel):
 class InventoryControl():
     """Collect all inventory control useful functions"""
     
-    with open(SETTINGS.config_file) as file:
-        config = yaml.safe_load(file)
-        inventory = Inventory(**config["inventory"])
+    inventory = Inventory(**CONFIG["inventory"])
     
     @classmethod
     def get_category_coordination(cls, index_x: int) -> Tuple[int, int]:
@@ -114,11 +112,9 @@ class BossControl(BaseModel):
         """
 
         control_list: List[BossControl] = []
-        with open(SETTINGS.config_file) as file:
-            config: Dict = yaml.safe_load(file)
-            for boss_control in config["boss"]:
-                b = BossControl(**boss_control)
-                control_list.append(b)
+        for boss_control in CONFIG["boss"]:
+            b = BossControl(**boss_control)
+            control_list.append(b)
         
         return control_list
 

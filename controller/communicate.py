@@ -7,7 +7,7 @@ from pydantic import BaseModel
 import yaml
 
 from logger import logger
-from setting import SETTINGS
+from setting import SETTINGS, CONFIG
 
 
 class LeonardoCommand(BaseModel):
@@ -49,11 +49,9 @@ class Communicator():
         )
         logger.info(f"Connect to dev board success: {port}")
 
-        # Read config to get leonardo commands
-        with open(SETTINGS.config_file) as file:
-            config = yaml.safe_load(file)
-            self.leonardo_command: LeonardoCommand = LeonardoCommand(**config["leonardo"])
-        logger.info(f"Parse leonardo command success")
+        # Get leonardo commands
+        self.leonardo_command: LeonardoCommand = LeonardoCommand(**CONFIG["leonardo"])
+        logger.info(f"Get leonardo command")
     
     def send(self, command: str):
         """Send message to Leonardo and return"""
