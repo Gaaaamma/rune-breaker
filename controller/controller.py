@@ -104,23 +104,34 @@ def main():
             while True:
                 maple_map.map_coordination_test()
 
-        elif command == "test":
-            logger.info("Test communicate move_cursor_to command")
-            coordination: str = input("Please input x,y coordination: ")
-            find_comma: str = coordination.find(",")
+        elif command == "test_cursor":
+            logger.info(f"Input x,y to move your cursor to that position")
+            logger.info(f"Input 'exit' to exit test_cursor")
 
-            if find_comma == -1:
-                logger.error(f"Error coordination format: {coordination}")
-                continue
-            
-            try:
-                x: int = int(coordination[:find_comma])
-                y: int = int(coordination[find_comma+1:])
-            except Exception as e:
-                logger.error(e)
-            else:
+            while True:
+                # Get coordination from user
+                coordination: str = input("Please input x,y coordination: ")
+                if coordination == "exit":
+                    break
+                
+                # Parse cursor position
+                try:
+                    find_comma: str = coordination.find(",")
+                    if find_comma == -1:
+                        logger.error(f"Invalid coordination format: {coordination}")
+                        continue
+                    x: int = int(coordination[:find_comma])
+                    y: int = int(coordination[find_comma+1:])
+                except Exception as e:
+                    logger.error(e)
+                    continue
+                
+                # Move cursor
                 logger.info(f"Get move_cursor_to coordination: ({x}, {y})")
                 comm.move_cursor_to(x, y)
+
+        elif command == "test":
+            logger.info("Nothing to test now")
 
         else:
             logger.info(f"Unknown command: {command}")
