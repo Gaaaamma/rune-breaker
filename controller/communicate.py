@@ -33,6 +33,7 @@ class LeonardoCommand(BaseModel):
         move_y: str
         mine: str
         break_rune: str
+        move_cursor: str
     
     player: PlayerCommand
     device: DeviceCommand
@@ -101,6 +102,15 @@ class Communicator():
         """Control player to use frenzy for minutes"""
 
         commands: List[str] = [f"{self.leonardo_command.device.frenzy}{minutes}"]
+        for cmd in commands:
+            self.ask_ack(cmd)
+
+    def move_cursor_to(self, x: int, y: int):
+        """Control cursor to (x, y)"""
+
+        commands: List[str] = [
+            f"{self.leonardo_command.device.move_cursor}{x},{y}"
+        ]
         for cmd in commands:
             self.ask_ack(cmd)
 

@@ -16,6 +16,7 @@ leonardo:
     move_y: updown-
     mine: mine
     break_rune: rune-
+    move_cursor: mouseto-
 
 inventory:
   category:
