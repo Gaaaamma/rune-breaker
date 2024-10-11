@@ -20,11 +20,13 @@ leonardo:
 
 inventory:
   category:
+    max_index_x: 5
     diff_x: 990
-    diff_y: 0
     equipment_x: -8908
     equipment_y: -14138
   item:
+    max_index_x: 15
+    max_index_y: 7
     diff_x: 1434
     diff_y: 2552
     first_x: -8669

@@ -1,22 +1,25 @@
 """Define maple story boss functions"""
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, model_validator
 import yaml
 
+from logger import logger
 from setting import SETTINGS
 
 
 class Inventory(BaseModel):
     
     class Category(BaseModel):
+        max_index_x: int
         diff_x: int
-        diff_y: int
         equipment_x: int
         equipment_y: int
 
     class Item(BaseModel):
+        max_index_x: int
+        max_index_y: int
         diff_x: int
         diff_y: int
         first_x: int
@@ -25,18 +28,55 @@ class Inventory(BaseModel):
     category: Category
     item: Item
 
-    @classmethod
-    def get_inventory_setting(cls) -> "Inventory":
-        """Load boss config file and parse inventory setting"""
 
-        with open(SETTINGS.config_file) as file:
-            config: Dict = yaml.safe_load(file)
-            inventory: Inventory = Inventory(**config["inventory"])
+class InventoryControl():
+    """Collect all inventory control useful functions"""
+    
+    with open(SETTINGS.config_file) as file:
+        file = yaml.safe_load(file)
+        config = Inventory(**file["inventory"])
+    
+    @classmethod
+    def get_category_coordination(cls, index_x: int) -> Tuple[int, int]:
+        """use index_x to calculate category coordination"""
         
-        return inventory
+        # index validation
+        if index_x < 0 or index_x > cls.config.category.max_index_x:
+            raise(
+                f"category index_x must within 0 and {cls.config.category.max_index_x}: get {index_x}"
+            )
+        
+        # calculate x y coordination
+        x: int = cls.config.category.equipment_x + index_x * cls.config.category.diff_x
+        y: int = cls.config.category.equipment_y
+        logger.info(f"Get index({index_x}, 0) => coordination({x}, {y})")
+
+        return (x, y)
+
+    @classmethod
+    def get_item_coordination(cls, index_x: int, index_y: int) -> Tuple[int, int]:
+        """use index_x and index_y to calculate item coordination"""
+        
+        # index_x, index_y validation
+        if index_x < 0 or index_x > cls.config.item.max_index_x:
+            raise(
+                f"item index_x must within 0 and {cls.config.item.max_index_x}: get {index_x}"
+            )
+        if index_y < 0 or index_y > cls.config.item.max_index_y:
+            raise(
+                f"item index_y must within 0 and {cls.config.item.max_index_y}: get {index_y}"
+            )
+        
+        # calculate x y coordination
+        x: int = cls.config.item.first_x + index_x * cls.config.item.diff_x
+        y: int = cls.config.item.first_y + index_y * cls.config.item.diff_y
+        logger.info(f"Get index({index_x}, {index_y}) => position({x}, {y})")
+
+        return (x, y)
 
 
 class BossControl(BaseModel):
+    """Parse boss control config"""
 
     class Command(BaseModel):
 
@@ -84,8 +124,12 @@ class BossControl(BaseModel):
 
 
 if __name__ == "__main__":
-    inventory: Inventory = Inventory.get_inventory_setting()
-    boss_control_list: List[BossControl] = BossControl.get_boss_control_list()
+    print("========== Get category ==========")
+    for i in range(InventoryControl.config.category.max_index_x + 1):
+        InventoryControl.get_category_coordination(i)
 
-    print(inventory)
-    print(boss_control_list)
+    print("\n========== Get item ==========")
+    for i_y in range(InventoryControl.config.item.max_index_y + 1):
+        for i_x in range(InventoryControl.config.item.max_index_x + 1):
+            InventoryControl.get_item_coordination(i_x, i_y)
+        print()

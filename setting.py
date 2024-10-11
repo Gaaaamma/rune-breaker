@@ -77,7 +77,7 @@ class Settings(BaseSettings):
 
     debug: bool = False
     log_level: int = 20
-    formatter: str = "%(asctime)s - [%(funcName)s] - %(levelname)s - %(message)s"
+    formatter: str = "%(asctime)s - %(levelname)s - [%(funcName)s] - %(message)s"
 
     class Config:
         env_file: str = ".env"
