@@ -1,12 +1,21 @@
 # Define boss moving plan
 ---
-command:
-  enter: &enter e
-  confirm: &confirm y
-  up: &arrow_up w
-  down: &arrow_down s
-  left: &arrow_left a
-  right: &arrow_right d
+leonardo:
+  player:
+    enter: &enter e
+    confirm: &confirm y
+    up: &arrow_up w
+    down: &arrow_down s
+    left: &arrow_left a
+    right: &arrow_right d
+  device:
+    hunt: hunt-
+    move_to_boss_map: boss- 
+    frenzy: frenzy-
+    move_x: move-
+    move_y: updown-
+    mine: mine
+    break_rune: rune-
 
 inventory:
   category:

@@ -1,20 +1,58 @@
 """Responsible for communicating with Leonardo"""
 
 from typing import Optional, List
-
 import serial
+
+from pydantic import BaseModel
+import yaml
+
 from logger import logger
 from setting import SETTINGS
-import time
+
+
+class LeonardoCommand(BaseModel):
+    """Parse config file leonardo and player commands"""
+
+    class PlayerCommand(BaseModel):
+        """Define Leonardo player command"""
+
+        enter: str
+        confirm: str
+        up: str
+        down: str
+        left: str
+        right: str
+
+    class DeviceCommand(BaseModel):
+        """Define Leonardo device command"""
+
+        hunt: str
+        move_to_boss_map: str
+        frenzy: str
+        move_x: str
+        move_y: str
+        mine: str
+        break_rune: str
+    
+    player: PlayerCommand
+    device: DeviceCommand
+
 
 class Communicator():
     def __init__(self, port: str, baudrate: int, timeout: Optional[float] = None) -> None:
+        # Connect to Leonardo
         self.serial = serial.Serial(
             port=port, 
             baudrate=baudrate, 
             timeout=timeout
         )
         logger.info(f"Connect to dev board success: {port}")
+
+        # Read config to get leonardo commands
+        with open(SETTINGS.config_file) as file:
+            config = yaml.safe_load(file)
+            self.leonardo_command: LeonardoCommand = LeonardoCommand(**config["leonardo"])
+        logger.info(f"Parse leonardo command success")
     
     def send(self, command: str):
         """Send message to Leonardo and return"""
@@ -34,7 +72,7 @@ class Communicator():
     def hunting(self, seconds: int):
         """Control player to hunt for seconds"""
 
-        commands: List[str] = [f"hunt-{seconds}"]
+        commands: List[str] = [f"{self.leonardo_command.device.hunt}{seconds}"]
         for cmd in commands:
             self.ask_ack(cmd)
 
@@ -62,7 +100,7 @@ class Communicator():
     def frenzy(self, minutes: int):
         """Control player to use frenzy for minutes"""
 
-        commands: List[str] = [f"frenzy-{minutes}"]
+        commands: List[str] = [f"{self.leonardo_command.device.frenzy}{minutes}"]
         for cmd in commands:
             self.ask_ack(cmd)
 
@@ -73,7 +111,7 @@ class Communicator():
         duration: str = format(player_to_x / SETTINGS.player_speed, ".1f")
 
         # Send x moving command to Leonardo
-        commands: List[str] = [f"move-{duration}"]
+        commands: List[str] = [f"{self.leonardo_command.device.move_x}{duration}"]
         for cmd in commands:
             self.ask_ack(cmd)
 
@@ -82,18 +120,18 @@ class Communicator():
 
         # Decide to jump up or jump down
         direction: str = "up" if player_to_y < 0 else "down"
-        commands: List[str] = [f"updown-{direction}"]
+        commands: List[str] = [f"{self.leonardo_command.device.move_y}{direction}"]
         for cmd in commands:
             self.ask_ack(cmd)
 
     def mine(self):
         """Ask player to mine"""
         
-        self.ask_ack("mine")
+        self.ask_ack(self.leonardo_command.device.mine)
     
     def break_rune(self, answer: str):
         """Send answer to Leonardo and break rune"""
         
-        commands: List[str] = [f"rune-{answer}"]
+        commands: List[str] = [f"{self.leonardo_command.device.break_rune}{answer}"]
         for cmd in commands:
             self.ask_ack(cmd)
