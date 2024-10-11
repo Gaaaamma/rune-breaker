@@ -105,7 +105,22 @@ def main():
                 maple_map.map_coordination_test()
 
         elif command == "test":
-            alert(maple_map, SETTINGS.alert_period)
+            logger.info("Test communicate move_cursor_to command")
+            coordination: str = input("Please input x,y coordination: ")
+            find_comma: str = coordination.find(",")
+
+            if find_comma == -1:
+                logger.error(f"Error coordination format: {coordination}")
+                continue
+            
+            try:
+                x: int = int(coordination[:find_comma])
+                y: int = int(coordination[find_comma+1:])
+            except Exception as e:
+                logger.error(e)
+            else:
+                logger.info(f"Get move_cursor_to coordination: ({x}, {y})")
+                comm.move_cursor_to(x, y)
 
         else:
             logger.info(f"Unknown command: {command}")
