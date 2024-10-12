@@ -136,7 +136,7 @@ def main():
                 logger.info(f"Get move_cursor_to coordination: ({x}, {y})")
                 comm.move_cursor_to(x, y)
 
-        elif comm == "boss":
+        elif command == "boss":
             logger.info("daily boss hunting")
             time.sleep(3)
 
