@@ -295,6 +295,20 @@ void loop() {
       delay(100);
       Serial.println("Mouse move: " + String(xCoord) + ", " + String(yCoord));
 
+    } else if (command.startsWith("click-")) { // click-l, click-r
+      int directionIndex = command.indexOf('-') + 1;
+      char direction = command.charAt(directionIndex);
+      
+      if (direction == 'l') {
+        AbsoluteMouse.click(MOUSE_LEFT);
+        Serial.println("MOUSE_LEFT Clicked");
+      } else if (direction == 'r') {
+        AbsoluteMouse.click(MOUSE_RIGHT);
+        Serial.println("MOUSE_RIGHT Clicked");
+      } else {
+        Serial.println("Unknown click- command: " + command);
+      }
+      
     } else if (command == "test") {
       delay(2000);
       CollectMoney_fall1();
