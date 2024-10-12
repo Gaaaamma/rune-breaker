@@ -133,6 +133,7 @@ class BossControl():
         if throw_setting:
             # Open inventory
             self.comm.key(InventoryControl.inventory.shortcut)
+            time.sleep(1)
 
             # Get category coordination
             category_x, category_y = InventoryControl.get_category_coordination(
@@ -141,28 +142,36 @@ class BossControl():
 
             # Move to specified category and click
             self.comm.move_cursor_to(category_x, category_y)
+            time.sleep(1)
             self.comm.click_cursor("LEFT")
+            time.sleep(1)
 
             # Move to specified item and click
             item_x, item_y = InventoryControl.get_item_coordination(
                 throw_setting.item_index_x, throw_setting.item_index_y
             )
             self.comm.move_cursor_to(item_x, item_y)
+            time.sleep(1)
             self.comm.click_cursor("LEFT")
+            time.sleep(1)
 
             # Move to spare position and click
             self.comm.move_cursor_to(
                 InventoryControl.inventory.item.spare_x, InventoryControl.inventory.item.spare_y
             )
+            time.sleep(1)
             self.comm.click_cursor("LEFT")
+            time.sleep(1)
 
             # Check multiple items to check if we need to type number to throw
             if throw_setting.multiple_item:
                 # Just throw one item out of inventory
                 self.comm.key("1", open_chat=False, close_chat=True)
+                time.sleep(1)
             
             # Close inventory
             self.comm.key(InventoryControl.inventory.shortcut)
+            time.sleep(1)
 
 if __name__ == "__main__":
     print("========== Get category ==========")
