@@ -16,9 +16,13 @@ leonardo:
     move_y: updown-
     mine: mine
     break_rune: rune-
-    move_cursor: mouseto-
+    cursor_move: mouseto-
+    cursor_click: click-
+    key: key-
+    enter: E
 
 inventory:
+  shortcut: i
   category:
     max_index_x: 5
     diff_x: 990
@@ -31,6 +35,8 @@ inventory:
     diff_y: 2552
     first_x: -8669
     first_y: -12014
+    spare_x: -16384
+    spare_y: -12014
   
 boss:
   - name: zakum
@@ -44,9 +50,10 @@ boss:
       - x_move: 30
         y_move: 0
         throw_item:
-          category_index: 2
-          x_index: 0
-          y_index: 0
+          category_index_x: 2
+          item_index_x: 0
+          item_index_y: 0
+          multiple_item: true
         keyboard: null
         delay: null
       - x_move: -8

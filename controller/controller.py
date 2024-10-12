@@ -1,20 +1,26 @@
-import time
-from controller.detector import Map, initialize_map
-from controller.alert import alert, alert_handler
-from controller.event import alert_event, stop_event
-from setting import SETTINGS
-from logger import logger
-from controller.communicate import Communicator
-from threading import Thread
 import signal
 import sys
+import time
+from threading import Thread
+from typing import List
+
+from controller.alert import alert, alert_handler
+from controller.boss import Boss, BossControl
+from controller.communicate import Communicator
+from controller.detector import Map, initialize_map
+from controller.event import alert_event, stop_event
+from setting import SETTINGS, CONFIG
+from logger import logger
+
 
 def signal_handler(sig, frame):
     stop_event.set()
     print('Controller exit')
     sys.exit(0)
 
+
 signal.signal(signal.SIGINT, signal_handler)
+
 
 def main():
     print(SETTINGS.board_port)
@@ -129,6 +135,36 @@ def main():
                 # Move cursor
                 logger.info(f"Get move_cursor_to coordination: ({x}, {y})")
                 comm.move_cursor_to(x, y)
+
+        elif comm == "boss":
+            logger.info("daily boss hunting")
+            time.sleep(3)
+
+            # Iterate all boss
+            for boss in CONFIG["boss"]:
+                boss: Boss = Boss(**boss)
+                boss_control: BossControl = BossControl(comm)
+                logger.info(f"Hunting: {boss.name}")
+
+                # Testing: only test zakum
+                if boss.name == "zakum":
+                    boss_control.move_to_boss_map(boss.index)
+
+                    # Loop through command
+                    if boss.commands:
+                        counter: int = 0
+                        for boss_command in boss.commands:
+                            logger.info(f"[{counter}] {boss.name} commands")
+                            # Move x
+
+                            # Move y
+
+                            # Throw item
+                            boss_control.throw_item(boss_command.throw_item)
+
+                            # Keyboard execution
+
+                            counter += 1
 
         elif command == "test":
             logger.info("Nothing to test now")

@@ -1,10 +1,9 @@
 """Responsible for communicating with Leonardo"""
 
-from typing import Optional, List
+from typing import Optional, List, Literal
 import serial
 
 from pydantic import BaseModel
-import yaml
 
 from logger import logger
 from setting import SETTINGS, CONFIG
@@ -33,7 +32,10 @@ class LeonardoCommand(BaseModel):
         move_y: str
         mine: str
         break_rune: str
-        move_cursor: str
+        cursor_move: str
+        cursor_click: str
+        key: str
+        enter: str
     
     player: PlayerCommand
     device: DeviceCommand
@@ -67,6 +69,33 @@ class Communicator():
 
         received_message = self.serial.readline().decode().strip()
         logger.info(f"Leonardo ack: {received_message}")
+
+    def key(self, message: str, open_chat: bool = False, close_chat: bool = False):
+        """
+        Control player to key something (commands/message).
+        The function will send your message character one by one with key prefix.
+        - message: The message or command you want to send
+        - open_chat: True = Type ENTER first to open chat
+        - close_chat: True = Type ENTER at the end to send message
+        """
+
+        # Open chat (if needed)
+        if open_chat:
+            self.ask_ack(
+                f"{self.leonardo_command.device.key}{self.leonardo_command.device.enter}"
+            )
+        
+        # Key message
+        for char in message:
+            self.ask_ack(
+                f"{self.leonardo_command.device.key}{char}"
+            )
+        
+        # Send (Close chat if needed)
+        if close_chat:
+            self.ask_ack(
+                f"{self.leonardo_command.device.key}{self.leonardo_command.device.enter}"
+            )
 
     def hunting(self, seconds: int):
         """Control player to hunt for seconds"""
@@ -107,7 +136,23 @@ class Communicator():
         """Control cursor to (x, y)"""
 
         commands: List[str] = [
-            f"{self.leonardo_command.device.move_cursor}{x},{y}"
+            f"{self.leonardo_command.device.cursor_move}{x},{y}"
+        ]
+        for cmd in commands:
+            self.ask_ack(cmd)
+
+    def click_cursor(self, direction: Literal["LEFT", "RIGHT"]):
+        """Make cursor click MOUSE_LEFT or MOUSE_RIGHT"""
+
+        direction = "l" if direction == "LEFT" else "r"
+        commands: str = f"{self.leonardo_command.device.cursor_click}{direction}"
+        self.ask_ack(commands)
+
+    def move_to_boss_map(self, index: int):
+        """Move to boss map at specified index"""
+
+        commands: List[str] = [
+            f"{self.leonardo_command.device.move_to_boss_map}{index}"
         ]
         for cmd in commands:
             self.ask_ack(cmd)

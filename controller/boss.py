@@ -1,16 +1,18 @@
 """Define maple story boss functions"""
 
 from typing import Dict, List, Optional, Tuple
+import time
 
 from pydantic import BaseModel, model_validator
-import yaml
 
+from controller.communicate import Communicator
 from logger import logger
-from setting import SETTINGS, CONFIG
+from setting import CONFIG
 
 
 class Inventory(BaseModel):
-    
+    """Parse inventory config"""
+
     class Category(BaseModel):
         max_index_x: int
         diff_x: int
@@ -24,7 +26,10 @@ class Inventory(BaseModel):
         diff_y: int
         first_x: int
         first_y: int
+        spare_x: int
+        spare_y: int
 
+    shortcut: str
     category: Category
     item: Item
 
@@ -73,15 +78,16 @@ class InventoryControl():
         return (x, y)
 
 
-class BossControl(BaseModel):
-    """Parse boss control config"""
+class Boss(BaseModel):
+    """Parse boss config"""
 
     class Command(BaseModel):
 
         class ThrowSetting(BaseModel):
-            category_index: int
-            x_index: int
-            y_index: int
+            category_index_x: int
+            item_index_x: int
+            item_index_y: int
+            multiple_item: bool
 
         x_move: int
         y_move: int
@@ -105,19 +111,58 @@ class BossControl(BaseModel):
     index: int
     commands: Optional[List[Command]]
 
-    @classmethod
-    def get_boss_control_list(cls) -> List["BossControl"]:
+
+class BossControl():
+    """Collect all boss control useful functions"""
+
+    def __init__(self, comm: Communicator):
+        self.comm: Communicator = comm
+
+    def move_to_boss_map(self, boss_index: int, delay_seconds: float = 3):
         """
-        Load boss config file and parse it to list of BossControl object
+        Move character to boss map at index.
+        It will sleep `delay` time to make device controlable
         """
 
-        control_list: List[BossControl] = []
-        for boss_control in CONFIG["boss"]:
-            b = BossControl(**boss_control)
-            control_list.append(b)
-        
-        return control_list
+        self.comm.move_to_boss_map(boss_index)
+        time.sleep(delay_seconds)
 
+    def throw_item(self, throw_setting: Optional[Boss.Command.ThrowSetting]):
+        """throw item out of inventory"""
+
+        if throw_setting:
+            # Open inventory
+            self.comm.key(InventoryControl.inventory.shortcut)
+
+            # Get category coordination
+            category_x, category_y = InventoryControl.get_category_coordination(
+                throw_setting.category_index_x
+            )
+
+            # Move to specified category and click
+            self.comm.move_cursor_to(category_x, category_y)
+            self.comm.click_cursor("LEFT")
+
+            # Move to specified item and click
+            item_x, item_y = InventoryControl.get_item_coordination(
+                throw_setting.item_index_x, throw_setting.item_index_y
+            )
+            self.comm.move_cursor_to(item_x, item_y)
+            self.comm.click_cursor("LEFT")
+
+            # Move to spare position and click
+            self.comm.move_cursor_to(
+                InventoryControl.inventory.item.spare_x, InventoryControl.inventory.item.spare_y
+            )
+            self.comm.click_cursor("LEFT")
+
+            # Check multiple items to check if we need to type number to throw
+            if throw_setting.multiple_item:
+                # Just throw one item out of inventory
+                self.comm.key("1", open_chat=False, close_chat=True)
+            
+            # Close inventory
+            self.comm.key(InventoryControl.inventory.shortcut)
 
 if __name__ == "__main__":
     print("========== Get category ==========")
