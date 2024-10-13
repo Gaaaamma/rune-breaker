@@ -42,7 +42,7 @@ boss:
   - name: zakum
     index: 2
     commands:
-      - move_x_duration: 9.20
+      - move_x_duration: 9.25
         move_y_count: 0
         cursor:
           cursor_x: 0
@@ -51,8 +51,8 @@ boss:
         throw_item: null
         arrow: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
         arrow_delay: [0.1, 0.1, 0.1, 0.1, 0.1]
-        keyboard: null
-        keyboard_delay: null
+        keyboard: []
+        keyboard_delay: []
       - move_x_duration: 2
         move_y_count: 0
         cursor: null
@@ -61,16 +61,16 @@ boss:
           item_index_x: 0
           item_index_y: 0
           multiple_item: true
-        arrow: null
-        arrow_delay: null
-        keyboard: null
-        keyboard_delay: null
-      - move_x_duration: -0.53
+        arrow: []
+        arrow_delay: []
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0
         move_y_count: 0
         cursor: null
         throw_item: null
-        arrow: null
-        arrow_delay: null
+        arrow: []
+        arrow_delay: []
         keyboard: []
         keyboard_delay: []
   - name: magnus
