@@ -5,7 +5,7 @@ from threading import Thread
 from typing import List
 
 from controller.alert import alert, alert_handler
-from controller.boss import Boss, BossControl
+from controller.boss import Boss
 from controller.communicate import Communicator
 from controller.detector import Map, initialize_map
 from controller.event import alert_event, stop_event
