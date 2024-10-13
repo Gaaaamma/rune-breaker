@@ -98,9 +98,9 @@ class Boss(BaseModel):
         cursor: Optional[Cursor]
         throw_item: Optional[ThrowSetting]
         arrow: Optional[List[str]]
-        arrow_delay: Optional[List[int]]
+        arrow_delay: Optional[List[float]]
         keyboard: Optional[List[str]]
-        keyboard_delay: Optional[List[int]]
+        keyboard_delay: Optional[List[float]]
 
         @model_validator(mode="after")
         def delay_len_check(cls, values):
