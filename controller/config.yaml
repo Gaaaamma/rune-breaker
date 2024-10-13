@@ -42,7 +42,7 @@ boss:
   - name: zakum
     index: 2
     commands:
-      - move_x_duration: 9.25
+      - move_x_duration: 9.35
         move_y_count: 0
         cursor:
           cursor_x: 0
