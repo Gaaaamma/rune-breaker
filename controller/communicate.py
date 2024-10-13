@@ -2,6 +2,7 @@
 
 from typing import Optional, List, Literal
 import serial
+import time
 
 from pydantic import BaseModel
 
@@ -84,18 +85,21 @@ class Communicator():
             self.ask_ack(
                 f"{self.leonardo_command.device.key}{self.leonardo_command.device.enter}"
             )
+            time.sleep(0.5)
         
         # Key message
         for char in message:
             self.ask_ack(
                 f"{self.leonardo_command.device.key}{char}"
             )
+            time.sleep(0.5)
         
         # Send (Close chat if needed)
         if close_chat:
             self.ask_ack(
                 f"{self.leonardo_command.device.key}{self.leonardo_command.device.enter}"
             )
+            time.sleep(0.5)
 
     def hunting(self, seconds: int):
         """Control player to hunt for seconds"""
