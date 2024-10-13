@@ -147,16 +147,18 @@ def main():
                 if boss.commands:
                     comm.move_to_boss_map(boss.index)
                     for boss_command in boss.commands:
-                        # Move x (with duration seconds)
+                        logger.info(f"Move x (with duration seconds): {boss_command.move_x_duration}")
                         comm.go_to_x_duration(boss_command.move_x_duration)
                         time.sleep(1)
 
                         # Move y (with count times up / down)
+                        logger.info(f"Move y (with count times up / down): {boss_command.move_y_count}")
                         comm.go_to_y_count(boss_command.move_y_count)
                         time.sleep(1)
 
                         # Move cursor
                         if boss_command.cursor:
+                            logger.info(f"Move cursor to ({boss_command.cursor.cursor_x},{boss_command.cursor.cursor_y})")
                             comm.move_cursor_to(
                                 boss_command.cursor.cursor_x,
                                 boss_command.cursor.cursor_y
@@ -168,15 +170,18 @@ def main():
                                 time.sleep(0.5)
 
                         # Throw item
+                        logger.info("Throw item")
                         comm.throw_item(boss_command.throw_item)
                         time.sleep(0.5)
 
                         # Arrow exectuion
+                        logger.info("Arrow excution")
                         for direction, delay in zip(boss_command.arrow, boss_command.arrow_delay):
                             comm.arrow(direction)
                             time.sleep(delay)
 
                         # Keyboard execution
+                        logger.info("Keyboard excution")
                         for command, delay in zip(boss_command.keyboard, boss_command.keyboard_delay):
                             comm.key(command)
                             time.sleep(delay)
