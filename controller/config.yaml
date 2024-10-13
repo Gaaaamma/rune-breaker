@@ -44,11 +44,13 @@ boss:
     commands:
       - x_move: 136
         y_move: 0
+        cursor_move: null
         throw_item: null
         keyboard: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
         delay: [100, 100, 100, 100, 100]
       - x_move: 30
         y_move: 0
+        cursor_move: null
         throw_item:
           category_index_x: 2
           item_index_x: 0
@@ -58,6 +60,7 @@ boss:
         delay: null
       - x_move: -8
         y_move: 0
+        cursor_move: null
         throw_item: null
         keyboard: [*arrow_up]
         delay: [100]

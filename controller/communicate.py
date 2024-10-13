@@ -6,6 +6,7 @@ import time
 
 from pydantic import BaseModel
 
+from controller.boss import InventoryControl, Boss
 from logger import logger
 from setting import SETTINGS, CONFIG
 
@@ -152,14 +153,16 @@ class Communicator():
         commands: str = f"{self.leonardo_command.device.cursor_click}{direction}"
         self.ask_ack(commands)
 
-    def move_to_boss_map(self, index: int):
-        """Move to boss map at specified index"""
+    def move_to_boss_map(self, index: int, delay_secs: float = 3.0):
+        """Move to boss map at specified index and wait"""
 
         commands: List[str] = [
             f"{self.leonardo_command.device.move_to_boss_map}{index}"
         ]
         for cmd in commands:
             self.ask_ack(cmd)
+
+        time.sleep(delay_secs)
 
     def go_to_x(self, player_to_x: int):
         """Control player to move to wheel in x axis"""
@@ -185,7 +188,53 @@ class Communicator():
         """Ask player to mine"""
         
         self.ask_ack(self.leonardo_command.device.mine)
-    
+
+    def throw_item(self, throw_setting: Optional[Boss.Command.ThrowSetting], delay_secs: float = 0.5):
+        """throw item out of inventory"""
+
+        if throw_setting:
+            # Open inventory
+            self.key(InventoryControl.inventory.shortcut)
+            time.sleep(delay_secs)
+
+            # Get category coordination
+            category_x, category_y = InventoryControl.get_category_coordination(
+                throw_setting.category_index_x
+            )
+
+            # Move to specified category and click
+            self.move_cursor_to(category_x, category_y)
+            time.sleep(delay_secs)
+            self.click_cursor("LEFT")
+            time.sleep(delay_secs)
+
+            # Move to specified item and click
+            item_x, item_y = InventoryControl.get_item_coordination(
+                throw_setting.item_index_x, throw_setting.item_index_y
+            )
+            self.move_cursor_to(item_x, item_y)
+            time.sleep(delay_secs)
+            self.click_cursor("LEFT")
+            time.sleep(delay_secs)
+
+            # Move to spare position and click
+            self.move_cursor_to(
+                InventoryControl.inventory.item.spare_x, InventoryControl.inventory.item.spare_y
+            )
+            time.sleep(delay_secs)
+            self.click_cursor("LEFT")
+            time.sleep(delay_secs)
+
+            # Check multiple items to check if we need to type number to throw
+            if throw_setting.multiple_item:
+                # Just throw one item out of inventory
+                self.key("1", open_chat=False, close_chat=True)
+                time.sleep(delay_secs)
+            
+            # Close inventory
+            self.key(InventoryControl.inventory.shortcut)
+            time.sleep(delay_secs)
+
     def break_rune(self, answer: str):
         """Send answer to Leonardo and break rune"""
         

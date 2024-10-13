@@ -5,7 +5,6 @@ import time
 
 from pydantic import BaseModel, model_validator
 
-from controller.communicate import Communicator
 from logger import logger
 from setting import CONFIG
 
@@ -91,6 +90,7 @@ class Boss(BaseModel):
 
         x_move: int
         y_move: int
+        cursor_move: Optional[List[int]]
         throw_item: Optional[ThrowSetting]
         keyboard: Optional[List[str]]
         delay: Optional[List[int]]
@@ -111,67 +111,6 @@ class Boss(BaseModel):
     index: int
     commands: Optional[List[Command]]
 
-
-class BossControl():
-    """Collect all boss control useful functions"""
-
-    def __init__(self, comm: Communicator):
-        self.comm: Communicator = comm
-
-    def move_to_boss_map(self, boss_index: int, delay_seconds: float = 3):
-        """
-        Move character to boss map at index.
-        It will sleep `delay` time to make device controlable
-        """
-
-        self.comm.move_to_boss_map(boss_index)
-        time.sleep(delay_seconds)
-
-    def throw_item(self, throw_setting: Optional[Boss.Command.ThrowSetting]):
-        """throw item out of inventory"""
-
-        if throw_setting:
-            # Open inventory
-            self.comm.key(InventoryControl.inventory.shortcut)
-            time.sleep(0.5)
-
-            # Get category coordination
-            category_x, category_y = InventoryControl.get_category_coordination(
-                throw_setting.category_index_x
-            )
-
-            # Move to specified category and click
-            self.comm.move_cursor_to(category_x, category_y)
-            time.sleep(0.5)
-            self.comm.click_cursor("LEFT")
-            time.sleep(0.5)
-
-            # Move to specified item and click
-            item_x, item_y = InventoryControl.get_item_coordination(
-                throw_setting.item_index_x, throw_setting.item_index_y
-            )
-            self.comm.move_cursor_to(item_x, item_y)
-            time.sleep(0.5)
-            self.comm.click_cursor("LEFT")
-            time.sleep(0.5)
-
-            # Move to spare position and click
-            self.comm.move_cursor_to(
-                InventoryControl.inventory.item.spare_x, InventoryControl.inventory.item.spare_y
-            )
-            time.sleep(0.5)
-            self.comm.click_cursor("LEFT")
-            time.sleep(0.5)
-
-            # Check multiple items to check if we need to type number to throw
-            if throw_setting.multiple_item:
-                # Just throw one item out of inventory
-                self.comm.key("1", open_chat=False, close_chat=True)
-                time.sleep(0.5)
-            
-            # Close inventory
-            self.comm.key(InventoryControl.inventory.shortcut)
-            time.sleep(1)
 
 if __name__ == "__main__":
     print("========== Get category ==========")

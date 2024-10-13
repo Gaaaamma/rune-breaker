@@ -143,28 +143,20 @@ def main():
             # Iterate all boss
             for boss in CONFIG["boss"]:
                 boss: Boss = Boss(**boss)
-                boss_control: BossControl = BossControl(comm)
                 logger.info(f"Hunting: {boss.name}")
+                if boss.commands:
+                    comm.move_to_boss_map(boss.index)
+                    for boss_command in boss.commands:
+                        # Move x
 
-                # Testing: only test zakum
-                if boss.name == "zakum":
-                    boss_control.move_to_boss_map(boss.index)
+                        # Move y
 
-                    # Loop through command
-                    if boss.commands:
-                        counter: int = 0
-                        for boss_command in boss.commands:
-                            logger.info(f"[{counter}] {boss.name} commands")
-                            # Move x
+                        # Move cursor
 
-                            # Move y
+                        # Throw item
+                        comm.throw_item(boss_command.throw_item)
 
-                            # Throw item
-                            boss_control.throw_item(boss_command.throw_item)
-
-                            # Keyboard execution
-
-                            counter += 1
+                        # Keyboard execution
 
         elif command == "test":
             logger.info("Nothing to test now")
