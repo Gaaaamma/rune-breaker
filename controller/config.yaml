@@ -42,15 +42,18 @@ boss:
   - name: zakum
     index: 2
     commands:
-      - x_move: 136
-        y_move: 0
-        cursor_move: null
+      - move_x_duration: 9.06
+        move_y_count: 0
+        cursor:
+          cursor_x: 0
+          cursor_y: 0
+          click: true
         throw_item: null
         keyboard: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
         delay: [100, 100, 100, 100, 100]
-      - x_move: 30
-        y_move: 0
-        cursor_move: null
+      - move_x_duration: 2
+        move_y_count: 0
+        cursor: null
         throw_item:
           category_index_x: 2
           item_index_x: 0
@@ -58,9 +61,9 @@ boss:
           multiple_item: true
         keyboard: null
         delay: null
-      - x_move: -8
-        y_move: 0
-        cursor_move: null
+      - move_x_duration: -0.53
+        move_y_count: 0
+        cursor: null
         throw_item: null
         keyboard: [*arrow_up]
         delay: [100]

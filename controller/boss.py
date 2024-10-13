@@ -81,6 +81,11 @@ class Boss(BaseModel):
     """Parse boss config"""
 
     class Command(BaseModel):
+        
+        class Cursor(BaseModel):
+            cursor_x: int
+            cursor_y: int
+            click: bool
 
         class ThrowSetting(BaseModel):
             category_index_x: int
@@ -88,9 +93,9 @@ class Boss(BaseModel):
             item_index_y: int
             multiple_item: bool
 
-        x_move: int
-        y_move: int
-        cursor_move: Optional[List[int]]
+        move_x_duration: float
+        move_y_count: int
+        cursor: Optional[Cursor]
         throw_item: Optional[ThrowSetting]
         keyboard: Optional[List[str]]
         delay: Optional[List[int]]

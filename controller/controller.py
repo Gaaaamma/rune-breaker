@@ -147,16 +147,33 @@ def main():
                 if boss.commands:
                     comm.move_to_boss_map(boss.index)
                     for boss_command in boss.commands:
-                        # Move x
+                        # Move x (with duration seconds)
+                        comm.go_to_x_duration(boss_command.move_x_duration)
+                        time.sleep(1)
 
-                        # Move y
+                        # Move y (with count times up / down)
+                        comm.go_to_y_count(boss_command.move_y_count)
+                        time.sleep(1)
 
                         # Move cursor
+                        if boss_command.cursor:
+                            comm.move_cursor_to(
+                                boss_command.cursor.cursor_x,
+                                boss_command.cursor.cursor_y
+                            )
+                            time.sleep(0.5)
+
+                            if boss_command.cursor.click:
+                                comm.click_cursor("LEFT")
+                                time.sleep(0.5)
 
                         # Throw item
                         comm.throw_item(boss_command.throw_item)
+                        time.sleep(0.5)
 
                         # Keyboard execution
+                        logger.info(f"Get next command")
+                        time.sleep(5)
 
         elif command == "test":
             logger.info("Nothing to test now")

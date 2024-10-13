@@ -175,6 +175,14 @@ class Communicator():
         for cmd in commands:
             self.ask_ack(cmd)
 
+    def go_to_x_duration(self, duration: float):
+        """Control player to move in duration seconds"""
+
+        # Send x moving command to Leonardo
+        commands: List[str] = [f"{self.leonardo_command.device.move_x}{duration}"]
+        for cmd in commands:
+            self.ask_ack(cmd)
+
     def go_to_y(self, player_to_y: int):
         """Control player to move to wheel in y axis"""
 
@@ -183,6 +191,29 @@ class Communicator():
         commands: List[str] = [f"{self.leonardo_command.device.move_y}{direction}"]
         for cmd in commands:
             self.ask_ack(cmd)
+
+    def go_to_y_count(self, count: int):
+        """
+        Continuously use skill-rope to go up / down with count times.
+        - count == 0: do nothing (needless to go up / down).
+        - count > 0: up with longer delay seconds, count -= 1 at the end.
+        - count < 0: down with shorter delay seconds, count += 1 at the end.
+        """
+
+        direction: str = "up" if count > 0 else "down"
+        command: str = f"{self.leonardo_command.device.move_y}{direction}"
+
+        while count != 0:
+            self.ask_ack(command)
+            
+            # Going up takes more delay time
+            if count > 0:
+                count -= 1
+                time.sleep(3)
+            
+            elif count < 0:
+                count +=1
+                time.sleep(1.5)
 
     def mine(self):
         """Ask player to mine"""
