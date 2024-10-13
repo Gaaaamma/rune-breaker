@@ -238,6 +238,16 @@ void loop() {
       }
       Serial.println("rune ack");
 
+    } else if (command.startsWith("arrow-")) {
+      // Get answer
+      String direction = command.substring(6); // Remove "arrow-" prefix
+
+      for (int i = 0; i < direction.length(); i++) {
+        char c = direction.charAt(i);
+        ArrowMove(c, 200);
+      }
+      Serial.println("arrow ack");
+
     } else if (command.startsWith("key-")) {
       // Get keyboard command
       int keyIndex = command.indexOf('-') + 1;
@@ -523,38 +533,30 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
   return true;
 }
 
-void ArrowMove(char direction[], int counts, unsigned long wait[]) {
-  for (int i = 0; i < counts; i++) {
-    switch (direction[i]) {
+void ArrowMove(char direction, unsigned long wait) {
+  switch (direction) {
     case 'w':
       Keyboard.write(KEY_UP_ARROW);
-      delay(wait[i]);
       break;
     case 's':
       Keyboard.write(KEY_DOWN_ARROW);
-      delay(wait[i]);
       break;
     case 'a':
       Keyboard.write(KEY_LEFT_ARROW);
-      delay(wait[i]);
       break;
     case 'd':
       Keyboard.write(KEY_RIGHT_ARROW);
-      delay(wait[i]);
       break;
     case 'y':
       Keyboard.write(CONFIRM);
-      delay(wait[i]);
       break;
     case 'e':
       Keyboard.write(ENTER);
-      delay(wait[i]);
       break;
-    
     default:
       break;
-    }
   }
+  delay(wait);
 }
 
 void WalkingSongSky(int times) {
