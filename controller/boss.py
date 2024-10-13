@@ -97,18 +97,26 @@ class Boss(BaseModel):
         move_y_count: int
         cursor: Optional[Cursor]
         throw_item: Optional[ThrowSetting]
+        arrow: Optional[List[str]]
+        arrow_delay: Optional[List[int]]
         keyboard: Optional[List[str]]
-        delay: Optional[List[int]]
+        keyboard_delay: Optional[List[int]]
 
         @model_validator(mode="after")
-        def keyboard_delay_len_check(cls, values):
+        def delay_len_check(cls, values):
             keyboard = values.keyboard
-            delay = values.delay
-
+            keyboard_delay = values.keyboard_delay
             l_keyboard: int = len(keyboard) if keyboard is not None else -1
-            l_delay: int = len(delay) if delay is not None else -1
-            if l_keyboard != l_delay:
-                raise ValueError(f"len(keyboard)={l_keyboard} != len(delay)={l_delay}.")
+            l_keyboard_delay: int = len(keyboard_delay) if keyboard_delay is not None else -1
+            if l_keyboard != l_keyboard_delay:
+                raise ValueError(f"len(keyboard)={l_keyboard} != len(keyboard_delay)={l_keyboard_delay}.")
+
+            arrow = values.arrow
+            arrow_delay = values.arrow_delay
+            l_arrow: int = len(arrow) if arrow is not None else -1
+            l_arrow_delay: int = len(arrow_delay) if arrow_delay is not None else -1
+            if l_arrow != l_arrow_delay:
+                raise ValueError(f"len(arrow)={l_arrow} != len(arrow_delay)={l_arrow_delay}.")
 
             return values
     

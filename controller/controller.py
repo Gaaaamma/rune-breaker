@@ -171,7 +171,16 @@ def main():
                         comm.throw_item(boss_command.throw_item)
                         time.sleep(0.5)
 
+                        # Arrow exectuion
+                        for direction, delay in zip(boss_command.arrow, boss_command.arrow_delay):
+                            comm.arrow(direction)
+                            time.sleep(delay)
+
                         # Keyboard execution
+                        for command, delay in zip(boss_command.keyboard, boss_command.keyboard_delay):
+                            comm.key(command)
+                            time.sleep(delay)
+
                         logger.info(f"Get next command")
                         time.sleep(5)
 

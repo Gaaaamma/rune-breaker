@@ -36,8 +36,8 @@ class LeonardoCommand(BaseModel):
         break_rune: str
         cursor_move: str
         cursor_click: str
+        arrow: str
         key: str
-        enter: str
     
     player: PlayerCommand
     device: DeviceCommand
@@ -72,6 +72,15 @@ class Communicator():
         received_message = self.serial.readline().decode().strip()
         logger.info(f"Leonardo ack: {received_message}")
 
+    def arrow(self, directions: str):
+        """
+        Control player to use UP/DOWN/LEFT/RIGHT/CONFIRM/ENTER
+        - directions: single direction or multiple directions
+        """
+
+        # Key directions
+        self.ask_ack(f"{self.leonardo_command.device.arrow}{directions}")
+
     def key(self, message: str, open_chat: bool = False, close_chat: bool = False):
         """
         Control player to key something (commands/message).
@@ -83,9 +92,7 @@ class Communicator():
 
         # Open chat (if needed)
         if open_chat:
-            self.ask_ack(
-                f"{self.leonardo_command.device.key}{self.leonardo_command.device.enter}"
-            )
+            self.arrow(self.leonardo_command.player.enter)
             time.sleep(0.5)
         
         # Key message
@@ -97,9 +104,7 @@ class Communicator():
         
         # Send (Close chat if needed)
         if close_chat:
-            self.ask_ack(
-                f"{self.leonardo_command.device.key}{self.leonardo_command.device.enter}"
-            )
+            self.arrow(self.leonardo_command.player.enter)
             time.sleep(0.5)
 
     def hunting(self, seconds: int):

@@ -18,8 +18,8 @@ leonardo:
     break_rune: rune-
     cursor_move: mouseto-
     cursor_click: click-
+    arrow: arrow-
     key: key-
-    enter: E
 
 inventory:
   shortcut: i
@@ -42,15 +42,17 @@ boss:
   - name: zakum
     index: 2
     commands:
-      - move_x_duration: 9.06
+      - move_x_duration: 9.20
         move_y_count: 0
         cursor:
           cursor_x: 0
           cursor_y: 0
           click: true
         throw_item: null
-        keyboard: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
-        delay: [100, 100, 100, 100, 100]
+        arrow: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
+        arrow_delay: [0.1, 0.1, 0.1, 0.1, 0.1]
+        keyboard: null
+        keyboard_delay: null
       - move_x_duration: 2
         move_y_count: 0
         cursor: null
@@ -59,14 +61,18 @@ boss:
           item_index_x: 0
           item_index_y: 0
           multiple_item: true
+        arrow: null
+        arrow_delay: null
         keyboard: null
-        delay: null
+        keyboard_delay: null
       - move_x_duration: -0.53
         move_y_count: 0
         cursor: null
         throw_item: null
-        keyboard: [*arrow_up]
-        delay: [100]
+        arrow: null
+        arrow_delay: null
+        keyboard: []
+        keyboard_delay: []
   - name: magnus
     index: 3
     commands: null
