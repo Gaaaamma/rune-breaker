@@ -121,6 +121,7 @@ class Boss(BaseModel):
             return values
     
     name: str
+    enabled: bool
     index: int
     commands: Optional[List[Command]]
 

@@ -46,6 +46,7 @@ inventory:
   
 boss:
   - name: zakum
+    enabled: true
     index: 2
     commands:
       - move_x_duration: 9.35 # Go into battle map
@@ -93,6 +94,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: magnus
+    enabled: false
     index: 3
     commands:
       - move_x_duration: 2.45 # Go into battle map and attack
@@ -100,7 +102,7 @@ boss:
         cursor: null
         throw_item: null
         arrow: [*confirm, *arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
-        arrow_delay: [0.3, 0.3, 0.3, 0.3, 2]
+        arrow_delay: [0.3, 0.3, 0.3, 0.3, 0.3, 2]
         keyboard: [*shield, *fantasy, *tornado, *bird]
         keyboard_delay: [1, 1, 1, 1]
       - move_x_duration: 6 # collect treasure
@@ -131,30 +133,39 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: hilla
+    enabled: true
     index: 4
     commands: null
   - name: pierre
+    enabled: true
     index: 8
     commands: null
   - name: vonbon
+    enabled: true
     index: 9
     commands: null
   - name: queen
+    enabled: true
     index: 10
     commands: null
   - name: vellum
+    enabled: true
     index: 11
     commands: null
   - name: vonleon
+    enabled: true
     index: 12
     commands: null
   - name: horntail
+    enabled: true
     index: 13
     commands: null
   - name: arkarium
+    enabled: true
     index: 14
     commands: null
   - name: pinkbean
+    enabled: true
     index: 17
     commands: null
 ...

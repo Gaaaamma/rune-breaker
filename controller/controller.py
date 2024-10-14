@@ -165,8 +165,8 @@ def main():
             # Iterate all boss
             for boss in CONFIG["boss"]:
                 boss: Boss = Boss(**boss)
-                logger.info(f"Hunting: {boss.name}")
-                if boss.commands:
+                if boss.enabled and boss.commands:
+                    logger.info(f"Hunting: {boss.name}")
                     comm.move_to_boss_map(boss.index)
                     for boss_command in boss.commands:
                         logger.info(f"Move x (with duration seconds): {boss_command.move_x_duration}")
