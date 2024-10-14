@@ -209,7 +209,7 @@ def main():
                             time.sleep(delay)
 
                         logger.info(f"Get next command")
-                        time.sleep(5)
+                        time.sleep(2)
 
         elif command == "test":
             logger.info("Nothing to test now")
