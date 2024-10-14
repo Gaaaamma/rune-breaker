@@ -135,6 +135,28 @@ def main():
                 # Move cursor
                 logger.info(f"Get move_cursor_to coordination: ({x}, {y})")
                 comm.move_cursor_to(x, y)
+        
+        elif command == "test_duration":
+            logger.info(f"Input duration to move your character for duration seconds")
+            logger.info(f"Input 'exit' to exit test_duration")
+
+            while True:
+                # Get duration from user
+                duration: str = input("Please input duration: ")
+                if duration == "exit":
+                    break
+                
+                # Parse duration to seconds
+                try:
+                    seconds: float = float(duration)
+                except Exception as e:
+                    logger.error(e)
+                    continue
+                
+                # Move character
+                logger.info(f"Move character for duration={seconds}")
+                time.sleep(1)
+                comm.go_to_x_duration(seconds)
 
         elif command == "boss":
             logger.info("daily boss hunting")
