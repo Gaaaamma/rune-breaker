@@ -94,7 +94,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: magnus
-    enabled: false
+    enabled: true
     index: 3
     commands:
       - move_x_duration: 2.45 # Go into battle map and attack
@@ -124,7 +124,7 @@ boss:
         arrow_delay: [0.3, 0.3]
         keyboard: []
         keyboard_delay: []
-      - move_x_duration: -4.25 # leave boss map
+      - move_x_duration: -4.3 # leave boss map
         move_y_count: 0
         cursor: null
         throw_item: null
