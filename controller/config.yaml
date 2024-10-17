@@ -8,11 +8,13 @@ leonardo:
     down: &arrow_down s
     left: &arrow_left a
     right: &arrow_right d
+    jump: &jump f
     tornado: &tornado b
     swirl: &swirl e
     fantasy: &fantasy " "
     bird: &bird v
     c2f: &c2f g
+    wind_move: &wind_move w
     shield: &shield "1"
   device:
     hunt: hunt-
@@ -46,7 +48,7 @@ inventory:
   
 boss:
   - name: zakum
-    enabled: true
+    enabled: false
     index: 2
     commands:
       - move_x_duration: 9.35 # Go into battle map
@@ -86,7 +88,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: magnus
-    enabled: true
+    enabled: false
     index: 3
     commands:
       - move_x_duration: 2.45 # Go into battle map and attack
@@ -127,7 +129,117 @@ boss:
   - name: hilla
     enabled: true
     index: 4
-    commands: null
+    commands:
+      - move_x_duration: 0 # Go into battle map (deep right)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: 0 # Go into battle map (cursor to NPC)
+        move_y_count: 0
+        cursor:
+          cursor_x: -3500
+          cursor_y: 2000
+          click: true
+        throw_item: null
+        arrow: [*arrow_up, *enter]
+        arrow_delay: [0.3, 0.3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0 # Level 1 attack and move deep right
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*bird, *fantasy, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [1, 1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: -0.8 # Level 1 (move back and attack)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [0.5]
+        keyboard: [*fantasy]
+        keyboard_delay: [1]
+      - move_x_duration: 0 # Go to Level 2
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0 # Level 2 attack and move deep right
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*tornado, *fantasy, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [1, 1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: -0.8 # Level 2 (move back and attack)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [0.5]
+        keyboard: [*fantasy]
+        keyboard_delay: [1]
+      - move_x_duration: 0 # Go to Level 3
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0 # Level 3 attack and collect treasure
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*bird, *fantasy, *wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [1, 1, 0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: -0.3 # Level 3 Go back to original position
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: 0 # Level 3 Go back to boss map
+        move_y_count: 0
+        cursor:
+          cursor_x: -25500
+          cursor_y: -2000
+          click: true
+        throw_item: null
+        arrow: [*arrow_right, *enter]
+        arrow_delay: [0.3, 2]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: -0.3 # Go into battle map (deep left)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3]
+      - move_x_duration: 0.28 # leave boss map
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [2]
+        keyboard: []
+        keyboard_delay: []
   - name: pierre
     enabled: true
     index: 8
