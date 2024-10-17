@@ -54,10 +54,10 @@ boss:
         cursor: null
         throw_item: null
         arrow: [*arrow_up, *arrow_up, *arrow_up, *arrow_down, *enter]
-        arrow_delay: [0.1, 0.1, 0.1, 0.1, 0.1]
+        arrow_delay: [0.3, 0.3, 0.3, 0.3, 0.3]
         keyboard: []
         keyboard_delay: []
-      - move_x_duration: 1 # Go to specified position and throw item
+      - move_x_duration: 1 # Go to specified position and throw item then attack
         move_y_count: 0
         cursor: null
         throw_item:
@@ -67,16 +67,8 @@ boss:
           multiple_item: true
         arrow: []
         arrow_delay: []
-        keyboard: []
-        keyboard_delay: []
-      - move_x_duration: 0 # Attack
-        move_y_count: 0
-        cursor: null
-        throw_item: null
-        arrow: []
-        arrow_delay: []
-        keyboard: [*fantasy, *tornado, *swirl]
-        keyboard_delay: [1, 1, 1]
+        keyboard: [*fantasy, *tornado]
+        keyboard_delay: [1, 1]
       - move_x_duration: 3 # Go to find NPC and leave battle map
         move_y_count: 0
         cursor: null
