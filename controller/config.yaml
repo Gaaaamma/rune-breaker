@@ -551,9 +551,90 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: horntail
-    enabled: true
+    enabled: false
     index: 13
-    commands: null
+    commands:
+      - move_x_duration: 0 # Go into boss map Level1
+        move_y_count: 0
+        cursor:
+          cursor_x: 6500
+          cursor_y: -3000
+          click: 1
+        throw_item: null
+        arrow: [*arrow_down, *arrow_down, *enter]
+        arrow_delay: [0.3, 0.3, 3]
+        keyboard: [*fantasy]
+        keyboard_delay: [1]
+      - move_x_duration: 3.1 # Go into boss map Level2
+        move_y_count: 1
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: [*fantasy]
+        keyboard_delay: [1]
+      - move_x_duration: -3.2 # Go into boss map Level3
+        move_y_count: 1
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 2.65 # Go to boss position (1)
+        move_y_count: 1
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0 # Go to boss position (2)
+        move_y_count: -1
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 1 # Go to boss position (3) and tirgger boss
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*attack, *attack, *attack, *attack, *attack, *attack]
+        keyboard_delay: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+      - move_x_duration: -0.1 # attack
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*fantasy, *tornado]
+        keyboard_delay: [1, 1.5]
+      - move_x_duration: -2 # get treasure and leave battle map
+        move_y_count: 0
+        cursor:
+          cursor_x: -20500
+          cursor_y: 3000
+          click: 1
+        throw_item: null
+        arrow: [*arrow_right, *enter]
+        arrow_delay: [0.3, 3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0 # leave boss map
+        move_y_count: 0
+        cursor:
+          cursor_x: -30000
+          cursor_y: -500
+          click: 1
+        throw_item: null
+        arrow: [*arrow_right, *enter]
+        arrow_delay: [0.3, 3]
+        keyboard: []
+        keyboard_delay: []
   - name: arkarium
     enabled: true
     index: 14
