@@ -85,7 +85,7 @@ class Boss(BaseModel):
         class Cursor(BaseModel):
             cursor_x: int
             cursor_y: int
-            click: bool
+            click: int
 
         class ThrowSetting(BaseModel):
             category_index_x: int

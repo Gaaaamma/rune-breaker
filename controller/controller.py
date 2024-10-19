@@ -187,7 +187,8 @@ def main():
                             )
                             time.sleep(0.5)
 
-                            if boss_command.cursor.click:
+                            # Click
+                            for _ in range(boss_command.cursor.click):
                                 comm.click_cursor("LEFT")
                                 time.sleep(0.5)
 

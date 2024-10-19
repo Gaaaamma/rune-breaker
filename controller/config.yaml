@@ -114,7 +114,7 @@ boss:
         cursor:
           cursor_x: -26500
           cursor_y: 2000
-          click: true
+          click: 1
         throw_item: null
         arrow: [*arrow_right, *enter]
         arrow_delay: [0.3, 0.3]
@@ -145,7 +145,7 @@ boss:
         cursor:
           cursor_x: -3500
           cursor_y: 2000
-          click: true
+          click: 1
         throw_item: null
         arrow: [*arrow_up, *enter]
         arrow_delay: [0.3, 0.3]
@@ -220,13 +220,13 @@ boss:
         cursor:
           cursor_x: -25500
           cursor_y: -2000
-          click: true
+          click: 1
         throw_item: null
         arrow: [*arrow_right, *enter]
         arrow_delay: [0.3, 2]
         keyboard: []
         keyboard_delay: []
-      - move_x_duration: -0.3 # Go into battle map (deep left)
+      - move_x_duration: -0.3 # Go back to battle map (deep left)
         move_y_count: 0
         cursor: null
         throw_item: null
@@ -243,7 +243,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: pierre
-    enabled: true
+    enabled: false
     index: 8
     commands:
       - move_x_duration: -1 # Go into boss map Level1
@@ -291,7 +291,7 @@ boss:
         cursor:
           cursor_x: -30000
           cursor_y: -2000
-          click: true
+          click: 1
         throw_item: null
         arrow: [*arrow_right, *enter]
         arrow_delay: [0.3, 2]
@@ -330,7 +330,7 @@ boss:
         cursor:
           cursor_x: 1500
           cursor_y: 1500
-          click: true
+          click: 1
         throw_item: null
         arrow: []
         arrow_delay: []
@@ -349,7 +349,7 @@ boss:
         cursor:
           cursor_x: -30500
           cursor_y: 2500
-          click: true
+          click: 1
         throw_item: null
         arrow: [*arrow_right, *enter]
         arrow_delay: [0.3, 2]
