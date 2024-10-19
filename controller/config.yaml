@@ -243,7 +243,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: pierre
-    enabled: true
+    enabled: false
     index: 8
     commands:
       - move_x_duration: -1 # Go into boss map Level1
@@ -290,9 +290,63 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: vonbon
-    enabled: true
+    enabled: false
     index: 9
-    commands: null
+    commands:
+      - move_x_duration: 1 # Go into boss map Level1
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*confirm, *arrow_up, *enter]
+        arrow_delay: [0.3, 0.3, 3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0 # Level 1 attack and move deep right
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*bird, *fantasy, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *fantasy]
+        keyboard_delay: [1, 1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 1]
+      - move_x_duration: -0.6 # Go to battle map
+        move_y_count: 1
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up, *arrow_right, *enter]
+        arrow_delay: [0.3, 0.3, 2]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: 0 # trigger boss, attack and get treasure
+        move_y_count: 0
+        cursor:
+          cursor_x: 1500
+          cursor_y: 1500
+          click: true
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*fantasy, *wind_move]
+        keyboard_delay: [1, 0.3]
+      - move_x_duration: -0.5 # leave battle map (deep left)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3]
+      - move_x_duration: 0 # leave battle map (cursor)
+        move_y_count: 0
+        cursor:
+          cursor_x: -30500
+          cursor_y: 2500
+          click: true
+        throw_item: null
+        arrow: [*arrow_right, *enter]
+        arrow_delay: [0.3, 2]
+        keyboard: []
+        keyboard_delay: []
   - name: queen
     enabled: true
     index: 10
