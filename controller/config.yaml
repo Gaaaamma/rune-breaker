@@ -10,6 +10,7 @@ leonardo:
     right: &arrow_right d
     jump: &jump f
     attack: &attack ","
+    rope: &rope "9"
     tornado: &tornado b
     swirl: &swirl e
     fantasy: &fantasy " "
@@ -17,6 +18,9 @@ leonardo:
     c2f: &c2f g
     wind_move: &wind_move w
     shield: &shield "1"
+    storm: &storm "2"
+    glory: &glory "3"
+    critical: &critical x
     creation: &creation S
   device:
     hunt: hunt-
@@ -738,6 +742,58 @@ boss:
         keyboard: [*wind_move, *wind_move]
         keyboard_delay: [0.3, 0.3]
       - move_x_duration: 1.55 # leave boss map (position and arrow)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: []
+        keyboard_delay: []
+  - name: perrod
+    enabled: false
+    index: 16
+    commands:
+      - move_x_duration: 1 # Go to battle map position and prepare
+        move_y_count: 1
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*c2f, *storm, *glory, *critical, *shield, *creation]
+        keyboard_delay: [1, 1, 1, 1, 1, 1]
+      - move_x_duration: 0 # Go to battle map and attack
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up, *enter]
+        arrow_delay: [0.3, 6]
+        keyboard: [*fantasy, *tornado, *bird, *swirl, *tornado, *fantasy]
+        keyboard_delay: [1, 1, 1, 1, 1, 40]
+      - move_x_duration: 0 # Get treasure (1)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*enter]
+        arrow_delay: [0.5]
+        keyboard: [*wind_move, *fantasy, *wind_move]
+        keyboard_delay: [1, 1, 1]
+      - move_x_duration: -0.5 # Get treasure (2)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: 3 # leave battle map
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: -5.07 # leave boss map
         move_y_count: 0
         cursor: null
         throw_item: null
