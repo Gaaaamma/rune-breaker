@@ -54,7 +54,7 @@ inventory:
   
 boss:
   - name: zakum
-    enabled: false
+    enabled: true
     index: 2
     commands:
       - move_x_duration: 9.35 # Go into battle map
@@ -94,7 +94,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: magnus
-    enabled: false
+    enabled: true
     index: 3
     commands:
       - move_x_duration: 2.45 # Go into battle map and attack
@@ -133,7 +133,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: hilla
-    enabled: false
+    enabled: true
     index: 4
     commands:
       - move_x_duration: 0 # Go into battle map (deep right)
@@ -247,7 +247,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: pierre
-    enabled: false
+    enabled: true
     index: 8
     commands:
       - move_x_duration: -1 # Go into boss map Level1
@@ -302,7 +302,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: vonbon
-    enabled: false
+    enabled: true
     index: 9
     commands:
       - move_x_duration: 1 # Go into boss map Level1
@@ -360,7 +360,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: queen
-    enabled: false
+    enabled: true
     index: 10
     commands:
       - move_x_duration: -3.5 # Go into boss map Level1
@@ -418,7 +418,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: vellum
-    enabled: false
+    enabled: true
     index: 11
     commands:
       - move_x_duration: 3.5 # Go into boss map Level1
@@ -476,7 +476,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: vonleon
-    enabled: false
+    enabled: true
     index: 12
     commands:
       - move_x_duration: 0.23 # Go into battle map position
@@ -555,7 +555,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: horntail
-    enabled: false
+    enabled: true
     index: 13
     commands:
       - move_x_duration: 0 # Go into boss map Level1
@@ -640,7 +640,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: arkarium
-    enabled: false
+    enabled: true
     index: 14
     commands:
       - move_x_duration: 0.35 # Go to battle map position
@@ -695,7 +695,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: pinkbean
-    enabled: false
+    enabled: true
     index: 17
     commands:
       - move_x_duration: 0 # Go to battle map
@@ -750,7 +750,7 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: perrod
-    enabled: false
+    enabled: true
     index: 16
     commands:
       - move_x_duration: 1 # Go to battle map position and prepare
