@@ -691,7 +691,58 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: pinkbean
-    enabled: true
+    enabled: false
     index: 17
-    commands: null
+    commands:
+      - move_x_duration: 0 # Go to battle map
+        move_y_count: 0
+        cursor:
+          cursor_x: -3500
+          cursor_y: 0
+          click: 1
+        throw_item: null
+        arrow: [*arrow_up, *enter]
+        arrow_delay: [0.3, 3]
+        keyboard: [*wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3]
+      - move_x_duration: 0 # trigger boss, attack and get treasure
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*confirm, *arrow_right, *enter]
+        arrow_delay: [0.3, 0.3, 3]
+        keyboard: [*fantasy, *bird, *swirl, *tornado, *wind_move, *wind_move]
+        keyboard_delay: [1, 1, 2, 1, 0.3, 0.3]
+      - move_x_duration: -0.5 # leave battle map (deep left)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: 0 # leave battle map (arrow)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*confirm, *arrow_right, *enter]
+        arrow_delay: [0.3, 0.3, 3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: -0.5 # leave boss map (deep left)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3]
+      - move_x_duration: 1.55 # leave boss map (position and arrow)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: []
+        keyboard_delay: []
 ...
