@@ -252,6 +252,7 @@ void loop() {
       // Get keyboard command
       int keyIndex = command.indexOf('-') + 1;
       char key = command.charAt(keyIndex);
+      char ack_command = key;
 
       // Use 'E' to represent ENTER
       if (key == 'E') {
@@ -259,7 +260,7 @@ void loop() {
       }
 
       SimpleSkill(true, key);
-      Serial.println("Keyboard write " + String(key));
+      Serial.println("Keyboard write " + String(ack_command));
 
     } else if (command.startsWith("boss-")) {
       String restOfCommand = command.substring(5); // Get boss moving index
