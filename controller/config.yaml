@@ -472,9 +472,84 @@ boss:
         keyboard: []
         keyboard_delay: []
   - name: vonleon
-    enabled: true
+    enabled: false
     index: 12
-    commands: null
+    commands:
+      - move_x_duration: 0.23 # Go into battle map position
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3]
+      - move_x_duration: 0 # Go into battle map
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up, *arrow_down, *arrow_down, *enter]
+        arrow_delay: [0.3, 0.3, 0.3, 3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: -0.2 # Go to boss position (deep left)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3]
+      - move_x_duration: 0.2 # Go to boss position (boss)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: 0 # Trigger boss and attack
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*confirm, *arrow_right, *enter]
+        arrow_delay: [0.3, 0.3, 0.3]
+        keyboard: [*fantasy, *wind_move]
+        keyboard_delay: [6, 0.3]
+      - move_x_duration: -0.5 # Go back to boss map (deep left)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: 0 # Go back to boss map (cursor)
+        move_y_count: 0
+        cursor:
+          cursor_x: -21500
+          cursor_y: 0
+          click: 1
+        throw_item: null
+        arrow: [*arrow_right, *enter]
+        arrow_delay: [0.3, 0.3]
+        keyboard: []
+        keyboard_delay: []
+      - move_x_duration: -0.5 # leave boss map (deep left)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: []
+        arrow_delay: []
+        keyboard: [*wind_move, *wind_move, *wind_move, *wind_move]
+        keyboard_delay: [0.3, 0.3, 0.3, 0.3]
+      - move_x_duration: 0.2 # leave boss map (arrow)
+        move_y_count: 0
+        cursor: null
+        throw_item: null
+        arrow: [*arrow_up]
+        arrow_delay: [3]
+        keyboard: []
+        keyboard_delay: []
   - name: horntail
     enabled: true
     index: 13
