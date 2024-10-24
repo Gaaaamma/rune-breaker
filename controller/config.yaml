@@ -379,7 +379,7 @@ boss:
         arrow_delay: []
         keyboard: [*bird, *fantasy, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *wind_move, *fantasy]
         keyboard_delay: [1, 1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 1]
-      - move_x_duration: -2.4 # Go to battle map
+      - move_x_duration: -2.45 # Go to battle map
         move_y_count: 0
         cursor: null
         throw_item: null
