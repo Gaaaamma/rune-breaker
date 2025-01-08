@@ -721,6 +721,7 @@ unsigned long SongOfTheSky(bool direction, unsigned long minWalk, unsigned long 
   }
   unsigned long distance = random(minWalk, maxWalk);
   delay(distance);
+  Keyboard.releaseAll();
   Keyboard.press(SONG_SKY);
   delay(random(minDuration, maxDuration));
   Keyboard.releaseAll();
