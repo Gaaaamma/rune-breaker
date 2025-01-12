@@ -323,7 +323,12 @@ void loop() {
     } else if (command == "test") {
       delay(2000);
       FountainLoop_cave4();
-    } else if (command != "stop") {
+    } else if (command == "jump-") {
+      int timesIndex = command.indexOf('-') + 1;
+      char times = command.charAt(timesIndex);
+      delay(2000);
+      JumpWindMove(true, times);
+    }else if (command != "stop") {
         // Unknown command
         Serial.println("Unknown command");
     }
@@ -711,10 +716,11 @@ void JumpWindMove(bool direction, int times) {
   }
   Keyboard.write(JUMP);
   delay(200);
-  for (int i = 0; i < times; i++) {
-    Keyboard.write(WIND_MOVE);
-    delay(200);
-  }
+
+  Keyboard.press(WIND_MOVE);
+  delay((times - 1) * 650);
+  Keyboard.releaseAll();
+  delay(500);
 }
 
 // minDJ: 80, maxDJ: 120 (Round_min: 900, Margin: 100 ~ 500)
