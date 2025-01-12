@@ -323,7 +323,7 @@ void loop() {
     } else if (command == "test") {
       delay(2000);
       FountainLoop_cave4();
-    } else if (command.startsWith == "jump-") {
+    } else if (command.startsWith("jump-")) {
       int timesIndex = command.indexOf('-') + 1;
       char times = command.charAt(timesIndex);
       delay(2000);
