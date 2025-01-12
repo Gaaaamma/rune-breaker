@@ -703,6 +703,20 @@ void WindMove(bool direction, unsigned long minWalk, unsigned long maxWalk) {
   Keyboard.releaseAll();
 }
 
+void JumpWindMove(bool direction, int times) {
+  if (direction == true) {
+    Turn(true);
+  } else {
+    Turn(false);
+  }
+  Keyboard.write(JUMP);
+  delay(100);
+  for (int i = 0; i < times; i++) {
+    Keyboard.write(WIND_MOVE);
+    delay(100);
+  }
+}
+
 // minDJ: 80, maxDJ: 120 (Round_min: 900, Margin: 100 ~ 500)
 // margin: 100 moves the shortest
 // margin: 500 moves the longest
@@ -742,8 +756,6 @@ void Fountain(bool direction) {
   delay(random(70, 100));
   Keyboard.releaseAll();
   delay(700);
-  SimpleSkill(true, TWO_FACE);
-  delay(random(100, 110));
 }
 
 void Tornado(bool direction) {
@@ -840,9 +852,18 @@ void MoveToFountain_fall1() {
 
 void FountainLoop_cave4() {
   char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a', TWO_FACE};
-  unsigned long minDelay[] = {680, 680, 680, 680, 680, 680, 200, 800, 500, 100};
-  unsigned long maxDelay[] = {700, 700, 700, 700, 700, 700, 220, 810, 550, 110};
+  unsigned long minDelay[] = {680, 680, 680, 680, 680, 680, 200, 800, 550, 200};
+  unsigned long maxDelay[] = {700, 700, 700, 700, 700, 700, 220, 810, 570, 220};
   Move(commands, 10, minDelay, maxDelay);
+
+  JumpWindMove(false, 2);
+  Fountain(false);
+
+  JumpWindMove(false, 2);
+  SimpleSkill(true, TWO_FACE);
+
+  JumpWindMove(false, 3);
+  SimpleSkill(true, TWO_FACE);
 }
 
 void BackFromFountain_fall1() {
