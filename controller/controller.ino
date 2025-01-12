@@ -862,7 +862,7 @@ void MoveToFountain_fall1() {
 void FountainLoop_cave4() {
   Tornado(true);
   delay(600);
-  PressWindMove(true, 6);
+  PressWindMove(true, 5);
   
   char commands[] = {'l', 'w', 'a', TWO_FACE, 'b'};
   unsigned long minDelay[] = {200, 900, 550, 600, 600};
