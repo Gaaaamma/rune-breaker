@@ -106,7 +106,7 @@ void loop() {
         Serial.println("invalid hunt second: " + restOfCommand);
         
       } else {
-        bool result = Battle(seconds, 0, true, true);
+        bool result = Battle(seconds, 0, true, false);
         if (result == true) {
           Serial.println("hunting ack");
         } else {
