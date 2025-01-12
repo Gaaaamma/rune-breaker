@@ -819,7 +819,7 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
       WalkLatency(true, 200, 250);
     } else if (direction[i] == 'p') {
       SimpleSkill(true, ROPE);
-    } else if (direction[i] == TORNADO) {
+    } else if (direction[i] == 'b') {
       Tornado(true);
     } else if (direction[i] == TWO_FACE) {
       SimpleSkill(true, TWO_FACE);
@@ -851,13 +851,12 @@ void MoveToFountain_fall1() {
 }
 
 void FountainLoop_cave4() {
-  char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a', TWO_FACE, TORNADO};
+  char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a', TWO_FACE};
   unsigned long minDelay[] = {680, 680, 680, 680, 680, 680, 200, 800, 550, 500};
   unsigned long maxDelay[] = {700, 700, 700, 700, 700, 700, 220, 810, 570, 550};
-  Move(commands, 11, minDelay, maxDelay);
+  Move(commands, 10, minDelay, maxDelay);
 
   JumpWindMove(false, 2);
-  delay(300);
   Fountain(false);
 
   JumpWindMove(false, 2);
