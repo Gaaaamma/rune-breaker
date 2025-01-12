@@ -64,7 +64,7 @@ const unsigned long FRENZY_CD = 300;
 const char TWO_FACE = '6';
 const unsigned long TWO_FACE_CD = 53; 
 const char FOUNTAIN = 'z';
-const unsigned long FOUNTAIN_CD = 58; 
+const unsigned long FOUNTAIN_CD = 100; 
 const char TORNADO = 'b';
 const unsigned long TORNADO_CD = 20;
 const char MONSOON = 'q';
@@ -878,13 +878,21 @@ void FountainLoop_cave4() {
   JumpWindMove(false, 2);
   SimpleSkill(true, TWO_FACE);
   delay(600);
+  SongOfTheSky(true, 10, 20, 2000, 4000);
+  delay(300);
 
   JumpWindMove(false, 3);
   SimpleSkill(true, TWO_FACE);
   delay(600);
+  SongOfTheSky(true, 10, 20, 2000, 4000);
+  delay(300);
 
   JumpWindMove(false, 2);
-  delay(300);
+  delay(500);
+  char commands[] = {'r', 'x', 'b'};
+  unsigned long minDelay[] = {200, 200, 600};
+  unsigned long maxDelay[] = {220, 220, 650};
+  Move(commands, 3, minDelay, maxDelay);
   PressWindMove(true, 5);
 }
 
