@@ -324,8 +324,8 @@ void loop() {
       delay(2000);
       FountainLoop_cave4();
     } else if (command.startsWith("jump-")) {
-      int timesIndex = command.indexOf('-') + 1;
-      char times = command.charAt(timesIndex);
+      String restOfCommand = command.substring(5); // Remove "jump-" prefix
+      int times = restOfCommand.toInt();
       delay(2000);
       JumpWindMove(true, times);
     }else if (command != "stop") {
