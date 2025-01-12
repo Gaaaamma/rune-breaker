@@ -505,16 +505,7 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     // Fountain
     time = millis();
     if (useFountain && (startUp || (time-FountainStart)/1000 > FOUNTAIN_CD)) {
-      // Move to the specific position
-      MoveToFountain();
-      
-      // Fountain
-      Fountain(false);
-      FountainStart = millis();
-      delay(random(800, 1000));
-         
-      // Move back to origin position
-      BackFromFountain();
+      FountainLoop_cave4();
     }
 
     // Origin
@@ -708,6 +699,18 @@ void WindMove(bool direction, unsigned long minWalk, unsigned long maxWalk) {
   Keyboard.releaseAll();
 }
 
+void PressWindMove(bool direction, int times) {
+  if (direction == true) {
+    Turn(true);
+  } else {
+    Turn(false);
+  }
+  Keyboard.press(WIND_MOVE);
+  delay((times - 1) * 650);
+  Keyboard.releaseAll();
+  delay(500);
+}
+
 void JumpWindMove(bool direction, int times) {
   if (direction == true) {
     Turn(true);
@@ -826,7 +829,7 @@ void Move(char direction[], int counts, unsigned long minDelay[], unsigned long 
     } else if (direction[i] == 'p') {
       SimpleSkill(true, ROPE);
     } else if (direction[i] == 'b') {
-      Tornado(true);
+      Tornado(false);
     } else if (direction[i] == TWO_FACE) {
       SimpleSkill(true, TWO_FACE);
     }
@@ -857,19 +860,31 @@ void MoveToFountain_fall1() {
 }
 
 void FountainLoop_cave4() {
-  char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a', TWO_FACE};
-  unsigned long minDelay[] = {680, 680, 680, 680, 680, 680, 200, 800, 550, 600};
-  unsigned long maxDelay[] = {700, 700, 700, 700, 700, 700, 220, 810, 570, 620};
-  Move(commands, 10, minDelay, maxDelay);
+  Tornado(true);
+  delay(600);
+  PressWindMove(true, 6);
+  
+  char commands[] = {'l', 'w', 'a', TWO_FACE, 'b'};
+  unsigned long minDelay[] = {200, 900, 550, 600, 600};
+  unsigned long maxDelay[] = {220, 910, 570, 620, 620};
+  Move(commands, 5, minDelay, maxDelay);
 
   JumpWindMove(false, 2);
+  delay(500);
   Fountain(false);
+  delay(600);
 
   JumpWindMove(false, 2);
   SimpleSkill(true, TWO_FACE);
+  delay(600);
 
   JumpWindMove(false, 3);
   SimpleSkill(true, TWO_FACE);
+  delay(600);
+
+  JumpWindMove(false, 2);
+  delay(300);
+  PressWindMove(true, 5);
 }
 
 void BackFromFountain_fall1() {
