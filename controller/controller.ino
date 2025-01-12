@@ -710,7 +710,7 @@ void JumpWindMove(bool direction, int times) {
     Turn(false);
   }
   Keyboard.write(JUMP);
-  delay(100);
+  delay(200);
   for (int i = 0; i < times; i++) {
     Keyboard.write(WIND_MOVE);
     delay(100);
@@ -852,8 +852,8 @@ void MoveToFountain_fall1() {
 
 void FountainLoop_cave4() {
   char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a', TWO_FACE};
-  unsigned long minDelay[] = {680, 680, 680, 680, 680, 680, 200, 800, 550, 500};
-  unsigned long maxDelay[] = {700, 700, 700, 700, 700, 700, 220, 810, 570, 550};
+  unsigned long minDelay[] = {680, 680, 680, 680, 680, 680, 200, 800, 550, 600};
+  unsigned long maxDelay[] = {700, 700, 700, 700, 700, 700, 220, 810, 570, 620};
   Move(commands, 10, minDelay, maxDelay);
 
   JumpWindMove(false, 2);
