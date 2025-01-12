@@ -713,7 +713,7 @@ void JumpWindMove(bool direction, int times) {
   delay(200);
   for (int i = 0; i < times; i++) {
     Keyboard.write(WIND_MOVE);
-    delay(100);
+    delay(200);
   }
 }
 
