@@ -506,6 +506,7 @@ bool Battle(unsigned long period, int preMove, bool useFountain, bool collectMon
     time = millis();
     if (useFountain && (startUp || (time-FountainStart)/1000 > FOUNTAIN_CD)) {
       FountainLoop_cave4();
+      FountainStart = millis();
     }
 
     // Origin
