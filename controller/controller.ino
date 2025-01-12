@@ -322,7 +322,7 @@ void loop() {
       
     } else if (command == "test") {
       delay(2000);
-      CollectMoney_fall1();
+      FountainLoop_cave4();
     } else if (command != "stop") {
         // Unknown command
         Serial.println("Unknown command");
@@ -836,6 +836,13 @@ void MoveToFountain_fall1() {
   unsigned long minDelay[] = {400, 750};
   unsigned long maxDelay[] = {410, 850};
   Move(commands, 2, minDelay, maxDelay);
+}
+
+void FountainLoop_cave4() {
+  char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a'};
+  unsigned long minDelay[] = {750, 750, 750, 750, 750, 750, 300, 1000, 500};
+  unsigned long maxDelay[] = {850, 850, 850, 850, 850, 850, 330, 1050, 550};
+  Move(commands, 9, minDelay, maxDelay);
 }
 
 void BackFromFountain_fall1() {
