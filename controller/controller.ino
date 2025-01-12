@@ -839,10 +839,10 @@ void MoveToFountain_fall1() {
 }
 
 void FountainLoop_cave4() {
-  char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a'};
-  unsigned long minDelay[] = {750, 750, 750, 750, 750, 750, 200, 800, 500};
-  unsigned long maxDelay[] = {770, 770, 770, 770, 770, 770, 220, 810, 550};
-  Move(commands, 9, minDelay, maxDelay);
+  char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a', TWO_FACE};
+  unsigned long minDelay[] = {680, 680, 680, 680, 680, 680, 200, 800, 500, 100};
+  unsigned long maxDelay[] = {700, 700, 700, 700, 700, 700, 220, 810, 550, 110};
+  Move(commands, 10, minDelay, maxDelay);
 }
 
 void BackFromFountain_fall1() {
