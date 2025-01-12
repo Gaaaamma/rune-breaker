@@ -876,9 +876,9 @@ void FountainLoop_cave4() {
   delay(600);
 
   JumpWindMove(false, 2);
-  SimpleSkill(true, TWO_FACE);
+  SimpleSkill(false, TWO_FACE);
   delay(600);
-  SongOfTheSky(true, 10, 20, 2000, 3500);
+  SongOfTheSky(false, 10, 20, 2000, 3500);
   delay(300);
 
   JumpWindMove(false, 3);
@@ -886,6 +886,11 @@ void FountainLoop_cave4() {
   delay(600);
   SongOfTheSky(true, 10, 20, 2000, 3500);
   delay(300);
+
+  char slow_move[] = {'z', 'z'};
+  unsigned long moveMinDelay[] = {200, 200};
+  unsigned long moveMaxDelay[] = {220, 220};
+  Move(slow_move, 2, moveMinDelay, moveMaxDelay);
 
   JumpWindMove(false, 2);
   delay(500);
