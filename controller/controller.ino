@@ -840,8 +840,8 @@ void MoveToFountain_fall1() {
 
 void FountainLoop_cave4() {
   char commands[] = {'d', 'd', 'd', 'd', 'd', 'd', 'l', 'w', 'a'};
-  unsigned long minDelay[] = {750, 750, 750, 750, 750, 750, 300, 1000, 500};
-  unsigned long maxDelay[] = {850, 850, 850, 850, 850, 850, 330, 1050, 550};
+  unsigned long minDelay[] = {750, 750, 750, 750, 750, 750, 200, 800, 500};
+  unsigned long maxDelay[] = {770, 770, 770, 770, 770, 770, 220, 810, 550};
   Move(commands, 9, minDelay, maxDelay);
 }
 
